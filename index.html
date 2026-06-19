@@ -144,21 +144,22 @@
 
     <!-- PROGRESS -->
     <section class="sec" id="progress">
-      <h2><span class="bar"></span>專案進度（來源：Notion 專案總覽）</h2>
-      <div class="legend">
-        <span><i class="dot" style="background:var(--amber)"></i>執行中</span>
-        <span><i class="dot" style="background:var(--purple)"></i>開發中／洽談中</span>
-        <span><i class="dot" style="background:var(--green)"></i>新接案</span>
-        <span><i class="dot" style="background:var(--mut)"></i>已結案</span>
-        <span><i class="dot" style="background:var(--red)"></i>暫停</span>
+      <h2><span class="bar"></span>專案進度（來源：Trello 公司專案看板）</h2>
+      <div class="kpis" id="trelloKpi" style="grid-template-columns:repeat(4,1fr)"></div>
+      <div class="grid2" style="margin-top:18px">
+        <div class="chartbox"><b style="font-size:13px">專案進度漏斗（8 階段）</b><canvas id="funnelChart"></canvas></div>
+        <div class="chartbox"><b style="font-size:13px">優先級標籤分布</b><canvas id="labelChart"></canvas></div>
       </div>
+      <h3 style="font-size:14px;margin:26px 0 4px">🔥 進行中 / 洽談中專案明細</h3>
+      <div class="sub" style="margin-bottom:10px">執行中 + 洽談中 + 暫停 的卡片；🔴 = 重要，⏰ 紅色為已逾期。</div>
       <div class="tbl-wrap"><table id="progTable"></table></div>
-      <div class="note">你的專案管理在 <b>Notion「📋 Projects 專案總覽」</b>（不是 Trello — 此環境沒有 Trello 串接）。Notion 卡片目前有填的是<b>狀態 / 客戶 / 負責人 / 類型</b>，「進度 %」與「預算」欄位多為空白。下表狀態為實際抓取之代表樣本，其餘以財務專案名單對應。若你把 Notion 的「進度 %」填上，我可以讓這欄即時顯示百分比進度條。</div>
+      <div class="note">資料直接解析自你匯出的 <b>Trello「公司專案看板」JSON</b>（236 張卡片）。看板的 <b>8 個欄位 = 進度階段</b>。Trello 卡片沒有「金額」欄位，故營收以請款 Sheet 對應；若想把每張卡片接上預估金額，可在 Trello 加一個 Custom Field（數字）我就能拉進來算「各階段潛在營收」。</div>
     </section>
   </main>
 </div>
 
 <script>
+const TRELLO = {"board":"公司專案看板","url":"https://trello.com/b/XdAy7CBW","funnel":[{"stage":"穀雨採茶","count":8},{"stage":"無主專案(PENDING)","count":6},{"stage":"開發中名單(尚未聊細節)","count":4},{"stage":"開發中正在談(正在聊執行細節)","count":12},{"stage":"專案執行中","count":28},{"stage":"專案暫停","count":8},{"stage":"已結案","count":53},{"stage":"未合作","count":101}],"labelCounts":{"重要":56,"普通":97,"yellow":8,"orange":1,"purple":9,"blue":7},"cards":[{"name":"[Henry]保健品電商","list":"專案執行中","labels":["重要"],"due":null,"checklist":null,"last":"2026-04-22"},{"name":"[SEO]越南暗黑PAPA-大慶","list":"專案執行中","labels":["重要"],"due":null,"checklist":null,"last":"2025-05-16"},{"name":"[伸仁]團購主/KOL","list":"專案執行中","labels":["普通"],"due":"2026-04-23","checklist":null,"last":"2026-04-22"},{"name":"[伸仁]網站搬家與採購伺服器","list":"專案執行中","labels":["普通"],"due":"2026-05-13","checklist":"0/2","last":"2026-04-22"},{"name":"[全案]水軍SocailOS-paperclip","list":"專案執行中","labels":["普通"],"due":null,"checklist":null,"last":"2026-03-25"},{"name":"[全案]牙醫顧問公司-詩硯","list":"專案執行中","labels":["重要"],"due":"2025-02-07","checklist":null,"last":"2026-05-24"},{"name":"[全案]越南行銷合作-TIM朱","list":"專案執行中","labels":["普通"],"due":null,"checklist":null,"last":"2026-05-24"},{"name":"[全案]飛輪系統建立-paperclip","list":"專案執行中","labels":["普通"],"due":null,"checklist":null,"last":"2026-04-07"},{"name":"[全案]旅館推薦網站-luxstay.world","list":"專案執行中","labels":["普通"],"due":null,"checklist":null,"last":"2026-05-24"},{"name":"[品牌]KGI口碑行銷-Jemma","list":"專案執行中","labels":["重要"],"due":null,"checklist":null,"last":"2025-01-06"},{"name":"[廣告]AC Pay廣告投放-lawrence","list":"專案執行中","labels":["普通"],"due":null,"checklist":null,"last":"2026-05-24"},{"name":"[廣告]AMIRO/HBN閃物-Lawrence","list":"專案執行中","labels":["重要"],"due":null,"checklist":null,"last":"2025-05-02"},{"name":"[廣告]VPN廣告投放-大慶","list":"專案執行中","labels":["重要"],"due":null,"checklist":null,"last":"2026-05-27"},{"name":"[廣告]固鋼廣告投放-even","list":"專案執行中","labels":["普通"],"due":"2024-07-19","checklist":null,"last":"2026-03-17"},{"name":"[廣告]愛尼島廣告投放-Henry","list":"專案執行中","labels":["普通"],"due":null,"checklist":null,"last":"2025-01-06"},{"name":"[廣告]歐特斯熱水器廣告投放","list":"專案執行中","labels":["普通"],"due":null,"checklist":null,"last":"2025-09-18"},{"name":"[廣告]牙醫客戶-Howie","list":"專案執行中","labels":["重要"],"due":null,"checklist":null,"last":"2025-06-21"},{"name":"[廣告]神燈假期廣告投放-大慶","list":"專案執行中","labels":["重要"],"due":null,"checklist":null,"last":"2025-01-06"},{"name":"[廣告]荷茂生醫_金娜妍-monica","list":"專案執行中","labels":["普通"],"due":"2026-06-10","checklist":null,"last":"2026-06-19"},{"name":"[廣告]韓國包車廣告投放-大慶","list":"專案執行中","labels":["重要"],"due":null,"checklist":null,"last":"2026-05-27"},{"name":"[社群]解鎖IG/FB帳號","list":"專案執行中","labels":["重要"],"due":null,"checklist":null,"last":"2025-05-14"},{"name":"[網站]土地開發網站-小江&大慶","list":"專案執行中","labels":["重要"],"due":"2026-05-29","checklist":null,"last":"2026-06-19"},{"name":"[網站]愛尼島網站營運-Henry","list":"專案執行中","labels":["普通"],"due":null,"checklist":null,"last":"2025-01-06"},{"name":"[網站]日日好食-北美網站製作","list":"專案執行中","labels":["重要"],"due":null,"checklist":null,"last":"2026-06-19"},{"name":"[網站]神燈假期員工旅遊網站營運-大慶","list":"專案執行中","labels":["普通"],"due":null,"checklist":null,"last":"2025-05-26"},{"name":"[網站]神燈假期網站維運-大慶","list":"專案執行中","labels":["普通"],"due":null,"checklist":null,"last":"2025-05-16"},{"name":"[網站]第三方推薦站-大慶","list":"專案執行中","labels":["普通"],"due":"2026-05-28","checklist":null,"last":"2026-06-19"},{"name":"[顧問]家具蝦皮電商-虎虎","list":"專案執行中","labels":["普通"],"due":null,"checklist":null,"last":"2026-06-19"},{"name":"[Claude]健康app","list":"開發中正在談(正在聊執行細節)","labels":["普通"],"due":null,"checklist":null,"last":"2026-04-23"},{"name":"[全案]Seiko mod合作案-Ryan王","list":"開發中正在談(正在聊執行細節)","labels":[],"due":null,"checklist":null,"last":"2026-05-25"},{"name":"[全案]任務平台(web)","list":"開發中正在談(正在聊執行細節)","labels":["普通"],"due":null,"checklist":null,"last":"2026-04-13"},{"name":"[全案]味源-海外行銷","list":"開發中正在談(正在聊執行細節)","labels":["普通"],"due":null,"checklist":null,"last":"2025-12-11"},{"name":"[全案]莫桑石行銷-小江","list":"開發中正在談(正在聊執行細節)","labels":["重要"],"due":null,"checklist":null,"last":"2026-02-11"},{"name":"[全案]越南合作安排-永淞哥","list":"開發中正在談(正在聊執行細節)","labels":["普通"],"due":null,"checklist":null,"last":"2025-05-14"},{"name":"[全案]越南醫美行銷-李坤鴻","list":"開發中正在談(正在聊執行細節)","labels":["普通"],"due":null,"checklist":null,"last":"2025-12-11"},{"name":"[廣告]UCG-Ryan王","list":"開發中正在談(正在聊執行細節)","labels":[],"due":null,"checklist":null,"last":"2026-05-25"},{"name":"[營運]整合notion到工作自動化","list":"開發中正在談(正在聊執行細節)","labels":["重要"],"due":null,"checklist":null,"last":"2026-04-22"},{"name":"[網站]H Hotel重新製作","list":"開發中正在談(正在聊執行細節)","labels":["重要"],"due":null,"checklist":null,"last":"2026-06-19"},{"name":"[網站]網站製作獎杯獎牌-marksun","list":"開發中正在談(正在聊執行細節)","labels":["普通"],"due":null,"checklist":null,"last":"2026-06-19"},{"name":"[網站]自動上架-Ryan王","list":"開發中正在談(正在聊執行細節)","labels":[],"due":null,"checklist":null,"last":"2026-05-25"},{"name":"[全案]牙醫排名網站製作-大慶","list":"專案暫停","labels":["重要"],"due":null,"checklist":null,"last":"2026-05-24"},{"name":"[廣告]群眾募資-Rachel","list":"專案暫停","labels":["普通"],"due":null,"checklist":null,"last":"2026-04-07"},{"name":"[廣告]遊獵行腳廣告合作-永淞哥","list":"專案暫停","labels":["普通"],"due":null,"checklist":null,"last":"2026-04-20"}]};
 const DATA = {
   months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
   revenue:[2742430,1529142,2555952,3429326,2140980,3064182,497960,343400,355060,561000,261000,261000],
@@ -297,19 +298,45 @@ document.getElementById('netFuture').innerHTML=(futureNet>=0?'<span class="pos">
   document.getElementById('projTable').innerHTML=h+'</tbody>';
 })();
 
-/* ---------- progress (Notion status) ---------- */
+/* ---------- progress (Trello board) ---------- */
 (function(){
-  const badge=s=>{
-    const map={'執行中':'b-run','已結案':'b-done','新接案':'b-new','開發中-洽談中':'b-dev','開發中-初步接觸':'b-dev','暫停':'b-pause'};
-    return `<span class="badge ${map[s]||'b-run'}">${s}</span>`;
-  };
-  const order={'執行中':0,'新接案':1,'開發中-洽談中':2,'已結案':3};
-  const rows=DATA.projects.map(p=>{
-    const st=DATA.statusKnown[p[0]]||'執行中';
-    return {name:p[0],st,type:DATA.projType[p[0]]||'—',start:p[1]};
-  }).sort((a,b)=>(order[a.st]??9)-(order[b.st]??9));
-  let h='<thead><tr><th>專案</th><th>狀態</th><th style="text-align:left">類型</th><th style="text-align:left">開案</th></tr></thead><tbody>';
-  rows.forEach(r=>{h+=`<tr><td>${r.name}</td><td style="text-align:left">${badge(r.st)}</td><td style="text-align:left" class="muted">${r.type}</td><td style="text-align:left" class="muted">${r.start}</td></tr>`;});
+  const F=TRELLO.funnel;
+  const active=F.find(s=>s.stage==='專案執行中').count;
+  const talking=F.find(s=>s.stage==='開發中正在談(正在聊執行細節)').count;
+  const dev=F.find(s=>s.stage==='開發中名單(尚未聊細節)').count+talking;
+  const paused=F.find(s=>s.stage==='專案暫停').count;
+  const done=F.find(s=>s.stage==='已結案').count;
+  // KPI
+  document.getElementById('trelloKpi').innerHTML=[
+    ["專案執行中",active,"目前正在跑的案",""],
+    ["開發中／洽談",dev,"潛在新案 pipeline","pos"],
+    ["已結案",done,"歷史完成案",""],
+    ["暫停",paused,"卡住待處理","neg"]
+  ].map(k=>`<div class="kpi"><div class="lab">${k[0]}</div><div class="val ${k[3]}">${k[1]}</div><div class="hint">${k[2]}</div></div>`).join('');
+  // funnel chart (exclude 未合作 for scale)
+  const fv=F.filter(s=>s.stage!=='未合作');
+  new Chart(funnelChart,{type:'bar',data:{labels:fv.map(s=>s.stage.replace(/\(.*\)/,'')),
+    datasets:[{data:fv.map(s=>s.count),backgroundColor:['#36cfd1','#6c7a93','#9b7bff','#9b7bff','#ffb454','#ff5d6c','#27c093'],borderRadius:4}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});
+  // label chart
+  const lc=TRELLO.labelCounts;
+  new Chart(labelChart,{type:'doughnut',data:{labels:['重要','普通'],
+    datasets:[{data:[lc['重要']||0,lc['普通']||0],backgroundColor:['#ff5d6c','#6c7a93']}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{boxWidth:11}}}}});
+  // detail table
+  const stageBadge={'專案執行中':'b-run','開發中正在談(正在聊執行細節)':'b-dev','開發中名單(尚未聊細節)':'b-dev','專案暫停':'b-pause'};
+  const stageShort={'專案執行中':'執行中','開發中正在談(正在聊執行細節)':'洽談中','開發中名單(尚未聊細節)':'開發中','專案暫停':'暫停'};
+  const ord={'專案執行中':0,'開發中正在談(正在聊執行細節)':1,'專案暫停':2};
+  const today='2026-06-19';
+  const rows=TRELLO.cards.slice().sort((a,b)=>(ord[a.list]??9)-(ord[b.list]??9));
+  let h='<thead><tr><th>專案卡片</th><th style="text-align:left">階段</th><th>優先</th><th>到期</th><th>檢查清單</th></tr></thead><tbody>';
+  rows.forEach(c=>{
+    const imp=c.labels.includes('重要')?'<span title="重要">🔴</span>':'<span class="muted">—</span>';
+    let due='<span class="muted">—</span>';
+    if(c.due){const od=c.due<today;due=`<span class="${od?'neg':'muted'}">${od?'⏰ ':''}${c.due}</span>`;}
+    const clk=c.checklist?`<span class="muted">${c.checklist}</span>`:'<span class="muted">—</span>';
+    h+=`<tr><td>${c.name}</td><td style="text-align:left"><span class="badge ${stageBadge[c.list]||'b-run'}">${stageShort[c.list]||c.list}</span></td><td>${imp}</td><td>${due}</td><td>${clk}</td></tr>`;
+  });
   document.getElementById('progTable').innerHTML=h+'</tbody>';
 })();
 

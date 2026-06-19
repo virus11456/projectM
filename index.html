@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>簡單行銷 · 營運中台 Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e2230; --line:#272c3a;
+    --txt:#e7e9ee; --mut:#9aa3b2; --accent:#4f8cff; --green:#27c093; --red:#ff5d6c;
+    --amber:#ffb454; --purple:#9b7bff; --cyan:#36cfd1;
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Inter","Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;
+       background:var(--bg);color:var(--txt);-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  .layout{display:flex;min-height:100vh}
+  /* sidebar */
+  .side{width:212px;background:var(--panel);border-right:1px solid var(--line);padding:20px 14px;position:sticky;top:0;height:100vh;flex-shrink:0}
+  .brand{font-weight:800;font-size:17px;letter-spacing:.5px;margin:4px 8px 4px}
+  .brand small{display:block;color:var(--mut);font-weight:500;font-size:11px;margin-top:3px}
+  .nav{margin-top:22px;display:flex;flex-direction:column;gap:3px}
+  .nav a{color:var(--mut);padding:9px 12px;border-radius:9px;font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:9px;cursor:pointer}
+  .nav a:hover{background:var(--panel2);color:var(--txt)}
+  .nav a.active{background:linear-gradient(90deg,rgba(79,140,255,.18),transparent);color:#fff}
+  .side-foot{position:absolute;bottom:16px;left:14px;right:14px;color:var(--mut);font-size:10.5px;line-height:1.6}
+  /* main */
+  .main{flex:1;padding:26px 30px 60px;max-width:1240px}
+  h1{font-size:21px;margin:0 0 2px}
+  .sub{color:var(--mut);font-size:13px;margin-bottom:22px}
+  .sec{scroll-margin-top:18px;margin-bottom:40px}
+  .sec h2{font-size:15px;margin:0 0 14px;display:flex;align-items:center;gap:8px}
+  .sec h2 .bar{width:4px;height:15px;background:var(--accent);border-radius:3px;display:inline-block}
+  /* kpi */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px 16px 14px}
+  .kpi .lab{color:var(--mut);font-size:12px;font-weight:600}
+  .kpi .val{font-size:23px;font-weight:800;margin-top:7px;letter-spacing:.3px}
+  .kpi .hint{font-size:11px;color:var(--mut);margin-top:6px}
+  .pos{color:var(--green)} .neg{color:var(--red)}
+  .cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+  .card .tag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;display:inline-block}
+  .card .amt{font-size:26px;font-weight:800;margin:12px 0 4px}
+  .card .desc{color:var(--mut);font-size:12.5px;line-height:1.5}
+  .chartbox{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+  .chartbox.tall{height:360px}
+  canvas{max-height:300px}
+  /* table */
+  .tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel)}
+  table{border-collapse:collapse;width:100%;font-size:12.5px;white-space:nowrap}
+  th,td{padding:8px 11px;text-align:right;border-bottom:1px solid var(--line)}
+  th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:var(--panel);font-weight:600;z-index:1}
+  thead th{color:var(--mut);font-weight:700;font-size:11.5px;border-bottom:1px solid var(--line);background:var(--panel2)}
+  thead th:first-child{background:var(--panel2)}
+  tbody tr:hover td{background:rgba(79,140,255,.06)}
+  tbody tr:hover td:first-child{background:#1b1f29}
+  .total-row td{font-weight:800;border-top:2px solid var(--line);background:#13161d}
+  .total-row td:first-child{background:#13161d}
+  .muted{color:var(--mut)}
+  .badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px}
+  .b-run{background:rgba(255,180,84,.16);color:var(--amber)}
+  .b-done{background:rgba(154,163,178,.16);color:var(--mut)}
+  .b-dev{background:rgba(155,123,255,.16);color:var(--purple)}
+  .b-pause{background:rgba(255,93,108,.16);color:var(--red)}
+  .b-new{background:rgba(39,192,147,.16);color:var(--green)}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin:2px 0 16px;color:var(--mut);font-size:12px}
+  .legend span{display:flex;align-items:center;gap:6px}
+  .dot{width:11px;height:11px;border-radius:3px;display:inline-block}
+  .note{background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--amber);
+        border-radius:8px;padding:11px 14px;color:var(--mut);font-size:12.5px;line-height:1.6;margin-top:14px}
+  .grid2{display:grid;grid-template-columns:1.3fr 1fr;gap:18px}
+  @media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}.cards3,.grid2{grid-template-columns:1fr}.side{display:none}}
+  .pill{font-size:11px;padding:3px 9px;border-radius:20px;background:var(--panel2);color:var(--mut);border:1px solid var(--line)}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="side">
+    <div class="brand">簡單行銷<small>營運中台 · FY2026</small></div>
+    <nav class="nav" id="nav">
+      <a data-t="overview" class="active">📊 營運總覽</a>
+      <a data-t="cashflow">💵 每月現金流</a>
+      <a data-t="future">🔮 未來進帳</a>
+      <a data-t="matrix">🗂️ 收入 × 月份</a>
+      <a data-t="projects">📁 專案 × 月份</a>
+      <a data-t="progress">✅ 專案進度</a>
+    </nav>
+    <div class="side-foot">
+      資料來源：<br>· 請款 Google Sheet<br>· Notion 專案總覽<br>
+      更新：2026-06-19
+    </div>
+  </aside>
+
+  <main class="main">
+    <h1>營運中台 Dashboard</h1>
+    <div class="sub">簡單行銷顧問有限公司 · 2026 會計年度 · 金額單位 NT$</div>
+
+    <!-- OVERVIEW -->
+    <section class="sec" id="overview">
+      <h2><span class="bar"></span>營運總覽</h2>
+      <div class="kpis" id="kpiRow"></div>
+      <div class="grid2" style="margin-top:18px">
+        <div class="chartbox"><b style="font-size:13px">每月營收 vs 利潤</b><canvas id="ovChart"></canvas></div>
+        <div class="chartbox"><b style="font-size:13px">全年收入結構占比</b><canvas id="pieChart"></canvas></div>
+      </div>
+    </section>
+
+    <!-- CASHFLOW -->
+    <section class="sec" id="cashflow">
+      <h2><span class="bar"></span>每月現金流：進來的 vs 出去的</h2>
+      <div class="chartbox"><b style="font-size:13px">月度 收入 / 成本+費用 / 淨流入</b><canvas id="cfChart"></canvas></div>
+      <div class="tbl-wrap" style="margin-top:16px"><table id="cfTable"></table></div>
+      <div class="note" id="cfNote"></div>
+    </section>
+
+    <!-- FUTURE -->
+    <section class="sec" id="future">
+      <h2><span class="bar"></span>未來還有多少錢會進來</h2>
+      <div class="cards3" id="futureCards"></div>
+      <div class="chartbox" style="margin-top:18px;text-align:center">
+        <b style="font-size:13px">未來淨進帳 = 預計收入 + 應收帳款 − 應付帳款</b>
+        <div id="netFuture" style="font-size:40px;font-weight:800;margin-top:10px"></div>
+        <div class="muted" style="font-size:12px">這是「未來大概還有多少現金會淨流入」的估算（不含尚未簽約的新案）。</div>
+      </div>
+    </section>
+
+    <!-- MATRIX -->
+    <section class="sec" id="matrix">
+      <h2><span class="bar"></span>收入結構 × 月份（熱力圖）</h2>
+      <div class="sub" style="margin-bottom:12px">縱軸 = 收入分類，橫軸 = 月份；顏色越深代表該月該類收入越高。</div>
+      <div class="tbl-wrap"><table id="matrixTable"></table></div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="sec" id="projects">
+      <h2><span class="bar"></span>專案 × 月份（接案時間軸）</h2>
+      <div class="sub" style="margin-bottom:12px">縱軸 = 專案，橫軸 = 月份；● 代表該專案在當月為進行中（依開案日期）。</div>
+      <div class="tbl-wrap"><table id="projTable"></table></div>
+      <div class="note">逐筆「每個專案每月實收金額」需完整日記帳（Google Sheet 逐月明細）才能拆出；目前 Sheet 讀取僅含已實現月份的明細，故以「接案時間軸 + 收入分類矩陣」呈現。要做到專案 × 月份的金額熱力圖，我可以再接一次完整日記帳。</div>
+    </section>
+
+    <!-- PROGRESS -->
+    <section class="sec" id="progress">
+      <h2><span class="bar"></span>專案進度（來源：Notion 專案總覽）</h2>
+      <div class="legend">
+        <span><i class="dot" style="background:var(--amber)"></i>執行中</span>
+        <span><i class="dot" style="background:var(--purple)"></i>開發中／洽談中</span>
+        <span><i class="dot" style="background:var(--green)"></i>新接案</span>
+        <span><i class="dot" style="background:var(--mut)"></i>已結案</span>
+        <span><i class="dot" style="background:var(--red)"></i>暫停</span>
+      </div>
+      <div class="tbl-wrap"><table id="progTable"></table></div>
+      <div class="note">你的專案管理在 <b>Notion「📋 Projects 專案總覽」</b>（不是 Trello — 此環境沒有 Trello 串接）。Notion 卡片目前有填的是<b>狀態 / 客戶 / 負責人 / 類型</b>，「進度 %」與「預算」欄位多為空白。下表狀態為實際抓取之代表樣本，其餘以財務專案名單對應。若你把 Notion 的「進度 %」填上，我可以讓這欄即時顯示百分比進度條。</div>
+    </section>
+  </main>
+</div>
+
+<script>
+const DATA = {
+  months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+  revenue:[2742430,1529142,2555952,3429326,2140980,3064182,497960,343400,355060,561000,261000,261000],
+  cost:[2175485,1492024,1799034,2463749,2064876,1840439,259000,98405,115905,20976,20976,20976],
+  expense:[39853,85135,56195,73690,97310,186659,86897,113897,71897,71897,98897,71897],
+  profit:[527092,-48017,700723,891887,-21206,1037084,152063,131098,167258,468127,141127,168127],
+  revByCat:{
+    "廣告投放":[2518059,1473892,2506702,3228814,1919072,2547477,415250,230750,230750,530750,230750,230750],
+    "網站製作":[42621,3000,3000,48360,126940,99180,38460,82400,82060,0,0,0],
+    "網站維運":[90500,10000,10000,46402,8988,19025,8000,0,12000,0,0,0],
+    "顧問服務":[26250,26250,26250,26250,26250,31500,26250,26250,26250,26250,26250,26250],
+    "SEO/GEO 收入":[9000,4000,4000,76500,4000,76500,4000,4000,4000,4000,4000,4000],
+    "行銷企劃":[56000,12000,6000,3000,23550,24000,6000,0,0,0,0,0],
+    "專案管理":[0,0,0,0,32180,31500,0,0,0,0,0,0],
+    "其他營利所得":[0,0,0,0,0,189000,0,0,0,0,0,0],
+    "投資營利所得":[0,0,0,0,0,46000,0,0,0,0,0,0]
+  },
+  future:{
+    "預計收入":{amt:2302100,desc:"已簽約、尚未開發票（合約在手、款還沒請）",color:"var(--green)",bg:"rgba(39,192,147,.16)"},
+    "應收帳款":{amt:921830,desc:"已開發票、尚未收到款（請了款、錢還沒進）",color:"var(--amber)",bg:"rgba(255,180,84,.16)"},
+    "應付帳款":{amt:1553773,desc:"預計要付給外包的錢（未來會流出）",color:"var(--red)",bg:"rgba(255,93,108,.16)"}
+  },
+  projects:[
+    ["營運","2021-09"],["合利通","2022-01"],["人間福報","2022-04"],["週末俱樂部","2022-06"],
+    ["愛妮島","2022-10"],["驊巨","2022-04"],["Ivan","2022-04"],["CRYPTO","2022-04"],["古董","2022-04"],
+    ["神燈","2023-06"],["佳晉姐","2023-08"],["凱基","2023-08"],["來拎茶","2023-08"],["Bruce","2023-11"],
+    ["嘉豐科技","2024-02"],["CH2","2024-05"],["新光三越","2024-07"],["孫懋源","2024-07"],["固鋼","2024-08"],
+    ["天一愛","2024-10"],["當舖-Alex","2024-10"],["一日牙醫","2024-11"],["髮妝之鑰","2025-01"],["Amiro","2025-01"],
+    ["牙醫領袖營","2025-06"],["關立緯","2025-07"],["詩硯","2025-07"],["晉傑","2025-08"],["Howie","2025-08"],
+    ["波士頓地產","2025-09"],["qblens","2025-11"],["伸仁紡織","2026-04"],["日日好食","2026-05"],["荷茂","2026-05"],["AC PAY","2026-05"]
+  ],
+  // 實際抓取自 Notion 的狀態樣本；其餘預設「執行中」(沿用接案中)
+  statusKnown:{
+    "神燈":"執行中","愛妮島":"執行中","固鋼":"執行中","詩硯":"已結案",
+    "新光三越":"執行中","一日牙醫":"執行中","驊巨":"執行中","凱基":"執行中",
+    "天一愛":"執行中","當舖-Alex":"執行中","Howie":"執行中","AC PAY":"執行中",
+    "伸仁紡織":"新接案","日日好食":"新接案","荷茂":"新接案"
+  },
+  projType:{
+    "神燈":"廣告","愛妮島":"廣告 / 網站","固鋼":"廣告","詩硯":"廣告 / 網站 / SEO",
+    "新光三越":"廣告","一日牙醫":"廣告 / SEO","驊巨":"廣告 / 網站","凱基":"口碑 / 廣告",
+    "Howie":"廣告 / SEO","AC PAY":"廣告"
+  }
+};
+const fmt=n=>n.toLocaleString('en-US');
+const sum=a=>a.reduce((x,y)=>x+y,0);
+const yyyymm=s=>parseInt(s.replace('-',''));
+
+/* ---------- KPI ---------- */
+const totRev=sum(DATA.revenue), totProfit=sum(DATA.profit);
+const totCost=sum(DATA.cost), totExp=sum(DATA.expense);
+const futureNet=DATA.future["預計收入"].amt+DATA.future["應收帳款"].amt-DATA.future["應付帳款"].amt;
+const margin=(totProfit/totRev*100).toFixed(1);
+document.getElementById('kpiRow').innerHTML=[
+  ["2026 預計總營收","NT$"+fmt(totRev),"全年 12 個月加總"],
+  ["2026 預計淨利","NT$"+fmt(totProfit),"利潤率 "+margin+"%","pos"],
+  ["未來待進帳（淨）","NT$"+fmt(futureNet),"預計收入＋應收－應付","pos"],
+  ["在手未開票合約","NT$"+fmt(DATA.future["預計收入"].amt),"已簽約尚未請款"]
+].map(k=>`<div class="kpi"><div class="lab">${k[0]}</div><div class="val ${k[3]||''}">${k[1]}</div><div class="hint">${k[2]}</div></div>`).join('');
+
+/* ---------- charts ---------- */
+const gridc='#272c3a', mutc='#9aa3b2';
+Chart.defaults.color=mutc;Chart.defaults.borderColor=gridc;Chart.defaults.font.family='Inter, Noto Sans TC, sans-serif';
+
+new Chart(ovChart,{type:'bar',data:{labels:DATA.months,datasets:[
+  {label:'營收',data:DATA.revenue,backgroundColor:'#4f8cff',borderRadius:4},
+  {type:'line',label:'利潤',data:DATA.profit,borderColor:'#27c093',backgroundColor:'#27c093',tension:.3,pointRadius:3}
+]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{boxWidth:12}}},
+  scales:{y:{ticks:{callback:v=>v/1000+'k'}}}}});
+
+const catTotals=Object.entries(DATA.revByCat).map(([k,v])=>[k,sum(v)]).sort((a,b)=>b[1]-a[1]);
+new Chart(pieChart,{type:'doughnut',data:{labels:catTotals.map(c=>c[0]),
+  datasets:[{data:catTotals.map(c=>c[1]),backgroundColor:['#4f8cff','#27c093','#ffb454','#9b7bff','#36cfd1','#ff5d6c','#6c7a93','#c0c8d8','#3a4a6b']}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{boxWidth:11,font:{size:11}}}}}});
+
+const netFlow=DATA.months.map((m,i)=>DATA.revenue[i]-DATA.cost[i]-DATA.expense[i]);
+new Chart(cfChart,{type:'bar',data:{labels:DATA.months,datasets:[
+  {label:'收入',data:DATA.revenue,backgroundColor:'#27c093',borderRadius:3,stack:'a'},
+  {label:'成本+費用',data:DATA.months.map((m,i)=>-(DATA.cost[i]+DATA.expense[i])),backgroundColor:'#ff5d6c',borderRadius:3,stack:'a'},
+  {type:'line',label:'淨流入',data:netFlow,borderColor:'#ffb454',backgroundColor:'#ffb454',tension:.3,pointRadius:3}
+]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{ticks:{callback:v=>v/1000+'k'}}}}});
+
+/* ---------- cashflow table ---------- */
+function rowsTable(el,head,rows,totals){
+  let h='<thead><tr>'+head.map(x=>`<th>${x}</th>`).join('')+'</tr></thead><tbody>';
+  rows.forEach(r=>{h+='<tr>'+r.map((c,i)=>`<td>${i?fmt(c):c}</td>`).join('')+'</tr>';});
+  if(totals){h+='<tr class="total-row">'+totals.map((c,i)=>`<td>${i?fmt(c):c}</td>`).join('')+'</tr>';}
+  el.innerHTML=h+'</tbody>';
+}
+const cfHead=['項目',...DATA.months,'全年'];
+const cfRows=[
+  ['收入',...DATA.revenue,totRev],
+  ['成本',...DATA.cost,totCost],
+  ['費用',...DATA.expense,totExp],
+  ['淨流入',...netFlow,sum(netFlow)]
+];
+rowsTable(document.getElementById('cfTable'),cfHead,cfRows.slice(0,3),cfRows[3]);
+const negMonths=DATA.months.filter((m,i)=>netFlow[i]<0);
+document.getElementById('cfNote').innerHTML=
+  `全年淨現金流入約 <b class="pos">NT$${fmt(sum(netFlow))}</b>。`+
+  (negMonths.length?` 其中 <b class="neg">${negMonths.join('、')}</b> 為單月淨流出（進來的錢 < 出去的錢），需留意當月現金水位。`:' 各月皆為淨流入。')+
+  ` 下半年（Jul–Dec）營收明顯下降，主要因廣告投放案多集中在上半年。`;
+
+/* ---------- future cards ---------- */
+document.getElementById('futureCards').innerHTML=Object.entries(DATA.future).map(([k,v])=>
+  `<div class="card"><span class="tag" style="background:${v.bg};color:${v.color}">${k}</span>
+   <div class="amt" style="color:${v.color}">${k==='應付帳款'?'−':''}NT$${fmt(v.amt)}</div>
+   <div class="desc">${v.desc}</div></div>`).join('');
+document.getElementById('netFuture').innerHTML=(futureNet>=0?'<span class="pos">+':'<span class="neg">')+'NT$'+fmt(futureNet)+'</span>';
+
+/* ---------- revenue matrix heatmap ---------- */
+(function(){
+  const cats=Object.keys(DATA.revByCat);
+  const maxv=Math.max(...cats.flatMap(c=>DATA.revByCat[c]));
+  let h='<thead><tr><th>收入分類</th>'+DATA.months.map(m=>`<th>${m}</th>`).join('')+'<th>合計</th></tr></thead><tbody>';
+  cats.forEach(c=>{
+    const row=DATA.revByCat[c];
+    h+=`<tr><td>${c}</td>`+row.map(v=>{
+      const a=v<=0?0:0.10+0.85*Math.pow(v/maxv,.45);
+      return `<td style="background:rgba(79,140,255,${a.toFixed(3)})">${v? (v/1000).toFixed(0)+'k':'·'}</td>`;
+    }).join('')+`<td><b>${(sum(row)/1000).toFixed(0)}k</b></td></tr>`;
+  });
+  h+='<tr class="total-row"><td>月總營收</td>'+DATA.revenue.map(v=>`<td>${(v/1000).toFixed(0)}k</td>`).join('')+`<td>${(totRev/1000000).toFixed(2)}M</td></tr>`;
+  document.getElementById('matrixTable').innerHTML=h+'</tbody>';
+})();
+
+/* ---------- project timeline ---------- */
+(function(){
+  const ym=DATA.months.map((m,i)=>2026*100+(i+1));
+  let h='<thead><tr><th>專案</th><th>開案</th>'+DATA.months.map(m=>`<th>${m}</th>`).join('')+'</tr></thead><tbody>';
+  DATA.projects.forEach(p=>{
+    const start=yyyymm(p[1]);
+    h+=`<tr><td>${p[0]}</td><td class="muted" style="text-align:left">${p[1]}</td>`+
+      ym.map(m=>`<td>${start<=m?'<span style="color:var(--accent)">●</span>':'<span class="muted">·</span>'}</td>`).join('')+'</tr>';
+  });
+  document.getElementById('projTable').innerHTML=h+'</tbody>';
+})();
+
+/* ---------- progress (Notion status) ---------- */
+(function(){
+  const badge=s=>{
+    const map={'執行中':'b-run','已結案':'b-done','新接案':'b-new','開發中-洽談中':'b-dev','開發中-初步接觸':'b-dev','暫停':'b-pause'};
+    return `<span class="badge ${map[s]||'b-run'}">${s}</span>`;
+  };
+  const order={'執行中':0,'新接案':1,'開發中-洽談中':2,'已結案':3};
+  const rows=DATA.projects.map(p=>{
+    const st=DATA.statusKnown[p[0]]||'執行中';
+    return {name:p[0],st,type:DATA.projType[p[0]]||'—',start:p[1]};
+  }).sort((a,b)=>(order[a.st]??9)-(order[b.st]??9));
+  let h='<thead><tr><th>專案</th><th>狀態</th><th style="text-align:left">類型</th><th style="text-align:left">開案</th></tr></thead><tbody>';
+  rows.forEach(r=>{h+=`<tr><td>${r.name}</td><td style="text-align:left">${badge(r.st)}</td><td style="text-align:left" class="muted">${r.type}</td><td style="text-align:left" class="muted">${r.start}</td></tr>`;});
+  document.getElementById('progTable').innerHTML=h+'</tbody>';
+})();
+
+/* ---------- nav scroll-spy ---------- */
+const nav=document.getElementById('nav');
+nav.addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return;
+  document.getElementById(a.dataset.t).scrollIntoView({behavior:'smooth'});});
+const secs=[...document.querySelectorAll('.sec')];
+const obs=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){
+  nav.querySelectorAll('a').forEach(a=>a.classList.toggle('active',a.dataset.t===en.target.id));}});},{rootMargin:'-40% 0px -55% 0px'});
+secs.forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

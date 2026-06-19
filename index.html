@@ -82,6 +82,7 @@
     <div class="brand">簡單行銷<small>營運中台 · FY2026</small></div>
     <nav class="nav" id="nav">
       <a data-t="overview" class="active">📊 營運總覽</a>
+      <a data-t="pmonth">💰 專案×月份進帳</a>
       <a data-t="cashflow">💵 每月現金流</a>
       <a data-t="future">🔮 未來進帳</a>
       <a data-t="matrix">🗂️ 收入 × 月份</a>
@@ -106,6 +107,19 @@
         <div class="chartbox"><b style="font-size:13px">每月營收 vs 利潤</b><canvas id="ovChart"></canvas></div>
         <div class="chartbox"><b style="font-size:13px">全年收入結構占比</b><canvas id="pieChart"></canvas></div>
       </div>
+    </section>
+
+    <!-- PROJECT x MONTH 進帳 -->
+    <section class="sec" id="pmonth">
+      <h2><span class="bar"></span>專案 × 月份進帳</h2>
+      <div class="sub" style="margin-bottom:10px">縱列＝各專案、橫向＝月份、最右欄＝全年合計、最下列＝每月總計。資料直接來自「日記帳」逐筆，已對帳損益表（全年 NT$17,741,432 一致）。</div>
+      <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center">
+        <button class="pill" id="btnRev" style="cursor:pointer">收入（進帳）</button>
+        <button class="pill" id="btnNet" style="cursor:pointer">淨額（收入−成本）</button>
+        <span class="muted" style="font-size:11.5px">※ 廣告投放含代操金額，故「一日牙醫」進帳大但淨額才是實賺</span>
+      </div>
+      <div class="tbl-wrap"><table id="pmTable"></table></div>
+      <div class="note" id="pmNote"></div>
     </section>
 
     <!-- CASHFLOW -->
@@ -160,6 +174,7 @@
 
 <script>
 const TRELLO = {"board":"公司專案看板","url":"https://trello.com/b/XdAy7CBW","funnel":[{"stage":"穀雨採茶","count":8},{"stage":"無主專案(PENDING)","count":6},{"stage":"開發中名單(尚未聊細節)","count":4},{"stage":"開發中正在談(正在聊執行細節)","count":12},{"stage":"專案執行中","count":28},{"stage":"專案暫停","count":8},{"stage":"已結案","count":53},{"stage":"未合作","count":101}],"labelCounts":{"重要":56,"普通":97,"yellow":8,"orange":1,"purple":9,"blue":7},"cards":[{"name":"[Henry]保健品電商","list":"專案執行中","labels":["重要"],"due":null,"checklist":null,"last":"2026-04-22"},{"name":"[SEO]越南暗黑PAPA-大慶","list":"專案執行中","labels":["重要"],"due":null,"checklist":null,"last":"2025-05-16"},{"name":"[伸仁]團購主/KOL","list":"專案執行中","labels":["普通"],"due":"2026-04-23","checklist":null,"last":"2026-04-22"},{"name":"[伸仁]網站搬家與採購伺服器","list":"專案執行中","labels":["普通"],"due":"2026-05-13","checklist":"0/2","last":"2026-04-22"},{"name":"[全案]水軍SocailOS-paperclip","list":"專案執行中","labels":["普通"],"due":null,"checklist":null,"last":"2026-03-25"},{"name":"[全案]牙醫顧問公司-詩硯","list":"專案執行中","labels":["重要"],"due":"2025-02-07","checklist":null,"last":"2026-05-24"},{"name":"[全案]越南行銷合作-TIM朱","list":"專案執行中","labels":["普通"],"due":null,"checklist":null,"last":"2026-05-24"},{"name":"[全案]飛輪系統建立-paperclip","list":"專案執行中","labels":["普通"],"due":null,"checklist":null,"last":"2026-04-07"},{"name":"[全案]旅館推薦網站-luxstay.world","list":"專案執行中","labels":["普通"],"due":null,"checklist":null,"last":"2026-05-24"},{"name":"[品牌]KGI口碑行銷-Jemma","list":"專案執行中","labels":["重要"],"due":null,"checklist":null,"last":"2025-01-06"},{"name":"[廣告]AC Pay廣告投放-lawrence","list":"專案執行中","labels":["普通"],"due":null,"checklist":null,"last":"2026-05-24"},{"name":"[廣告]AMIRO/HBN閃物-Lawrence","list":"專案執行中","labels":["重要"],"due":null,"checklist":null,"last":"2025-05-02"},{"name":"[廣告]VPN廣告投放-大慶","list":"專案執行中","labels":["重要"],"due":null,"checklist":null,"last":"2026-05-27"},{"name":"[廣告]固鋼廣告投放-even","list":"專案執行中","labels":["普通"],"due":"2024-07-19","checklist":null,"last":"2026-03-17"},{"name":"[廣告]愛尼島廣告投放-Henry","list":"專案執行中","labels":["普通"],"due":null,"checklist":null,"last":"2025-01-06"},{"name":"[廣告]歐特斯熱水器廣告投放","list":"專案執行中","labels":["普通"],"due":null,"checklist":null,"last":"2025-09-18"},{"name":"[廣告]牙醫客戶-Howie","list":"專案執行中","labels":["重要"],"due":null,"checklist":null,"last":"2025-06-21"},{"name":"[廣告]神燈假期廣告投放-大慶","list":"專案執行中","labels":["重要"],"due":null,"checklist":null,"last":"2025-01-06"},{"name":"[廣告]荷茂生醫_金娜妍-monica","list":"專案執行中","labels":["普通"],"due":"2026-06-10","checklist":null,"last":"2026-06-19"},{"name":"[廣告]韓國包車廣告投放-大慶","list":"專案執行中","labels":["重要"],"due":null,"checklist":null,"last":"2026-05-27"},{"name":"[社群]解鎖IG/FB帳號","list":"專案執行中","labels":["重要"],"due":null,"checklist":null,"last":"2025-05-14"},{"name":"[網站]土地開發網站-小江&大慶","list":"專案執行中","labels":["重要"],"due":"2026-05-29","checklist":null,"last":"2026-06-19"},{"name":"[網站]愛尼島網站營運-Henry","list":"專案執行中","labels":["普通"],"due":null,"checklist":null,"last":"2025-01-06"},{"name":"[網站]日日好食-北美網站製作","list":"專案執行中","labels":["重要"],"due":null,"checklist":null,"last":"2026-06-19"},{"name":"[網站]神燈假期員工旅遊網站營運-大慶","list":"專案執行中","labels":["普通"],"due":null,"checklist":null,"last":"2025-05-26"},{"name":"[網站]神燈假期網站維運-大慶","list":"專案執行中","labels":["普通"],"due":null,"checklist":null,"last":"2025-05-16"},{"name":"[網站]第三方推薦站-大慶","list":"專案執行中","labels":["普通"],"due":"2026-05-28","checklist":null,"last":"2026-06-19"},{"name":"[顧問]家具蝦皮電商-虎虎","list":"專案執行中","labels":["普通"],"due":null,"checklist":null,"last":"2026-06-19"},{"name":"[Claude]健康app","list":"開發中正在談(正在聊執行細節)","labels":["普通"],"due":null,"checklist":null,"last":"2026-04-23"},{"name":"[全案]Seiko mod合作案-Ryan王","list":"開發中正在談(正在聊執行細節)","labels":[],"due":null,"checklist":null,"last":"2026-05-25"},{"name":"[全案]任務平台(web)","list":"開發中正在談(正在聊執行細節)","labels":["普通"],"due":null,"checklist":null,"last":"2026-04-13"},{"name":"[全案]味源-海外行銷","list":"開發中正在談(正在聊執行細節)","labels":["普通"],"due":null,"checklist":null,"last":"2025-12-11"},{"name":"[全案]莫桑石行銷-小江","list":"開發中正在談(正在聊執行細節)","labels":["重要"],"due":null,"checklist":null,"last":"2026-02-11"},{"name":"[全案]越南合作安排-永淞哥","list":"開發中正在談(正在聊執行細節)","labels":["普通"],"due":null,"checklist":null,"last":"2025-05-14"},{"name":"[全案]越南醫美行銷-李坤鴻","list":"開發中正在談(正在聊執行細節)","labels":["普通"],"due":null,"checklist":null,"last":"2025-12-11"},{"name":"[廣告]UCG-Ryan王","list":"開發中正在談(正在聊執行細節)","labels":[],"due":null,"checklist":null,"last":"2026-05-25"},{"name":"[營運]整合notion到工作自動化","list":"開發中正在談(正在聊執行細節)","labels":["重要"],"due":null,"checklist":null,"last":"2026-04-22"},{"name":"[網站]H Hotel重新製作","list":"開發中正在談(正在聊執行細節)","labels":["重要"],"due":null,"checklist":null,"last":"2026-06-19"},{"name":"[網站]網站製作獎杯獎牌-marksun","list":"開發中正在談(正在聊執行細節)","labels":["普通"],"due":null,"checklist":null,"last":"2026-06-19"},{"name":"[網站]自動上架-Ryan王","list":"開發中正在談(正在聊執行細節)","labels":[],"due":null,"checklist":null,"last":"2026-05-25"},{"name":"[全案]牙醫排名網站製作-大慶","list":"專案暫停","labels":["重要"],"due":null,"checklist":null,"last":"2026-05-24"},{"name":"[廣告]群眾募資-Rachel","list":"專案暫停","labels":["普通"],"due":null,"checklist":null,"last":"2026-04-07"},{"name":"[廣告]遊獵行腳廣告合作-永淞哥","list":"專案暫停","labels":["普通"],"due":null,"checklist":null,"last":"2026-04-20"}]};
+const PMD = {"updated":"2026-06-19","months":["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],"projects":[{"name":"一日牙醫","rev":[1757617,830500,1711750,2584100,1305600,1588000,211600,211600,211600,211600,211600,211600],"net":[167192,-378200,125650,457300,-548500,88000,211600,211600,211600,211600,211600,211600]},{"name":"凱基","rev":[219015,350000,150000,409500,175500,409500,0,175500,0,0,0,0],"net":[2688,155472,14862,180196,11905,180196,0,17559,0,0,0,0]},{"name":"詩硯","rev":[513621,165000,440000,165000,286000,221000,0,0,0,0,0,0],"net":[502121,165000,440000,165000,286000,221000,0,0,0,0,0,0]},{"name":"荷茂","rev":[0,0,0,0,67500,300000,20000,20000,20000,320000,20000,20000],"net":[0,0,0,0,51525,268275,-57429,-57429,-57429,320000,20000,20000]},{"name":"神燈","rev":[91977,49513,47574,52588,196407,66321,15000,82400,0,0,0,0],"net":[-7085,45513,44574,51588,192407,64321,13000,82400,0,0,0,0]},{"name":"愛妮島","rev":[71000,82000,79000,112000,10550,132500,8000,0,66500,0,0,0],"net":[32740,28180,25180,44180,12665,76066,8000,0,49000,0,0,0]},{"name":"營運","rev":[50000,0,82488,16041,9680,235000,0,0,0,0,0,0],"net":[50000,0,82488,8020,9680,235000,0,0,0,0,0,0]},{"name":"晉傑","rev":[26250,26250,26250,26250,26250,26250,26250,26250,26250,26250,26250,26250],"net":[5274,5274,5274,5274,5274,5274,5274,5274,5274,5274,5274,5274]},{"name":"伸仁紡織","rev":[0,0,0,32702,32488,42525,0,0,0,0,0,0],"net":[0,0,0,32702,26600,42525,0,0,0,0,0,0]},{"name":"固鋼","rev":[12950,22729,11382,14635,16115,12006,0,0,0,0,0,0],"net":[12950,22729,11382,14635,16115,12006,0,0,0,0,0,0]},{"name":"孫懋源","rev":[0,0,0,0,0,0,23340,0,27560,0,0,0],"net":[0,0,0,0,0,0,23340,0,27560,0,0,0]},{"name":"日日好食","rev":[0,0,0,0,0,27930,15120,0,0,0,0,0],"net":[0,0,0,0,0,27930,15120,0,0,0,0,0]},{"name":"嘉豐科技","rev":[0,3150,3150,3150,3150,3150,3150,3150,3150,3150,3150,3150],"net":[0,3150,3150,3150,3150,3150,3150,3150,3150,3150,3150,3150]},{"name":"合利通","rev":[0,0,0,13360,3340,0,0,0,0,0,0,0],"net":[0,0,0,3532,883,0,0,0,0,0,0,0]},{"name":"AC PAY","rev":[0,0,0,0,8400,0,0,0,0,0,0,0],"net":[0,0,0,0,8400,0,0,0,0,0,0,0]},{"name":"Amiro","rev":[0,0,4358,0,0,0,0,0,0,0,0,0],"net":[0,0,4358,0,0,0,0,0,0,0,0,0]}],"accounts":{"預計收入":[0,0,0,0,0,22680,322460,518900,355060,561000,261000,261000],"應收帳款":[52000,3000,0,0,189180,677650,0,0,0,0,0,0],"應付帳款":[31075,15100,0,11645,159595,284738,187302,370243,187802,92873,119873,92873]}};
 const DATA = {
   months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
   revenue:[2742430,1529142,2555952,3429326,2140980,3064182,497960,343400,355060,561000,261000,261000],
@@ -345,6 +360,35 @@ document.getElementById('netFuture').innerHTML=(futureNet>=0?'<span class="pos">
     h+=`<tr><td>${c.name}</td><td style="text-align:left"><span class="badge ${stageBadge[c.list]||'b-run'}">${stageShort[c.list]||c.list}</span></td><td>${imp}</td><td>${due}</td><td>${clk}</td></tr>`;
   });
   document.getElementById('progTable').innerHTML=h+'</tbody>';
+})();
+
+/* ---------- 專案 × 月份進帳 ---------- */
+(function(){
+  const rows=PMD.projects.filter(p=>p.rev.reduce((a,b)=>a+b,0)>0);
+  let mode='rev';
+  function render(){
+    const data=rows.map(p=>({name:p.name,vals:p[mode],sum:p[mode].reduce((a,b)=>a+b,0)}))
+                   .sort((a,b)=>b.sum-a.sum);
+    const colTot=PMD.months.map((m,i)=>data.reduce((s,r)=>s+r.vals[i],0));
+    const grand=colTot.reduce((a,b)=>a+b,0);
+    const cell=v=>v===0?'<span class="muted">·</span>':(v<0?'<span class="neg">'+v.toLocaleString()+'</span>':v.toLocaleString());
+    let h='<thead><tr><th>專案</th>'+PMD.months.map(m=>`<th>${m}</th>`).join('')+'<th>全年合計</th></tr></thead><tbody>';
+    data.forEach(r=>{
+      h+=`<tr><td>${r.name}</td>`+r.vals.map(cell).join('')+`<td><b>${r.sum.toLocaleString()}</b></td></tr>`;
+    });
+    h+='<tr class="total-row"><td>每月總計</td>'+colTot.map(v=>`<td>${v.toLocaleString()}</td>`).join('')+`<td>${grand.toLocaleString()}</td></tr>`;
+    document.getElementById('pmTable').innerHTML=h+'</tbody>';
+    document.getElementById('btnRev').style.opacity=mode==='rev'?'1':'.45';
+    document.getElementById('btnNet').style.opacity=mode==='net'?'1':'.45';
+    document.getElementById('pmNote').innerHTML=
+      (mode==='rev'
+        ?'「收入」＝該專案該月實際進帳（含廣告代操金額）。'
+        :'「淨額」＝收入−成本（外包/代操後實賺）；負數代表當月成本大於收入（如預付外包）。')
+      +` 共 ${data.length} 個有進帳的專案，資料更新：${PMD.updated}（來源：日記帳）。`;
+  }
+  document.getElementById('btnRev').onclick=()=>{mode='rev';render();};
+  document.getElementById('btnNet').onclick=()=>{mode='net';render();};
+  render();
 })();
 
 /* ---------- nav scroll-spy ---------- */

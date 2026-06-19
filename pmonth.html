@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>專案 × 月份進帳 · 簡單行銷營運中台</title>
+<style>
+  :root{--bg:#0f1115;--panel:#171a21;--panel2:#1e2230;--line:#272c3a;--txt:#e7e9ee;--mut:#9aa3b2;--accent:#4f8cff;--green:#27c093;--red:#ff5d6c;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Inter","Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--txt);-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  .top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:18px 26px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:20}
+  .top h1{font-size:18px;margin:0}
+  .top .sub{color:var(--mut);font-size:12.5px}
+  .back{font-size:13px;font-weight:600;padding:7px 13px;border:1px solid var(--line);border-radius:9px;color:var(--txt)}
+  .back:hover{background:var(--panel2)}
+  .toggle{display:flex;gap:8px;margin-left:auto;align-items:center}
+  .pill{font-size:13px;padding:7px 14px;border-radius:20px;background:var(--panel2);color:var(--txt);border:1px solid var(--line);cursor:pointer;font-weight:600}
+  .pill.off{opacity:.45}
+  .wrap{padding:20px 26px 60px}
+  .tbl-scroll{overflow:auto;border:1px solid var(--line);border-radius:12px;max-height:calc(100vh - 150px)}
+  table{border-collapse:separate;border-spacing:0;width:100%;font-size:13px;white-space:nowrap}
+  th,td{padding:10px 14px;text-align:right;border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
+  thead th{position:sticky;top:0;background:var(--panel2);color:var(--mut);font-weight:700;font-size:12px;z-index:5}
+  /* 凍結第一欄（專案）*/
+  th:first-child,td:first-child{position:sticky;left:0;text-align:left;background:var(--panel);font-weight:600;z-index:4;border-right:2px solid var(--line);min-width:130px}
+  thead th:first-child{z-index:6;background:var(--panel2)}
+  /* 全年合計欄 */
+  th:last-child,td:last-child{background:#13161d;font-weight:700;border-left:2px solid var(--line)}
+  thead th:last-child{background:#1b2030}
+  tbody tr:hover td{background:rgba(79,140,255,.07)}
+  tbody tr:hover td:first-child{background:#1b1f29}
+  .total td{position:sticky;bottom:0;background:#0d1f1a;font-weight:800;border-top:2px solid var(--line);z-index:3}
+  .total td:first-child{background:#0d1f1a;z-index:5}
+  .total td:last-child{background:#0d2419}
+  .neg{color:var(--red)}
+  .mut{color:var(--mut)}
+  .legend{color:var(--mut);font-size:12.5px;margin:14px 2px 0;line-height:1.6}
+  .rk{display:inline-block;width:20px;color:var(--mut);font-size:11px}
+</style>
+</head>
+<body>
+  <div class="top">
+    <a class="back" href="/">← 回主控台</a>
+    <div>
+      <h1>💰 專案 × 月份進帳</h1>
+      <div class="sub" id="sub">載入中…</div>
+    </div>
+    <div class="toggle">
+      <button class="pill" id="btnRev">收入（進帳）</button>
+      <button class="pill off" id="btnNet">淨額（收入−成本）</button>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="tbl-scroll"><table id="t"><tbody><tr><td>載入中…</td></tr></tbody></table></div>
+    <div class="legend" id="legend"></div>
+  </div>
+
+<script>
+let PMD=null, mode='rev';
+const fmt=n=>n.toLocaleString('en-US');
+const cell=v=>v===0?'<td><span class="mut">·</span></td>':(v<0?`<td class="neg">${fmt(v)}</td>`:`<td>${fmt(v)}</td>`);
+
+function render(){
+  if(!PMD)return;
+  const rows=PMD.projects.filter(p=>p.rev.reduce((a,b)=>a+b,0)>0)
+    .map(p=>({name:p.name,vals:p[mode],sum:p[mode].reduce((a,b)=>a+b,0)}))
+    .sort((a,b)=>b.sum-a.sum);
+  const colTot=PMD.months.map((m,i)=>rows.reduce((s,r)=>s+r.vals[i],0));
+  const grand=colTot.reduce((a,b)=>a+b,0);
+  let h='<thead><tr><th>專案</th>'+PMD.months.map(m=>`<th>${m}</th>`).join('')+'<th>全年合計</th></tr></thead><tbody>';
+  rows.forEach((r,i)=>{
+    h+=`<tr><td><span class="rk">${i+1}</span>${r.name}</td>`+r.vals.map(cell).join('')+`<td>${fmt(r.sum)}</td></tr>`;
+  });
+  h+='<tr class="total"><td>每月總計</td>'+colTot.map(v=>`<td>${fmt(v)}</td>`).join('')+`<td>${fmt(grand)}</td></tr>`;
+  document.getElementById('t').innerHTML=h+'</tbody>';
+  document.getElementById('btnRev').classList.toggle('off',mode!=='rev');
+  document.getElementById('btnNet').classList.toggle('off',mode!=='net');
+  document.getElementById('legend').innerHTML=
+    (mode==='rev'
+      ?'<b>收入（進帳）</b>＝該專案該月實際進帳，含廣告投放代操金額（故「一日牙醫」進帳特別大）。'
+      :'<b>淨額</b>＝收入−成本（外包／代操後實賺）；<span class="neg">紅字</span>代表當月成本大於收入（如預付外包）。')
+    +` 縱列＝專案（依${mode==='rev'?'進帳':'淨額'}由高到低）、橫向＝月份、最右＝全年合計、最下＝每月總計。`;
+  document.getElementById('sub').innerHTML=`縱列各專案 × 橫向 1–12 月 · 來源：日記帳（已對帳損益表 NT$17,741,432）· 更新：${PMD.updated}`;
+}
+document.getElementById('btnRev').onclick=()=>{mode='rev';render();};
+document.getElementById('btnNet').onclick=()=>{mode='net';render();};
+
+fetch('data/projects_monthly.json').then(r=>r.json()).then(d=>{PMD=d;render();})
+  .catch(e=>{document.getElementById('t').innerHTML='<tbody><tr><td>資料載入失敗：'+e+'</td></tr></tbody>';});
+</script>
+</body>
+</html>

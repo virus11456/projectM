@@ -225,10 +225,13 @@ const gridc='#272c3a', mutc='#9aa3b2';
 Chart.defaults.color=mutc;Chart.defaults.borderColor=gridc;Chart.defaults.font.family='Inter, Noto Sans TC, sans-serif';
 
 new Chart(ovChart,{type:'bar',data:{labels:DATA.months,datasets:[
-  {label:'營收',data:DATA.revenue,backgroundColor:'#4f8cff',borderRadius:4},
-  {type:'line',label:'利潤',data:DATA.profit,borderColor:'#27c093',backgroundColor:'#27c093',tension:.3,pointRadius:3}
-]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{boxWidth:12}}},
-  scales:{y:{ticks:{callback:v=>v/1000+'k'}}}}});
+  {label:'營收',data:DATA.revenue,backgroundColor:'#4f8cff',borderRadius:4,yAxisID:'y',order:2},
+  {type:'line',label:'利潤(右軸)',data:DATA.profit,borderColor:'#2ee6a6',backgroundColor:'#2ee6a6',borderWidth:3,tension:.3,pointRadius:4,pointHoverRadius:6,yAxisID:'y1',order:1}
+]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{boxWidth:12}},tooltip:{callbacks:{label:c=>c.dataset.label.replace('(右軸)','')+'：NT$'+c.parsed.y.toLocaleString()}}},
+  scales:{
+    y:{position:'left',title:{display:true,text:'營收'},ticks:{callback:v=>v/1000+'k'}},
+    y1:{position:'right',title:{display:true,text:'利潤',color:'#2ee6a6'},grid:{drawOnChartArea:false},ticks:{color:'#2ee6a6',callback:v=>v/1000+'k'}}
+  }}});
 
 const catTotals=Object.entries(DATA.revByCat).map(([k,v])=>[k,sum(v)]).sort((a,b)=>b[1]-a[1]);
 new Chart(pieChart,{type:'doughnut',data:{labels:catTotals.map(c=>c[0]),
@@ -237,10 +240,14 @@ new Chart(pieChart,{type:'doughnut',data:{labels:catTotals.map(c=>c[0]),
 
 const netFlow=DATA.months.map((m,i)=>DATA.revenue[i]-DATA.cost[i]-DATA.expense[i]);
 new Chart(cfChart,{type:'bar',data:{labels:DATA.months,datasets:[
-  {label:'收入',data:DATA.revenue,backgroundColor:'#27c093',borderRadius:3,stack:'a'},
-  {label:'成本+費用',data:DATA.months.map((m,i)=>-(DATA.cost[i]+DATA.expense[i])),backgroundColor:'#ff5d6c',borderRadius:3,stack:'a'},
-  {type:'line',label:'淨流入',data:netFlow,borderColor:'#ffb454',backgroundColor:'#ffb454',tension:.3,pointRadius:3}
-]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{ticks:{callback:v=>v/1000+'k'}}}}});
+  {label:'收入',data:DATA.revenue,backgroundColor:'#27c093',borderRadius:3,stack:'a',yAxisID:'y',order:3},
+  {label:'成本+費用',data:DATA.months.map((m,i)=>-(DATA.cost[i]+DATA.expense[i])),backgroundColor:'#ff5d6c',borderRadius:3,stack:'a',yAxisID:'y',order:2},
+  {type:'line',label:'淨流入(右軸)',data:netFlow,borderColor:'#ffb454',backgroundColor:'#ffb454',borderWidth:3,tension:.3,pointRadius:4,pointHoverRadius:6,yAxisID:'y1',order:1}
+]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{tooltip:{callbacks:{label:c=>c.dataset.label.replace('(右軸)','')+'：NT$'+c.parsed.y.toLocaleString()}}},
+  scales:{
+    y:{position:'left',title:{display:true,text:'收入 / 支出'},ticks:{callback:v=>v/1000+'k'}},
+    y1:{position:'right',title:{display:true,text:'淨流入',color:'#ffb454'},grid:{drawOnChartArea:false},ticks:{color:'#ffb454',callback:v=>v/1000+'k'}}
+  }}});
 
 /* ---------- cashflow table ---------- */
 function rowsTable(el,head,rows,totals){

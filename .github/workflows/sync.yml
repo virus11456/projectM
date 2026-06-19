@@ -1,0 +1,65 @@
+name: 每日自動同步資料
+
+on:
+  schedule:
+    - cron: "0 1 * * *"   # 每天 01:00 UTC（台灣 09:00）
+  workflow_dispatch: {}    # 也可手動觸發
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 安裝套件
+        run: pip install --quiet openpyxl
+
+      - name: 同步日記帳（公開 Google Sheet → data/projects_monthly.json）
+        run: python scripts/build_data.py
+
+      - name: 同步 Notion 看板（→ data/notion_projects.json）
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        run: |
+          if [ -n "$NOTION_TOKEN" ]; then
+            python scripts/fetch_notion.py
+          else
+            echo "⚠️ 未設定 NOTION_TOKEN，略過 Notion 同步"
+          fi
+
+      - name: 提交資料變更
+        run: |
+          git config user.name "auto-sync[bot]"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then
+            echo "資料無變更"
+          else
+            git commit -m "chore: 每日自動同步資料 ($(date -u +%Y-%m-%d))"
+            git push
+          fi
+
+      - name: 部署到 Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: team_SQDuwfJ6mh6QlhQdBWLfeWiV
+          VERCEL_PROJECT_ID: prj_Pn6pF195CUvhj0ssZIbD3gWHKeF4
+        run: |
+          if [ -n "$VERCEL_TOKEN" ]; then
+            npx --yes vercel deploy --prod --yes --token "$VERCEL_TOKEN"
+          else
+            echo "⚠️ 未設定 VERCEL_TOKEN，略過部署"
+          fi

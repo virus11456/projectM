@@ -394,17 +394,22 @@ document.getElementById('netFuture').innerHTML=(futureNet>=0?'<span class="pos">
 (function(){
   const today=new Date(), todayStr=today.toISOString().slice(0,10);
   const dago=d=>Math.floor((today-new Date(d))/86400000);
-  const active=new Set(['專案執行中','開發中正在談(正在聊執行細節)','開發中名單(尚未聊細節)','專案暫停','無主專案(PENDING)']);
+  const active=new Set(['執行中','開發中-洽談中','開發中-初步接觸','暫停','待認領']);
   const strip=n=>n.replace(/^\s*[\[\［][^\]\］]*[\]\］]\s*/,'');
+  // Trello 嵌入資料的 fallback（萬一抓不到 notion_projects.json）
+  const lmap={'專案執行中':'執行中','開發中正在談(正在聊執行細節)':'開發中-洽談中','開發中名單(尚未聊細節)':'開發中-初步接觸','專案暫停':'暫停','無主專案(PENDING)':'待認領'};
+  const fallback=TRELLO.cards.map(c=>({name:c.name,status:lmap[c.list]||c.list,due:c.due,priority:(c.labels&&c.labels.includes('重要'))?'重要':null}));
+  fetch('data/notion_projects.json').then(r=>r.json()).then(d=>build(d.cards)).catch(()=>build(fallback));
+  function build(cards){
   const A=[];
   // 1. 逾期
-  const od=TRELLO.cards.filter(c=>c.due&&c.due.slice(0,10)<todayStr&&!c.dueComplete&&active.has(c.list))
+  const od=cards.filter(c=>c.due&&c.due.slice(0,10)<todayStr&&active.has(c.status))
     .sort((a,b)=>dago(b.due.slice(0,10))-dago(a.due.slice(0,10)));
   if(od.length)A.push({lv:'red',ic:'⏰',t:`${od.length} 件專案逾期未完成`,
     d:'最久：'+od.slice(0,3).map(c=>`${strip(c.name)}（逾期 ${dago(c.due.slice(0,10))} 天）`).join('、'),
     go:'delivery.html',goT:'看交付/Delay 雷達 →'});
   // 2. 7天內到期
-  const soon=TRELLO.cards.filter(c=>{if(!c.due||c.dueComplete||!active.has(c.list))return false;const x=dago(c.due.slice(0,10));return x<=0&&x>=-7;})
+  const soon=cards.filter(c=>{if(!c.due||!active.has(c.status))return false;const x=dago(c.due.slice(0,10));return x<=0&&x>=-7;})
     .sort((a,b)=>dago(b.due.slice(0,10))-dago(a.due.slice(0,10)));
   if(soon.length)A.push({lv:'amber',ic:'⏳',t:`${soon.length} 件 7 天內到期`,
     d:soon.slice(0,4).map(c=>`${strip(c.name)}（${c.due.slice(5,10)}）`).join('、'),go:'delivery.html',goT:'看即將到期 →'});
@@ -431,6 +436,7 @@ document.getElementById('netFuture').innerHTML=(futureNet>=0?'<span class="pos">
   el.innerHTML=A.map(a=>`<div class="alert ${a.lv}"><div class="ic">${a.ic}</div><div class="body">
     <div class="t">${a.t}</div><div class="d">${a.d}</div>
     ${a.go?`<a class="go" href="${a.go}">${a.goT||'查看 →'}</a>`:''}</div></div>`).join('');
+  }
 })();
 
 /* ---------- nav scroll-spy ---------- */

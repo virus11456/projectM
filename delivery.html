@@ -77,21 +77,21 @@ const today=new Date();
 const todayStr=today.toISOString().slice(0,10);
 const days=(d)=>Math.floor((today - new Date(d))/86400000);
 const fmt=n=>n.toLocaleString('en-US');
-const activeLists=new Set(['專案執行中','開發中正在談(正在聊執行細節)','開發中名單(尚未聊細節)','專案暫停','無主專案(PENDING)']);
-const stageShort={'專案執行中':'執行中','開發中正在談(正在聊執行細節)':'洽談中','開發中名單(尚未聊細節)':'開發中','專案暫停':'暫停','無主專案(PENDING)':'待認領'};
-const stageCls={'專案執行中':'b-run','開發中正在談(正在聊執行細節)':'b-dev','開發中名單(尚未聊細節)':'b-dev','專案暫停':'b-pause','無主專案(PENDING)':'b-pend'};
+const activeStatus=new Set(['執行中','開發中-洽談中','開發中-初步接觸','暫停','待認領']);
+const stageShort={'執行中':'執行中','開發中-洽談中':'洽談中','開發中-初步接觸':'開發中','暫停':'暫停','待認領':'待認領'};
+const stageCls={'執行中':'b-run','開發中-洽談中':'b-dev','開發中-初步接觸':'b-dev','暫停':'b-pause','待認領':'b-pend'};
 
 Promise.all([
-  fetch('data/trello.json').then(r=>r.json()),
+  fetch('data/notion_projects.json').then(r=>r.json()),
   fetch('data/projects_monthly.json').then(r=>r.json())
 ]).then(([T,P])=>{
-  document.getElementById('sub').textContent=`資料更新：${P.updated} · 來源：Trello 到期日 + 日記帳 · 今天 ${todayStr}`;
+  document.getElementById('sub').textContent=`資料更新：${T.updated} · 來源：Notion 截止日期 + 日記帳 · 今天 ${todayStr}`;
 
-  // 逾期
-  const overdue=T.cards.filter(c=>c.due && c.due.slice(0,10)<todayStr && !c.dueComplete && activeLists.has(c.list))
+  // 逾期（依 Notion 截止日期；已結案/未合作不計）
+  const overdue=T.cards.filter(c=>c.due && c.due.slice(0,10)<todayStr && activeStatus.has(c.status))
     .map(c=>({...c,od:days(c.due.slice(0,10))})).sort((a,b)=>b.od-a.od);
   // 即將到期
-  const soon=T.cards.filter(c=>{if(!c.due||c.dueComplete||!activeLists.has(c.list))return false;
+  const soon=T.cards.filter(c=>{if(!c.due||!activeStatus.has(c.status))return false;
     const d=days(c.due.slice(0,10)); return d<=0 && d>=-14;})
     .map(c=>({...c,inn:-days(c.due.slice(0,10))})).sort((a,b)=>a.inn-b.inn);
   // 續約雷達
@@ -114,16 +114,16 @@ Promise.all([
   ].map(k=>`<div class="kpi"><div class="lab">${k[0]}</div><div class="val" style="color:${k[2]}">${k[1]}</div></div>`).join('');
 
   // 逾期表
-  const imp=c=>c.labels&&c.labels.includes('重要')?'<span class="imp">🔴重要</span>':'<span class="mut">普通</span>';
+  const imp=c=>c.priority==='重要'?'<span class="imp">🔴重要</span>':'<span class="mut">'+(c.priority||'—')+'</span>';
   document.getElementById('odTable').innerHTML = overdue.length?
-    '<thead><tr><th>到期日</th><th class="r">逾期</th><th>階段</th><th>專案卡片</th><th>優先</th></tr></thead><tbody>'+
-    overdue.map(c=>`<tr><td>${c.due.slice(0,10)}</td><td class="r od">${c.od} 天</td><td><span class="badge ${stageCls[c.list]}">${stageShort[c.list]}</span></td><td>${c.name}</td><td>${imp(c)}</td></tr>`).join('')+'</tbody>'
+    '<thead><tr><th>到期日</th><th class="r">逾期</th><th>狀態</th><th>專案卡片</th><th>優先</th></tr></thead><tbody>'+
+    overdue.map(c=>`<tr><td>${c.due.slice(0,10)}</td><td class="r od">${c.od} 天</td><td><span class="badge ${stageCls[c.status]}">${stageShort[c.status]}</span></td><td>${c.name}</td><td>${imp(c)}</td></tr>`).join('')+'</tbody>'
     : '<tbody><tr><td class="empty">沒有逾期卡片 🎉</td></tr></tbody>';
 
   // 即將到期
   document.getElementById('soonTable').innerHTML = soon.length?
-    '<thead><tr><th>到期日</th><th class="r">剩餘</th><th>階段</th><th>專案卡片</th><th>優先</th></tr></thead><tbody>'+
-    soon.map(c=>`<tr><td>${c.due.slice(0,10)}</td><td class="r soon">${c.inn} 天</td><td><span class="badge ${stageCls[c.list]}">${stageShort[c.list]}</span></td><td>${c.name}</td><td>${imp(c)}</td></tr>`).join('')+'</tbody>'
+    '<thead><tr><th>到期日</th><th class="r">剩餘</th><th>狀態</th><th>專案卡片</th><th>優先</th></tr></thead><tbody>'+
+    soon.map(c=>`<tr><td>${c.due.slice(0,10)}</td><td class="r soon">${c.inn} 天</td><td><span class="badge ${stageCls[c.status]}">${stageShort[c.status]}</span></td><td>${c.name}</td><td>${imp(c)}</td></tr>`).join('')+'</tbody>'
     : '<tbody><tr><td class="empty">未來 14 天內沒有到期卡片</td></tr></tbody>';
 
   // 續約雷達
@@ -134,8 +134,8 @@ Promise.all([
     : '<tbody><tr><td class="empty">所有客戶後續都有排程</td></tr></tbody>';
 
   document.getElementById('note').innerHTML=
-    `※ 目前只有 <b>${T.cards.filter(c=>c.due).length}</b> 張卡片有填到期日，所以逾期偵測僅涵蓋這些。`+
-    `其餘進行中專案若要納入 delay 偵測，把「預計完成／請款日」告訴我，我會幫你填回 Notion 同步看板（截止日期欄），這頁就會自動納入。`;
+    `※ 來源為 <b>Notion 同步看板</b>的「截止日期」欄；目前 <b>${T.cards.filter(c=>c.due).length}</b> 張卡片有填日期，逾期偵測涵蓋這些。`+
+    `你在 Notion 補上更多截止日期後，每日自動同步就會把這頁更新（也可手動觸發 GitHub Action）。`;
 }).catch(e=>{document.getElementById('sub').textContent='載入失敗：'+e;});
 </script>
 </body>

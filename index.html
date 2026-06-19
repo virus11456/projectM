@@ -73,6 +73,15 @@
         border-radius:8px;padding:11px 14px;color:var(--mut);font-size:12.5px;line-height:1.6;margin-top:14px}
   .grid2{display:grid;grid-template-columns:1.3fr 1fr;gap:18px}
   .pill{font-size:11px;padding:3px 9px;border-radius:20px;background:var(--panel2);color:var(--mut);border:1px solid var(--line)}
+  /* alerts */
+  .alert{display:flex;gap:12px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--mut);border-radius:12px;padding:13px 15px;margin-bottom:10px}
+  .alert.red{border-left-color:var(--red)} .alert.amber{border-left-color:var(--amber)} .alert.green{border-left-color:var(--green)} .alert.blue{border-left-color:var(--accent)}
+  .alert .ic{font-size:19px;line-height:1.2}
+  .alert .t{font-weight:700;font-size:14px}
+  .alert .d{color:var(--mut);font-size:12.5px;margin-top:3px;line-height:1.5}
+  .alert .go{font-size:12px;margin-top:5px;display:inline-block;font-weight:600}
+  .alert .body{flex:1}
+  .ok{background:rgba(39,192,147,.1);border-color:rgba(39,192,147,.3);color:var(--green);padding:13px 15px;border-radius:12px;font-size:13px}
   /* ---------- RWD ---------- */
   @media(max-width:900px){
     .layout{flex-direction:column}
@@ -104,7 +113,8 @@
   <aside class="side">
     <div class="brand">簡單行銷<small>營運中台 · FY2026</small></div>
     <nav class="nav" id="nav">
-      <a data-t="overview" class="active">📊 營運總覽</a>
+      <a data-t="alerts" class="active">🔔 重點提醒</a>
+      <a data-t="overview">📊 營運總覽</a>
       <a href="pmonth.html">💰 專案×月份進帳 ↗</a>
       <a href="delivery.html">⏱️ 交付/Delay 雷達 ↗</a>
       <a href="https://app.notion.com/p/51e7d8bdea014a32ad1fb7c8d13c0384" target="_blank">🗂️ Notion 專案看板 ↗</a>
@@ -123,6 +133,12 @@
   <main class="main">
     <h1>營運中台 Dashboard</h1>
     <div class="sub">簡單行銷顧問有限公司 · 2026 會計年度 · 金額單位 NT$</div>
+
+    <!-- ALERTS -->
+    <section class="sec" id="alerts">
+      <h2><span class="bar" style="background:var(--red)"></span>重點提醒 <span class="muted" style="font-size:11px;font-weight:400">· 自動掃描 Trello + 日記帳</span></h2>
+      <div id="alertList"></div>
+    </section>
 
     <!-- OVERVIEW -->
     <section class="sec" id="overview">
@@ -372,6 +388,49 @@ document.getElementById('netFuture').innerHTML=(futureNet>=0?'<span class="pos">
     h+=`<tr><td>${c.name}</td><td style="text-align:left"><span class="badge ${stageBadge[c.list]||'b-run'}">${stageShort[c.list]||c.list}</span></td><td>${imp}</td><td>${due}</td><td>${clk}</td></tr>`;
   });
   document.getElementById('progTable').innerHTML=h+'</tbody>';
+})();
+
+/* ---------- 重點提醒 ---------- */
+(function(){
+  const today=new Date(), todayStr=today.toISOString().slice(0,10);
+  const dago=d=>Math.floor((today-new Date(d))/86400000);
+  const active=new Set(['專案執行中','開發中正在談(正在聊執行細節)','開發中名單(尚未聊細節)','專案暫停','無主專案(PENDING)']);
+  const strip=n=>n.replace(/^\s*[\[\［][^\]\］]*[\]\］]\s*/,'');
+  const A=[];
+  // 1. 逾期
+  const od=TRELLO.cards.filter(c=>c.due&&c.due.slice(0,10)<todayStr&&!c.dueComplete&&active.has(c.list))
+    .sort((a,b)=>dago(b.due.slice(0,10))-dago(a.due.slice(0,10)));
+  if(od.length)A.push({lv:'red',ic:'⏰',t:`${od.length} 件專案逾期未完成`,
+    d:'最久：'+od.slice(0,3).map(c=>`${strip(c.name)}（逾期 ${dago(c.due.slice(0,10))} 天）`).join('、'),
+    go:'delivery.html',goT:'看交付/Delay 雷達 →'});
+  // 2. 7天內到期
+  const soon=TRELLO.cards.filter(c=>{if(!c.due||c.dueComplete||!active.has(c.list))return false;const x=dago(c.due.slice(0,10));return x<=0&&x>=-7;})
+    .sort((a,b)=>dago(b.due.slice(0,10))-dago(a.due.slice(0,10)));
+  if(soon.length)A.push({lv:'amber',ic:'⏳',t:`${soon.length} 件 7 天內到期`,
+    d:soon.slice(0,4).map(c=>`${strip(c.name)}（${c.due.slice(5,10)}）`).join('、'),go:'delivery.html',goT:'看即將到期 →'});
+  // 3. 續約雷達
+  const cur=today.getMonth();
+  const renew=PMD.projects.filter(p=>{const t=p.rev.reduce((a,b)=>a+b,0);return t>0&&p.name!=='營運'&&p.rev.slice(cur+1).reduce((a,b)=>a+b,0)<=0;})
+    .map(p=>({name:p.name,sum:p.rev.reduce((a,b)=>a+b,0)})).sort((a,b)=>b.sum-a.sum);
+  if(renew.length){const big=renew.filter(r=>r.sum>=300000);
+    A.push({lv:'green',ic:'📡',t:`${renew.length} 個客戶後續沒排程 — 該主動聊新案`,
+      d:(big.length?'⭐ 大客戶：'+big.map(r=>`${r.name}（年 ${Math.round(r.sum/10000)} 萬）`).join('、')+'；':'')
+        +'其餘：'+renew.filter(r=>r.sum<300000).slice(0,4).map(r=>r.name).join('、'),
+      go:'delivery.html',goT:'看續約雷達 →'});}
+  // 4. 現金流為負的月份
+  const neg=DATA.months.map((m,i)=>({m,n:DATA.revenue[i]-DATA.cost[i]-DATA.expense[i]})).filter(x=>x.n<0);
+  if(neg.length)A.push({lv:'amber',ic:'💸',t:`${neg.map(x=>x.m).join('、')} 單月淨現金流為負`,
+    d:'這幾個月進帳 < 支出，需留意當月現金水位（可先備好周轉）。',go:'#cashflow',goT:'看每月現金流 →'});
+  // 5. 下半年營收下滑
+  const h1=DATA.revenue.slice(0,6).reduce((a,b)=>a+b,0), h2=DATA.revenue.slice(6).reduce((a,b)=>a+b,0);
+  if(h2<h1*0.5)A.push({lv:'blue',ic:'📉',t:`下半年營收預估較上半年驟降 ${Math.round((1-h2/h1)*100)}%`,
+    d:`上半年 NT$${(h1/1e6).toFixed(1)}M → 下半年 NT$${(h2/1e6).toFixed(1)}M，廣告案多集中上半年，建議提前補單。`,go:'#overview',goT:'看每月營收 →'});
+
+  const el=document.getElementById('alertList');
+  if(!A.length){el.innerHTML='<div class="ok">✅ 目前沒有需要立即處理的提醒，一切正常。</div>';return;}
+  el.innerHTML=A.map(a=>`<div class="alert ${a.lv}"><div class="ic">${a.ic}</div><div class="body">
+    <div class="t">${a.t}</div><div class="d">${a.d}</div>
+    ${a.go?`<a class="go" href="${a.go}">${a.goT||'查看 →'}</a>`:''}</div></div>`).join('');
 })();
 
 /* ---------- nav scroll-spy ---------- */

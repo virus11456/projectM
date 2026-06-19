@@ -72,8 +72,31 @@
   .note{background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--amber);
         border-radius:8px;padding:11px 14px;color:var(--mut);font-size:12.5px;line-height:1.6;margin-top:14px}
   .grid2{display:grid;grid-template-columns:1.3fr 1fr;gap:18px}
-  @media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}.cards3,.grid2{grid-template-columns:1fr}.side{display:none}}
   .pill{font-size:11px;padding:3px 9px;border-radius:20px;background:var(--panel2);color:var(--mut);border:1px solid var(--line)}
+  /* ---------- RWD ---------- */
+  @media(max-width:900px){
+    .layout{flex-direction:column}
+    .side{width:auto;height:auto;position:sticky;top:0;border-right:none;border-bottom:1px solid var(--line);padding:9px 10px;z-index:30}
+    .brand{font-size:14px;margin:2px 6px 8px}
+    .brand small{display:inline;margin:0 0 0 8px;font-size:10px}
+    .nav{flex-direction:row;overflow-x:auto;gap:7px;margin-top:0;padding-bottom:3px;-webkit-overflow-scrolling:touch}
+    .nav::-webkit-scrollbar{height:0}
+    .nav a{white-space:nowrap;flex-shrink:0;font-size:12.5px;padding:7px 11px}
+    .side-foot{display:none}
+    .main{padding:18px 14px 56px}
+    h1{font-size:18px}
+    .sub{font-size:12px;margin-bottom:18px}
+    .kpis{grid-template-columns:repeat(2,1fr);gap:10px}
+    .cards3,.grid2{grid-template-columns:1fr;gap:12px}
+    .kpi .val{font-size:20px}
+    .card .amt{font-size:22px}
+    .sec{margin-bottom:30px}
+    canvas{max-height:260px}
+  }
+  @media(max-width:480px){
+    .kpis{grid-template-columns:1fr}
+    .nav a{font-size:12px;padding:6px 10px}
+  }
 </style>
 </head>
 <body>

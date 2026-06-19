@@ -38,7 +38,15 @@
   .kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
   .kpi .lab{color:var(--mut);font-size:12px;font-weight:600}
   .kpi .val{font-size:26px;font-weight:800;margin-top:6px}
-  @media(max-width:700px){.kpis{grid-template-columns:1fr}}
+  @media(max-width:700px){
+    .kpis{grid-template-columns:repeat(3,1fr);gap:10px}
+    .kpi{padding:11px 12px}.kpi .val{font-size:21px}
+    .top{padding:14px 14px}.top h1{font-size:16px}
+    .wrap{padding:16px 14px 60px}
+    h2{font-size:14px}
+    th,td{padding:8px 10px}
+  }
+  @media(max-width:430px){.kpis{grid-template-columns:1fr}}
 </style>
 </head>
 <body>

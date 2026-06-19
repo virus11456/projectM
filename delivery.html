@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>交付 / Delay 雷達 · 簡單行銷營運中台</title>
+<style>
+  :root{--bg:#0f1115;--panel:#171a21;--panel2:#1e2230;--line:#272c3a;--txt:#e7e9ee;--mut:#9aa3b2;--accent:#4f8cff;--green:#27c093;--red:#ff5d6c;--amber:#ffb454;--purple:#9b7bff;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Inter","Noto Sans TC",system-ui,"PingFang TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--txt);-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  .top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:18px 26px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:20}
+  .top h1{font-size:18px;margin:0}
+  .top .sub{color:var(--mut);font-size:12.5px}
+  .back{font-size:13px;font-weight:600;padding:7px 13px;border:1px solid var(--line);border-radius:9px;color:var(--txt)}
+  .back:hover{background:var(--panel2)}
+  .wrap{padding:22px 26px 70px;max-width:1100px}
+  h2{font-size:15px;margin:30px 0 4px;display:flex;align-items:center;gap:8px}
+  h2 .bar{width:4px;height:15px;border-radius:3px;display:inline-block}
+  .ssub{color:var(--mut);font-size:12.5px;margin:0 0 12px}
+  .tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+  table{border-collapse:collapse;width:100%;font-size:13px;white-space:nowrap}
+  th,td{padding:9px 13px;text-align:left;border-bottom:1px solid var(--line)}
+  thead th{color:var(--mut);font-weight:700;font-size:11.5px;background:var(--panel2)}
+  tbody tr:hover td{background:rgba(79,140,255,.06)}
+  td.r,th.r{text-align:right}
+  .badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px}
+  .b-run{background:rgba(255,180,84,.16);color:var(--amber)}
+  .b-dev{background:rgba(155,123,255,.16);color:var(--purple)}
+  .b-pause{background:rgba(255,93,108,.16);color:var(--red)}
+  .b-pend{background:rgba(154,163,178,.16);color:var(--mut)}
+  .od{color:var(--red);font-weight:700}
+  .soon{color:var(--amber);font-weight:700}
+  .imp{color:var(--red)}
+  .mut{color:var(--mut)}
+  .empty{padding:16px;color:var(--mut);font-size:13px}
+  .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .kpi .lab{color:var(--mut);font-size:12px;font-weight:600}
+  .kpi .val{font-size:26px;font-weight:800;margin-top:6px}
+  @media(max-width:700px){.kpis{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <div class="top">
+    <a class="back" href="/">← 回主控台</a>
+    <div><h1>⏱️ 交付 / Delay 雷達</h1><div class="sub" id="sub">載入中…</div></div>
+  </div>
+  <div class="wrap">
+    <div class="kpis" id="kpis"></div>
+
+    <h2><span class="bar" style="background:var(--red)"></span>🔴 逾期未完成（Trello 到期日已過、未勾完成、未結案）</h2>
+    <div class="ssub">這些是「該做完／該請款卻還沒結」的——最可能 delay 的點。逾期越久越上面。</div>
+    <div class="tbl-wrap"><table id="odTable"></table></div>
+
+    <h2><span class="bar" style="background:var(--amber)"></span>⏳ 14 天內即將到期</h2>
+    <div class="ssub">接下來兩週要交付／請款的卡片，先盯住別變逾期。</div>
+    <div class="tbl-wrap"><table id="soonTable"></table></div>
+
+    <h2><span class="bar" style="background:var(--green)"></span>📡 續約雷達 — 後續沒排程的客戶（該去聊新案）</h2>
+    <div class="ssub">依日記帳：這些客戶今年有進帳，但<b>當月之後沒有任何排定的進帳</b>＝快斷單，建議主動聯繫談新案／續約。</div>
+    <div class="tbl-wrap"><table id="renewTable"></table></div>
+
+    <div class="ssub" id="note" style="margin-top:22px"></div>
+  </div>
+
+<script>
+const today=new Date();
+const todayStr=today.toISOString().slice(0,10);
+const days=(d)=>Math.floor((today - new Date(d))/86400000);
+const fmt=n=>n.toLocaleString('en-US');
+const activeLists=new Set(['專案執行中','開發中正在談(正在聊執行細節)','開發中名單(尚未聊細節)','專案暫停','無主專案(PENDING)']);
+const stageShort={'專案執行中':'執行中','開發中正在談(正在聊執行細節)':'洽談中','開發中名單(尚未聊細節)':'開發中','專案暫停':'暫停','無主專案(PENDING)':'待認領'};
+const stageCls={'專案執行中':'b-run','開發中正在談(正在聊執行細節)':'b-dev','開發中名單(尚未聊細節)':'b-dev','專案暫停':'b-pause','無主專案(PENDING)':'b-pend'};
+
+Promise.all([
+  fetch('data/trello.json').then(r=>r.json()),
+  fetch('data/projects_monthly.json').then(r=>r.json())
+]).then(([T,P])=>{
+  document.getElementById('sub').textContent=`資料更新：${P.updated} · 來源：Trello 到期日 + 日記帳 · 今天 ${todayStr}`;
+
+  // 逾期
+  const overdue=T.cards.filter(c=>c.due && c.due.slice(0,10)<todayStr && !c.dueComplete && activeLists.has(c.list))
+    .map(c=>({...c,od:days(c.due.slice(0,10))})).sort((a,b)=>b.od-a.od);
+  // 即將到期
+  const soon=T.cards.filter(c=>{if(!c.due||c.dueComplete||!activeLists.has(c.list))return false;
+    const d=days(c.due.slice(0,10)); return d<=0 && d>=-14;})
+    .map(c=>({...c,inn:-days(c.due.slice(0,10))})).sort((a,b)=>a.inn-b.inn);
+  // 續約雷達
+  const curIdx=today.getMonth(); // 0-based; June=5 → 未來=index>5
+  const renew=P.projects.filter(p=>{
+    const tot=p.rev.reduce((a,b)=>a+b,0);
+    if(tot<=0||p.name==='營運'||p.name==='（未標專案）')return false;
+    const future=p.rev.slice(curIdx+1).reduce((a,b)=>a+b,0);
+    return future<=0;
+  }).map(p=>{
+    const last=Math.max(...p.rev.map((v,i)=>v>0?i:-1));
+    return {name:p.name,sum:p.rev.reduce((a,b)=>a+b,0),last:last+1};
+  }).sort((a,b)=>b.sum-a.sum);
+
+  // KPI
+  document.getElementById('kpis').innerHTML=[
+    ['逾期未完成',overdue.length,'var(--red)'],
+    ['14天內到期',soon.length,'var(--amber)'],
+    ['後續沒排程客戶',renew.length,'var(--green)']
+  ].map(k=>`<div class="kpi"><div class="lab">${k[0]}</div><div class="val" style="color:${k[2]}">${k[1]}</div></div>`).join('');
+
+  // 逾期表
+  const imp=c=>c.labels&&c.labels.includes('重要')?'<span class="imp">🔴重要</span>':'<span class="mut">普通</span>';
+  document.getElementById('odTable').innerHTML = overdue.length?
+    '<thead><tr><th>到期日</th><th class="r">逾期</th><th>階段</th><th>專案卡片</th><th>優先</th></tr></thead><tbody>'+
+    overdue.map(c=>`<tr><td>${c.due.slice(0,10)}</td><td class="r od">${c.od} 天</td><td><span class="badge ${stageCls[c.list]}">${stageShort[c.list]}</span></td><td>${c.name}</td><td>${imp(c)}</td></tr>`).join('')+'</tbody>'
+    : '<tbody><tr><td class="empty">沒有逾期卡片 🎉</td></tr></tbody>';
+
+  // 即將到期
+  document.getElementById('soonTable').innerHTML = soon.length?
+    '<thead><tr><th>到期日</th><th class="r">剩餘</th><th>階段</th><th>專案卡片</th><th>優先</th></tr></thead><tbody>'+
+    soon.map(c=>`<tr><td>${c.due.slice(0,10)}</td><td class="r soon">${c.inn} 天</td><td><span class="badge ${stageCls[c.list]}">${stageShort[c.list]}</span></td><td>${c.name}</td><td>${imp(c)}</td></tr>`).join('')+'</tbody>'
+    : '<tbody><tr><td class="empty">未來 14 天內沒有到期卡片</td></tr></tbody>';
+
+  // 續約雷達
+  const mn=['','1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+  document.getElementById('renewTable').innerHTML = renew.length?
+    '<thead><tr><th>客戶／專案</th><th class="r">今年進帳</th><th>排程到</th><th>建議</th></tr></thead><tbody>'+
+    renew.map(p=>`<tr><td><b>${p.name}</b></td><td class="r">${fmt(p.sum)}</td><td>${mn[p.last]}</td><td class="mut">${p.sum>500000?'⭐ 大客戶，優先聯繫':'主動詢問續約／新需求'}</td></tr>`).join('')+'</tbody>'
+    : '<tbody><tr><td class="empty">所有客戶後續都有排程</td></tr></tbody>';
+
+  document.getElementById('note').innerHTML=
+    `※ 目前只有 <b>${T.cards.filter(c=>c.due).length}</b> 張卡片有填到期日，所以逾期偵測僅涵蓋這些。`+
+    `其餘進行中專案若要納入 delay 偵測，把「預計完成／請款日」告訴我，我會幫你填回 Notion 同步看板（截止日期欄），這頁就會自動納入。`;
+}).catch(e=>{document.getElementById('sub').textContent='載入失敗：'+e;});
+</script>
+</body>
+</html>

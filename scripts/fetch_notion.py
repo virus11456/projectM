@@ -53,6 +53,7 @@ def main():
                 "due": _date(pr.get("截止日期")),
                 "priority": _sel(pr.get("優先級")),
                 "customer": _text(pr.get("客戶")),
+                "note": _text(pr.get("備註")),
                 "last": _date(pr.get("最後活動")),
             })
         if d.get("has_more"):

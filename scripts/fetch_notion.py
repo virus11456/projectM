@@ -29,6 +29,9 @@ def _date(p):
     v = p.get("date") if p else None
     return v["start"][:10] if v and v.get("start") else None
 
+def _text(p):
+    return "".join(t["plain_text"] for t in p.get("rich_text", [])) if p else ""
+
 def main():
     cards, cursor = [], None
     while True:
@@ -49,6 +52,7 @@ def main():
                 "status": _sel(pr.get("狀態")),
                 "due": _date(pr.get("截止日期")),
                 "priority": _sel(pr.get("優先級")),
+                "customer": _text(pr.get("客戶")),
                 "last": _date(pr.get("最後活動")),
             })
         if d.get("has_more"):

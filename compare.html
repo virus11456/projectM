@@ -16,12 +16,12 @@
   .wrap{padding:14px 20px 70px}
   /* 現金彙總 */
   .sumrow{display:flex;gap:14px;flex-wrap:wrap;margin:4px 2px 14px}
-  .scard{flex:1;min-width:170px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 16px}
-  .scard .lab{font-size:12px;color:var(--mut);font-weight:600;display:flex;align-items:center;gap:6px}
-  .scard .val{font-size:24px;font-weight:800;margin-top:5px}
-  .scard.recv{border-color:rgba(255,180,84,.5)} .scard.recv .val{color:var(--amber)}
-  .scard.fore{border-color:rgba(39,192,147,.5)} .scard.fore .val{color:var(--green)}
-  .scard .hint{font-size:10.5px;color:var(--mut);margin-top:3px;line-height:1.4}
+  .scard{flex:1 1 0;min-width:172px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 16px}
+  .scard .lab{font-size:12px;color:var(--mut);font-weight:600;display:flex;align-items:center;gap:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .scard .val{font-size:24px;font-weight:800;margin-top:5px;line-height:1.15}
+  .scard .hint{font-size:10.5px;color:var(--mut);margin-top:3px;line-height:1.35;height:28px;overflow:hidden}
+  .scard.recv .val{color:var(--amber)}
+  .scard.fore .val{color:var(--green)}
   .legend{color:var(--mut);font-size:12px;margin:0 2px 12px;line-height:1.9}
   .lg{display:inline-flex;align-items:center;gap:5px;margin-right:14px}
   .swatch{width:30px;height:15px;border-radius:5px;display:inline-block;vertical-align:middle}
@@ -29,9 +29,9 @@
   .sw-recv{background:rgba(255,180,84,.18);border:1.5px dashed var(--amber)}
   .sw-past{background:rgba(255,255,255,.06);border:1px solid var(--line)}
   .tl{border:1px solid var(--line);border-radius:12px;overflow:auto;max-height:calc(100vh - 300px)}
-  .scard.pay{border-color:rgba(255,122,133,.5)} .scard.pay .val{color:#ff7a85}
-  .scard.med{border-color:rgba(139,147,163,.5)} .scard.med .val{color:#aab2c2}
-  .scard.net{border-color:rgba(79,140,255,.6)} .scard.net .val{color:#6aa0ff}
+  .scard.pay .val{color:#ff7a85}
+  .scard.med .val{color:#aab2c2}
+  .scard.net .val{color:#6aa0ff}
   .grid{min-width:1100px}
   .hrow{display:flex;position:sticky;top:0;z-index:8;background:var(--panel2);border-bottom:1px solid var(--line)}
   .hname{flex:0 0 210px;padding:10px 14px;font-size:11.5px;font-weight:700;color:var(--mut);border-right:2px solid var(--line);position:sticky;left:0;background:var(--panel2);z-index:9}
@@ -189,9 +189,9 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
   document.getElementById('sumrow').innerHTML=
     `<div class="scard recv"><div class="lab">📩 應收帳款</div><div class="val">$${fmt(recvTot)}</div><div class="hint">本月正在做、即將請款</div></div>`+
     `<div class="scard fore"><div class="lab">💰 預計收入</div><div class="val">$${fmt(foreTot)}</div><div class="hint">本月之後已排程、未執行</div></div>`+
-    `<div class="scard pay"><div class="lab">💸 應付外包（服務費）</div><div class="val">-$${fmt(svcTot)}</div><div class="hint">接下來要付給外包/合作夥伴</div></div>`+
-    `<div class="scard net"><div class="lab">🟰 淨收入（收入−外包）</div><div class="val">$${fmt(recvTot+foreTot-svcTot)}</div><div class="hint">應收＋預計 −外包服務費</div></div>`+
-    `<div class="scard med"><div class="lab">📺 廣告媒體費（客戶回補）</div><div class="val">-$${fmt(mediaTot)}</div><div class="hint">先墊投放、客戶儲值回補，淨額≈0</div></div>`;
+    `<div class="scard pay"><div class="lab">💸 應付外包</div><div class="val">-$${fmt(svcTot)}</div><div class="hint">服務費，付給外包／合作夥伴</div></div>`+
+    `<div class="scard net"><div class="lab">🟰 淨收入</div><div class="val">$${fmt(recvTot+foreTot-svcTot)}</div><div class="hint">應收＋預計 −外包服務費</div></div>`+
+    `<div class="scard med"><div class="lab">📺 廣告媒體費</div><div class="val">-$${fmt(mediaTot)}</div><div class="hint">客戶儲值回補，淨額≈0</div></div>`;
   document.getElementById('grid').innerHTML=h;
 }).catch(e=>{document.getElementById('sub').textContent='載入失敗：'+e;});
 </script>

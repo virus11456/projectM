@@ -41,15 +41,15 @@
   .grp{display:flex;align-items:center;gap:8px;background:#10131a;border-top:1px solid var(--line);padding:7px 14px;font-size:12px;font-weight:800;position:sticky;left:0;z-index:3}
   .grp .gd{width:11px;height:11px;border-radius:3px;flex-shrink:0}
   .grp .gt{color:var(--mut);font-weight:600;font-size:11px;margin-left:auto}
-  .row{display:flex;align-items:stretch;min-height:66px;border-top:1px solid rgba(39,44,58,.45)}
+  .row{display:flex;align-items:stretch;height:70px;border-top:1px solid rgba(39,44,58,.45)}
   .row:hover{background:rgba(255,255,255,.025)}
-  .rname{flex:0 0 210px;padding:8px 12px 8px 26px;font-size:12.5px;font-weight:600;border-right:2px solid var(--line);position:sticky;left:0;background:var(--panel);z-index:2;display:flex;flex-direction:column;justify-content:center;gap:3px;line-height:1.3}
+  .rname{flex:0 0 210px;overflow:hidden;padding:8px 12px 8px 26px;font-size:12.5px;font-weight:600;border-right:2px solid var(--line);position:sticky;left:0;background:var(--panel);z-index:2;display:flex;flex-direction:column;justify-content:center;gap:3px;line-height:1.3}
   .row:hover .rname{background:#1b1f29}
   .rname .rdot{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%}
   .rname .nmline{display:flex;align-items:center;min-width:0}
   .rname .tag{flex:0 0 auto;font-size:10px;font-weight:800;padding:2px 6px;border-radius:5px;margin-right:6px;background:rgba(255,255,255,.08);color:#cdd3df;letter-spacing:.3px}
   .rname .nm{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .pay{display:flex;flex-wrap:wrap;gap:4px 8px;font-size:9.5px;font-weight:700;line-height:1.1}
+  .pay{display:flex;flex-wrap:wrap;gap:3px 8px;font-size:9.5px;font-weight:700;line-height:1.1;white-space:nowrap}
   .psvc{color:#ff7a85}
   .pmed{color:#9aa3b2}
   .track{flex:1;position:relative}
@@ -62,9 +62,10 @@
   .mblk .e{font-size:11px;line-height:1}
   .mblk .a{font-size:11px;font-weight:800;line-height:1.05}
   .mblk .t{font-size:8.5px;font-weight:700;opacity:.9;line-height:1}
+  .mblk .pastn{font-size:10px;font-weight:700;opacity:.7;line-height:1}
   .mblk.fore{}                                   /* 預計收入：實心 */
   .mblk.recv{box-shadow:none;border:1.5px dashed var(--amber);background:rgba(255,180,84,.16)!important;color:#ffd9a3}  /* 應收帳款 */
-  .mblk.past{box-shadow:none;background:rgba(255,255,255,.05)!important;color:var(--mut);opacity:.6}                     /* 已收（過去） */
+  .mblk.past{box-shadow:none;background:rgba(255,255,255,.04)!important;color:var(--mut);opacity:.5}                     /* 已收（過去） */
   /* 一次性 / 期間大方塊 */
   .b-amt{font-size:14px;font-weight:800;line-height:1.1}
   .b-tag{font-size:9px;font-weight:800;letter-spacing:.5px;line-height:1}
@@ -145,9 +146,13 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
         const style = invest
           ? 'background:rgba(255,255,255,.05);color:#9aa3b2;box-shadow:none;border:1px dashed #272c3a'
           : `background:${bg}`;
+        const amtTxt = r.amount!=null ? abbr(r.amount) : '待定';
+        let inner;
+        if(invest) inner='<div class="t">投資</div>';
+        else if(cls==='past') inner=`<div class="pastn">${r.amount!=null?abbr(r.amount):'·'}</div>`;
+        else inner=`<div class="e">${em||'💵'}</div><div class="a">${amtTxt}</div><div class="t">${tag}</div>`;
         bars+=`<div class="bar mblk ${invest?'':cls}" style="left:calc(${L}% + 3px);width:calc(${W}% - 6px);${style}"
-          title="${r.name}｜${mn[i]}｜${invest?'投資案（無收入）':'$'+fmt(r.amount||0)+'｜'+tag}｜${cleanNote(r.note)}">
-          ${invest?'<div class="t">投資</div>':`<div class="e">${em||'💵'}</div>${(r.amount||r.amount===0)?`<div class="a">${abbr(r.amount)}</div>`:''}<div class="t">${tag}</div>`}</div>`;
+          title="${r.name}｜${mn[i]}｜${invest?'投資案（無收入）':'$'+fmt(r.amount||0)+'｜'+tag}｜${cleanNote(r.note)}">${inner}</div>`;
       }
     } else {
       // 一次性 / 期間：依結束月分類

@@ -156,7 +156,9 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
         <div class="b-date">${r.start.slice(5)}~${r.due.slice(5)}</div></div>`;
     }
     const tg=tagOf(r.name);
-    h+=`<div class="row"><div class="rname"><span class="rdot" style="background:${col}"></span>${tg?`<span class="tag">${tg}</span>`:''}<span class="nm">${strip(r.name)}</span></div>
+    let disp=strip(r.name);
+    if(r.cust&&r.cust!=="其他"){const p=disp.replace(new RegExp('^'+r.cust.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'[\\-_、：:　 ]+'),'');if(p)disp=p;}
+    h+=`<div class="row"><div class="rname"><span class="rdot" style="background:${col}"></span>${tg?`<span class="tag">${tg}</span>`:''}<span class="nm">${disp}</span></div>
       <div class="track">${cols}${bars}</div></div>`;
   });
 

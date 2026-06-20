@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>收款行事曆：各月專案進帳 · 簡單行銷營運中台</title>
+<title>專案時間軸（甘特圖）· 簡單行銷營運中台</title>
 <style>
-  :root{--bg:#0f1115;--panel:#171a21;--panel2:#1e2230;--line:#272c3a;--txt:#e7e9ee;--mut:#9aa3b2;--accent:#4f8cff;--green:#27c093;--red:#ff5d6c;--amber:#ffb454;}
+  :root{--bg:#0f1115;--panel:#171a21;--panel2:#1e2230;--line:#272c3a;--txt:#e7e9ee;--mut:#9aa3b2;--accent:#4f8cff;--green:#27c093;--red:#ff5d6c;--amber:#ffb454;--purple:#9b7bff;}
   *{box-sizing:border-box}
   body{margin:0;font-family:"Inter","Noto Sans TC",system-ui,"PingFang TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--txt);-webkit-font-smoothing:antialiased}
   a{color:var(--accent);text-decoration:none}
@@ -13,55 +13,76 @@
   .top h1{font-size:18px;margin:0}.top .sub{color:var(--mut);font-size:12.5px}
   .back{font-size:13px;font-weight:600;padding:7px 13px;border:1px solid var(--line);border-radius:9px;color:var(--txt)}
   .back:hover{background:var(--panel2)}
-  .wrap{padding:18px 22px 70px}
-  .legend{color:var(--mut);font-size:12.5px;margin:0 2px 16px;line-height:1.6}
-  .cal{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-  .m{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:13px 14px;min-height:150px}
-  .m.cur{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber) inset}
-  .m.past{opacity:.62}
-  .m-h{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:9px}
-  .m-h .mo{font-size:15px;font-weight:800}
-  .m-h .mo .tag{font-size:10px;color:var(--amber);font-weight:700;margin-left:6px}
-  .m-h .tot{font-size:12.5px;font-weight:800;color:var(--green)}
-  .row{display:flex;justify-content:space-between;gap:8px;font-size:12px;padding:3px 0;line-height:1.4}
-  .row .p{color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .row .v{color:var(--mut);font-weight:700;white-space:nowrap}
-  .row.big .v{color:var(--txt)}
-  .empty{color:var(--mut);font-size:12px;font-style:italic;padding-top:6px}
-  @media(max-width:1100px){.cal{grid-template-columns:repeat(3,1fr)}}
-  @media(max-width:780px){.cal{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:520px){.cal{grid-template-columns:1fr}.top,.wrap{padding-left:13px;padding-right:13px}}
+  .wrap{padding:16px 20px 70px}
+  .legend{color:var(--mut);font-size:12.5px;margin:0 2px 12px;line-height:1.7}
+  .legend i{display:inline-block;width:14px;height:11px;border-radius:3px;vertical-align:-1px;margin:0 3px}
+  .l-run{background:linear-gradient(90deg,#4f8cff,#3566cc)} .l-dev{background:#9b7bff} .l-pause{background:#e8893f} .l-pend{background:#6c7a93}
+  .tl{border:1px solid var(--line);border-radius:12px;overflow:auto;max-height:calc(100vh-160px)}
+  .grid{min-width:920px}
+  .hrow{display:flex;position:sticky;top:0;z-index:6;background:var(--panel2)}
+  .hname{flex:0 0 200px;padding:9px 12px;font-size:11.5px;font-weight:700;color:var(--mut);border-right:2px solid var(--line);position:sticky;left:0;background:var(--panel2);z-index:7}
+  .hmon{flex:1;display:flex}
+  .hmon .mc{flex:1;text-align:center;padding:9px 0;font-size:11px;font-weight:700;color:var(--mut);border-right:1px solid var(--line)}
+  .hmon .mc.cur{background:rgba(255,180,84,.2);color:#fff}
+  .grp{font-size:11px;font-weight:800;color:var(--amber);background:#13161d;padding:5px 12px;position:sticky;left:0}
+  .row{display:flex;align-items:center;border-top:1px solid rgba(39,44,58,.6);height:34px}
+  .row:hover{background:rgba(79,140,255,.05)}
+  .rname{flex:0 0 200px;padding:0 12px;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-right:2px solid var(--line);position:sticky;left:0;background:var(--panel);z-index:2}
+  .row:hover .rname{background:#1b1f29}
+  .track{flex:1;position:relative;height:100%}
+  .track .mcol{position:absolute;top:0;bottom:0;border-right:1px solid rgba(39,44,58,.5)}
+  .track .mcol.cur{background:rgba(255,180,84,.09)}
+  .bar{position:absolute;top:7px;height:20px;border-radius:6px;display:flex;align-items:center;padding:0 8px;font-size:10.5px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+  .bar.run{background:linear-gradient(90deg,#4f8cff,#3566cc)}
+  .bar.dev{background:linear-gradient(90deg,#9b7bff,#7a5be0)}
+  .bar.pause{background:linear-gradient(90deg,#e8893f,#c46a26)}
+  .bar.pend{background:linear-gradient(90deg,#6c7a93,#515d72)}
+  .amt{color:#fff;opacity:.92;margin-left:6px;font-weight:800}
+  @media(max-width:640px){.top,.wrap{padding-left:12px;padding-right:12px}.hname,.rname{flex-basis:130px}.rname{font-size:11px}}
 </style>
 </head>
 <body>
   <div class="top">
     <a class="back" href="/">← 回主控台</a>
-    <div><h1>🗓️ 收款行事曆</h1><div class="sub" id="sub">載入中…</div></div>
+    <div><h1>📊 專案時間軸（甘特圖）</h1><div class="sub" id="sub">載入中…</div></div>
   </div>
   <div class="wrap">
-    <div class="legend">每個月一格，列出<b>當月各專案的進帳</b>——也就是「完成這個階段這個月能拿到多少錢」。橘框＝本月；月份標題右邊＝當月總進帳。來源：日記帳。</div>
-    <div class="cal" id="cal"></div>
+    <div class="legend">每條橫條＝專案的<b>開始 → 截止</b>，條上是專案名與<b>階段金額</b>（完成這階段可收的錢）。<i class="l-run"></i>執行中 <i class="l-dev"></i>洽談/開發 <i class="l-pause"></i>暫停 <i class="l-pend"></i>待認領。橘色直線＝本月。來源：Notion。</div>
+    <div class="tl"><div class="grid" id="grid"></div></div>
   </div>
 <script>
-const curM=new Date().getMonth();
 const mn=["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
-const fmt=n=>n.toLocaleString('en-US');
+const curM=new Date().getMonth();
+const abbr=v=>!v?"":v>=1e6?(v/1e6).toFixed(2).replace(/0$/,'')+"M":v>=1e3?Math.round(v/1e3)+"k":""+v;
+const mi=d=>{if(!d)return null;const[y,m]=d.split("-").map(Number);return Math.min(11,Math.max(0,(y-2026)*12+(m-1)));};
+const strip=n=>n.replace(/^\s*[\[\［][^\]\］]*[\]\］]\s*/,"").replace(/（[^）]*）$/,"").replace(/[-－][^-－]*$/,"").trim()||n;
+const scls={"執行中":"run","開發中-洽談中":"dev","開發中-初步接觸":"dev","暫停":"pause","待認領":"pend"};
+const active=new Set(Object.keys(scls));
 
-fetch('data/projects_monthly.json').then(r=>r.json()).then(P=>{
-  document.getElementById('sub').textContent=`來源：日記帳 · 更新 ${P.updated} · 本月＝${mn[curM]}`;
-  let html='';
-  for(let i=0;i<12;i++){
-    const items=P.projects.map(p=>({name:p.name,v:p.rev[i]})).filter(x=>x.v>0).sort((a,b)=>b.v-a.v);
-    const tot=items.reduce((s,x)=>s+x.v,0);
-    const cls=i===curM?'cur':(i<curM?'past':'');
-    let rows=items.length
-      ? items.map((x,idx)=>`<div class="row ${idx===0?'big':''}"><span class="p">${x.name}</span><span class="v">${fmt(x.v)}</span></div>`).join('')
-      : '<div class="empty">本月暫無排定進帳</div>';
-    html+=`<div class="m ${cls}">
-      <div class="m-h"><span class="mo">${mn[i]}${i===curM?'<span class="tag">本月</span>':''}</span><span class="tot">${tot>0?'NT$'+fmt(tot):'—'}</span></div>
-      ${rows}</div>`;
-  }
-  document.getElementById('cal').innerHTML=html;
+fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
+  document.getElementById('sub').textContent=`來源：Notion 同步看板 · 更新 ${N.updated} · 本月＝${mn[curM]}`;
+  let rows=N.cards.filter(c=>active.has(c.status)&&c.start&&c.due)
+    .map(c=>({...c,s:mi(c.start),e:mi(c.due),cust:c.customer||"其他"}))
+    .filter(c=>c.s!==null&&c.e!==null&&c.e>=c.s)
+    .sort((a,b)=>(a.cust<b.cust?-1:a.cust>b.cust?1:0)||a.s-b.s);
+
+  // header
+  let h='<div class="hrow"><div class="hname">專案（依客戶）</div><div class="hmon">'
+       +mn.map((m,i)=>`<div class="mc ${i===curM?'cur':''}">${m}</div>`).join('')+'</div></div>';
+  // month background columns (reused per row via css gradient) -> build per row
+  const colBg=`<div class="track-bg"></div>`;
+  let lastCust=null;
+  rows.forEach(r=>{
+    if(r.cust!==lastCust){ h+=`<div class="grp">${r.cust}</div>`; lastCust=r.cust; }
+    const left=(r.s/12*100), width=((r.e-r.s+1)/12*100);
+    const cols=mn.map((m,i)=>`<div class="mcol ${i===curM?'cur':''}" style="left:${i/12*100}%;width:${100/12}%"></div>`).join('');
+    const amt=r.amount?`<span class="amt">$${abbr(r.amount)}</span>`:'';
+    h+=`<div class="row"><div class="rname" title="${r.name}">${strip(r.name)}</div>
+      <div class="track">${cols}
+        <div class="bar ${scls[r.status]}" style="left:${left}%;width:${width}%" title="${r.name}｜${r.start}~${r.due}${r.amount?'｜$'+r.amount.toLocaleString():''}">${strip(r.name)}${amt}</div>
+      </div></div>`;
+  });
+  document.getElementById('grid').innerHTML=h;
 }).catch(e=>{document.getElementById('sub').textContent='載入失敗：'+e;});
 </script>
 </body>

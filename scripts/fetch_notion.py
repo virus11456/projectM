@@ -32,6 +32,9 @@ def _date(p):
 def _text(p):
     return "".join(t["plain_text"] for t in p.get("rich_text", [])) if p else ""
 
+def _num(p):
+    return p.get("number") if p else None
+
 def main():
     cards, cursor = [], None
     while True:
@@ -50,9 +53,11 @@ def main():
             cards.append({
                 "name": name,
                 "status": _sel(pr.get("狀態")),
+                "start": _date(pr.get("開始日期")),
                 "due": _date(pr.get("截止日期")),
                 "priority": _sel(pr.get("優先級")),
                 "customer": _text(pr.get("客戶")),
+                "amount": _num(pr.get("階段金額")),
                 "note": _text(pr.get("備註")),
                 "last": _date(pr.get("最後活動")),
             })

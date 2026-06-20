@@ -3,102 +3,69 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>對帳：計畫 vs 實際 · 簡單行銷營運中台</title>
+<title>請款排程：專案 × 月份 · 簡單行銷營運中台</title>
 <style>
-  :root{--bg:#0f1115;--panel:#171a21;--panel2:#1e2230;--line:#272c3a;--txt:#e7e9ee;--mut:#9aa3b2;--accent:#4f8cff;--green:#27c093;--red:#ff5d6c;--amber:#ffb454;--purple:#9b7bff;}
+  :root{--bg:#0f1115;--panel:#171a21;--panel2:#1e2230;--line:#272c3a;--txt:#e7e9ee;--mut:#9aa3b2;--accent:#4f8cff;--green:#27c093;--red:#ff5d6c;--amber:#ffb454;}
   *{box-sizing:border-box}
   body{margin:0;font-family:"Inter","Noto Sans TC",system-ui,"PingFang TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--txt);-webkit-font-smoothing:antialiased}
   a{color:var(--accent);text-decoration:none}
-  .top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:18px 26px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:20}
+  .top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:18px 26px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:30}
   .top h1{font-size:18px;margin:0}.top .sub{color:var(--mut);font-size:12.5px}
   .back{font-size:13px;font-weight:600;padding:7px 13px;border:1px solid var(--line);border-radius:9px;color:var(--txt)}
   .back:hover{background:var(--panel2)}
-  .wrap{padding:20px 26px 70px;max-width:1080px}
-  .cli{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:16px}
-  .cli-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
-  .cli-name{font-size:16px;font-weight:800}
-  .cli-rev{color:var(--green);font-weight:700;font-size:14px}
-  .cli-rev small{color:var(--mut);font-weight:400;font-size:11px}
-  .bars{display:flex;gap:3px;align-items:flex-end;height:42px;margin:12px 0 4px}
-  .bars .b{flex:1;background:linear-gradient(180deg,#4f8cff,#3566cc);border-radius:2px 2px 0 0;min-height:2px;position:relative}
-  .bars .b.future{background:linear-gradient(180deg,#3a4a6b,#2a3550)}
-  .mlbl{display:flex;gap:3px;color:var(--mut);font-size:9px;margin-bottom:14px}
-  .mlbl span{flex:1;text-align:center}
-  .proj{border-top:1px solid var(--line);padding-top:10px;margin-top:4px}
-  .proj-row{display:flex;gap:10px;align-items:flex-start;padding:6px 0;font-size:12.5px;border-bottom:1px solid rgba(39,44,58,.5)}
-  .proj-row:last-child{border-bottom:none}
-  .proj-name{font-weight:600;min-width:160px;flex-shrink:0}
-  .proj-model{color:var(--mut);flex:1;line-height:1.45}
-  .due{color:var(--amber);font-size:11px;white-space:nowrap}
-  .due.od{color:var(--red)}
-  .badge{font-size:10px;font-weight:700;padding:1px 7px;border-radius:5px;white-space:nowrap}
-  .b-run{background:rgba(255,180,84,.16);color:var(--amber)}
-  .b-dev{background:rgba(155,123,255,.16);color:var(--purple)}
-  .b-pause{background:rgba(255,93,108,.16);color:var(--red)}
-  .b-pend{background:rgba(154,163,178,.16);color:var(--mut)}
-  .nomatch{color:var(--mut);font-size:12px;font-style:italic;padding:4px 0}
-  .legend{color:var(--mut);font-size:12px;margin:6px 2px 18px;line-height:1.6}
-  @media(max-width:640px){.proj-name{min-width:0}.proj-row{flex-wrap:wrap}.top,.wrap{padding-left:14px;padding-right:14px}}
+  .wrap{padding:18px 22px 70px}
+  .legend{color:var(--mut);font-size:12.5px;margin:0 2px 14px;line-height:1.6}
+  .legend b{color:var(--amber)}
+  .tbl-scroll{overflow:auto;border:1px solid var(--line);border-radius:12px;max-height:calc(100vh - 165px)}
+  table{border-collapse:separate;border-spacing:0;width:100%;font-size:13px;white-space:nowrap}
+  th,td{padding:9px 12px;text-align:right;border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
+  thead th{position:sticky;top:0;background:var(--panel2);color:var(--mut);font-weight:700;font-size:12px;z-index:5}
+  th:first-child,td:first-child{position:sticky;left:0;text-align:left;background:var(--panel);font-weight:600;z-index:4;border-right:2px solid var(--line);min-width:120px}
+  thead th:first-child{z-index:6;background:var(--panel2)}
+  th:last-child,td:last-child{background:#13161d;font-weight:700;border-left:2px solid var(--line)}
+  thead th:last-child{background:#1b2030}
+  tbody tr:hover td{background:rgba(79,140,255,.07)}
+  tbody tr:hover td:first-child{background:#1b1f29}
+  .cur{background:rgba(255,180,84,.13)!important}
+  thead .cur{background:rgba(255,180,84,.22)!important;color:#fff}
+  .past{color:#5b6273}
+  .total td{position:sticky;bottom:0;background:#0d1f1a;font-weight:800;border-top:2px solid var(--line);z-index:3}
+  .total td:first-child{background:#0d1f1a;z-index:5}
+  .total td:last-child{background:#0d2419}
+  .total .cur{background:#16301f!important}
+  .mut{color:var(--mut)}
+  @media(max-width:640px){.top,.wrap{padding-left:13px;padding-right:13px}th,td{padding:8px 9px}}
 </style>
 </head>
 <body>
   <div class="top">
     <a class="back" href="/">← 回主控台</a>
-    <div><h1>🔗 對帳：計畫 vs 實際</h1><div class="sub" id="sub">載入中…</div></div>
+    <div><h1>📆 請款排程：專案 × 月份</h1><div class="sub" id="sub">載入中…</div></div>
   </div>
   <div class="wrap">
-    <div class="legend">左邊＝<b>日記帳</b>的實際進帳（藍柱＝各月，深色＝未來排程）；右邊＝<b>Notion</b> 各專案的請款計畫與下次截止/請款日。對照看「該收的有沒有收到、後面還有多少排程」。</div>
-    <div id="list"></div>
+    <div class="legend">縱軸＝專案、橫軸＝月份、格子＝該月進帳金額（來源：日記帳）。<b>橘色那欄＝本月</b>，一眼看出這個月哪些專案要完成、會進多少錢；灰字＝已過月份。最下列＝每月總進帳。</div>
+    <div class="tbl-scroll"><table id="t"><tbody><tr><td>載入中…</td></tr></tbody></table></div>
   </div>
 <script>
-const today=new Date().toISOString().slice(0,10);
 const fmt=n=>n.toLocaleString('en-US');
-const mn=["1","2","3","4","5","6","7","8","9","10","11","12"];
-const curM=new Date().getMonth(); // 0-based
-const j2n=j=>j==="神燈"?"神燈假期":j; // 日記帳→Notion 客戶 名稱對應
-const active=new Set(["執行中","開發中-洽談中","開發中-初步接觸","暫停","待認領"]);
-const scls={"執行中":"b-run","開發中-洽談中":"b-dev","開發中-初步接觸":"b-dev","暫停":"b-pause","待認領":"b-pend"};
-const sshort={"執行中":"執行中","開發中-洽談中":"洽談中","開發中-初步接觸":"開發中","暫停":"暫停","待認領":"待認領"};
-// 把備註的「客戶：xx｜」前綴去掉，只留請款模式
-const cleanNote=s=>(s||"").replace(/^客戶：[^｜|]*[｜|]/,"").replace(/｜持續中$/,"").trim()||"—";
+const curM=new Date().getMonth(); // 0-based 本月
+const mn=["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
 
-Promise.all([
-  fetch('data/projects_monthly.json').then(r=>r.json()),
-  fetch('data/notion_projects.json').then(r=>r.json())
-]).then(([P,N])=>{
-  document.getElementById('sub').textContent=`日記帳更新 ${P.updated} · Notion 更新 ${N.updated}`;
-  const clients=P.projects.filter(p=>p.rev.reduce((a,b)=>a+b,0)>0 && p.name!=="營運")
-    .sort((a,b)=>b.rev.reduce((x,y)=>x+y,0)-a.rev.reduce((x,y)=>x+y,0));
-  const maxRev=Math.max(...clients.flatMap(c=>c.rev));
-  let html="";
-  clients.forEach(c=>{
-    const tot=c.rev.reduce((a,b)=>a+b,0);
-    const nc=j2n(c.name);
-    const cards=N.cards.filter(x=>x.customer===nc && active.has(x.status));
-    const bars=c.rev.map((v,i)=>{
-      const h=v<=0?2:Math.max(3,Math.round(v/maxRev*42));
-      return `<div class="b ${i>curM?'future':''}" style="height:${h}px" title="${mn[i]}月 ${fmt(v)}"></div>`;
-    }).join('');
-    let projHtml;
-    if(cards.length){
-      projHtml=cards.sort((a,b)=>(a.due||'9')<(b.due||'9')?-1:1).map(x=>{
-        const od=x.due&&x.due<today;
-        return `<div class="proj-row"><div class="proj-name">${x.name}</div>
-          <div class="proj-model"><span class="badge ${scls[x.status]||'b-run'}">${sshort[x.status]||x.status}</span> ${cleanNote(x.note)}</div>
-          <div class="due ${od?'od':''}">${x.due?((od?'⏰ ':'')+x.due):'—'}</div></div>`;
-      }).join('');
-    } else {
-      projHtml=`<div class="nomatch">尚未在 Notion 標記此客戶（可在同步看板把對應卡片的「客戶」填「${nc}」）</div>`;
-    }
-    html+=`<div class="cli"><div class="cli-head">
-        <span class="cli-name">${c.name}</span>
-        <span class="cli-rev">日記帳全年 NT$${fmt(tot)} <small>· Notion ${cards.length} 個在跑</small></span>
-      </div>
-      <div class="bars">${bars}</div>
-      <div class="mlbl">${mn.map(m=>`<span>${m}</span>`).join('')}</div>
-      <div class="proj">${projHtml}</div></div>`;
+fetch('data/projects_monthly.json').then(r=>r.json()).then(P=>{
+  document.getElementById('sub').textContent=`來源：日記帳 · 更新 ${P.updated} · 本月＝${mn[curM]}`;
+  const rows=P.projects.filter(p=>p.rev.reduce((a,b)=>a+b,0)>0)
+    .map(p=>({name:p.name,rev:p.rev,sum:p.rev.reduce((a,b)=>a+b,0)}))
+    .sort((a,b)=>b.sum-a.sum);
+  const colTot=mn.map((m,i)=>rows.reduce((s,r)=>s+r.rev[i],0));
+  const grand=colTot.reduce((a,b)=>a+b,0);
+  const cls=i=>i===curM?'cur':(i<curM?'past':'');
+  const cell=(v,i)=>`<td class="${cls(i)}">${v>0?fmt(v):'<span class="mut">·</span>'}</td>`;
+  let h='<thead><tr><th>專案</th>'+mn.map((m,i)=>`<th class="${i===curM?'cur':''}">${m}</th>`).join('')+'<th>全年合計</th></tr></thead><tbody>';
+  rows.forEach(r=>{
+    h+=`<tr><td>${r.name}</td>`+r.rev.map((v,i)=>cell(v,i)).join('')+`<td>${fmt(r.sum)}</td></tr>`;
   });
-  document.getElementById('list').innerHTML=html;
+  h+='<tr class="total"><td>每月總進帳</td>'+colTot.map((v,i)=>`<td class="${i===curM?'cur':''}">${fmt(v)}</td>`).join('')+`<td>${fmt(grand)}</td></tr>`;
+  document.getElementById('t').innerHTML=h+'</tbody>';
 }).catch(e=>{document.getElementById('sub').textContent='載入失敗：'+e;});
 </script>
 </body>

@@ -11,6 +11,8 @@
 "priority": "重要",
 "customer": "詩硯",
 "amount": 7000,
+"svc": null,
+"media": null,
 "note": "客戶：詩硯｜陳醫師(雙子星)廣告投放：每月執行。未來預估＝過去廣告服務費平均（1–6月共42,000／6≈7,000/月），廣告費由客戶另行儲值。",
 "last": null
 },
@@ -22,6 +24,8 @@
 "priority": "重要",
 "customer": "荷茂",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "已確認續約至12月（荷茂月結廣告投放已延長），此提醒結案。",
 "last": null
 },
@@ -33,6 +37,8 @@
 "priority": "重要",
 "customer": "神燈假期",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "關鍵任務｜神燈網站維運+員工旅遊網站營運為半年預收。12月要準備收下一期 2027/01-2027/06 的維運費。",
 "last": null
 },
@@ -44,6 +50,8 @@
 "priority": "普通",
 "customer": "神燈假期",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "依需求動態調整（金額視製作量而定；可比對日記帳「神燈素材」，如…1月 6,000）",
 "last": null
 },
@@ -55,6 +63,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "關鍵任務｜愛妮島廣告月結（當月請上月款），每月底要確認下月投放預算。每月重複。",
 "last": null
 },
@@ -66,6 +76,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "關鍵任務｜KGI 兩個月一期，本期6-7月做完前要談好下一期（8-9月）並收頭款，避免斷檔。下次提醒：9月（開10-11月）。",
 "last": null
 },
@@ -77,6 +89,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -88,6 +102,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-03-17"
 },
@@ -99,6 +115,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -110,6 +128,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-05-02"
 },
@@ -121,6 +141,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -132,6 +154,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -143,6 +167,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -154,6 +180,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-02-27"
 },
@@ -165,6 +193,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -176,6 +206,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-13"
 },
@@ -187,6 +219,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -198,6 +232,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -209,6 +245,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -220,6 +258,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-02-11"
 },
@@ -231,6 +271,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -242,6 +284,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-05-14"
 },
@@ -253,6 +297,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -264,6 +310,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -275,6 +323,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -286,6 +336,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -297,6 +349,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-07-10"
 },
@@ -308,6 +362,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-12-11"
 },
@@ -319,6 +375,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -330,6 +388,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -341,6 +401,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -352,6 +414,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-03-25"
 },
@@ -363,6 +427,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -374,6 +440,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-05-14"
 },
@@ -385,6 +453,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -396,6 +466,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-06-19"
 },
@@ -407,6 +479,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -418,6 +492,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-07-10"
 },
@@ -429,6 +505,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -440,6 +518,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-10-19"
 },
@@ -451,6 +531,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -462,6 +544,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -473,6 +557,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -484,6 +570,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -495,6 +583,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -506,6 +596,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -517,6 +609,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -528,6 +622,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -539,6 +635,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -550,6 +648,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-05-26"
 },
@@ -561,6 +661,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -572,6 +674,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -583,6 +687,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -594,6 +700,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -605,6 +713,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -616,6 +726,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -627,6 +739,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -638,6 +752,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-21"
 },
@@ -649,6 +765,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -660,6 +778,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -671,6 +791,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -682,6 +804,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -693,6 +817,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步｜檢查清單 0/9",
 "last": "2024-11-08"
 },
@@ -704,6 +830,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -715,6 +843,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -726,6 +856,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-05-27"
 },
@@ -737,6 +869,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-05-14"
 },
@@ -748,6 +882,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步｜檢查清單 0/3",
 "last": "2024-11-08"
 },
@@ -759,6 +895,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步｜檢查清單 0/4",
 "last": "2024-11-08"
 },
@@ -770,6 +908,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -781,6 +921,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -792,6 +934,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -803,6 +947,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-06-19"
 },
@@ -814,6 +960,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-05-27"
 },
@@ -825,6 +973,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-21"
 },
@@ -836,6 +986,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -847,6 +999,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-02-11"
 },
@@ -858,6 +1012,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -869,6 +1025,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -880,6 +1038,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -891,6 +1051,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -902,6 +1064,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -913,6 +1077,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -924,6 +1090,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -935,6 +1103,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -946,6 +1116,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2022-03-31"
 },
@@ -957,6 +1129,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -968,6 +1142,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-02-11"
 },
@@ -979,6 +1155,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -990,6 +1168,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-06"
 },
@@ -1001,6 +1181,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -1012,6 +1194,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-05-02"
 },
@@ -1023,6 +1207,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -1034,6 +1220,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-09"
 },
@@ -1045,6 +1233,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -1056,6 +1246,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步｜檢查清單 0/1",
 "last": "2024-11-08"
 },
@@ -1067,6 +1259,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-09-18"
 },
@@ -1078,6 +1272,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-02-11"
 },
@@ -1089,6 +1285,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -1100,6 +1298,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-10-04"
 },
@@ -1111,6 +1311,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -1122,6 +1324,8 @@
 "priority": "普通",
 "customer": "一日牙醫",
 "amount": 4000,
+"svc": null,
+"media": null,
 "note": "客戶：一日牙醫｜SEO：每月任務、每月 4,000、月結（當月收上月款）｜持續中",
 "last": "2025-12-11"
 },
@@ -1133,6 +1337,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -1144,6 +1350,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-04-25"
 },
@@ -1155,6 +1363,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步｜檢查清單 0/3",
 "last": "2024-11-08"
 },
@@ -1166,6 +1376,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-06"
 },
@@ -1177,6 +1389,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-11-08"
 },
@@ -1188,6 +1402,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-09-18"
 },
@@ -1199,6 +1415,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-09"
 },
@@ -1210,6 +1428,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2022-06-22"
 },
@@ -1221,6 +1441,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-04-07"
 },
@@ -1232,6 +1454,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步｜檢查清單 1/2",
 "last": "2025-01-09"
 },
@@ -1243,6 +1467,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-05-14"
 },
@@ -1254,6 +1480,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-03-05"
 },
@@ -1265,6 +1493,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-09"
 },
@@ -1276,6 +1506,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-08-21"
 },
@@ -1287,6 +1519,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-04-07"
 },
@@ -1298,6 +1532,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-09-18"
 },
@@ -1309,6 +1545,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-02-11"
 },
@@ -1320,6 +1558,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-05-26"
 },
@@ -1331,6 +1571,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-16"
 },
@@ -1342,6 +1584,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-09"
 },
@@ -1353,6 +1597,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-10-04"
 },
@@ -1364,6 +1610,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-03-05"
 },
@@ -1375,6 +1623,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-09"
 },
@@ -1386,6 +1636,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-09"
 },
@@ -1397,6 +1649,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2022-03-31"
 },
@@ -1408,6 +1662,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-09-18"
 },
@@ -1419,6 +1675,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-09"
 },
@@ -1430,6 +1688,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-05-24"
 },
@@ -1441,6 +1701,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-07-16"
 },
@@ -1452,6 +1714,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-09"
 },
@@ -1463,6 +1727,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-03-24"
 },
@@ -1474,6 +1740,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-09"
 },
@@ -1485,6 +1753,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-05-26"
 },
@@ -1496,6 +1766,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-09-18"
 },
@@ -1507,6 +1779,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-12-11"
 },
@@ -1518,6 +1792,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-09"
 },
@@ -1529,6 +1805,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-03-24"
 },
@@ -1540,6 +1818,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步｜檢查清單 0/2",
 "last": "2024-07-10"
 },
@@ -1551,6 +1831,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-09"
 },
@@ -1562,6 +1844,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-09-18"
 },
@@ -1573,6 +1857,8 @@
 "priority": "重要",
 "customer": "一日牙醫",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "客戶：一日牙醫｜GEO｜本期已完成，目前等客戶通知是否續約",
 "last": "2026-06-19"
 },
@@ -1584,6 +1870,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-09"
 },
@@ -1595,6 +1883,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-09"
 },
@@ -1606,6 +1896,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-09-18"
 },
@@ -1617,6 +1909,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-03-24"
 },
@@ -1628,6 +1922,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-08-21"
 },
@@ -1639,6 +1935,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-09"
 },
@@ -1650,6 +1948,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-02-11"
 },
@@ -1661,6 +1961,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-09-18"
 },
@@ -1672,6 +1974,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-04-07"
 },
@@ -1683,6 +1987,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-09"
 },
@@ -1694,6 +2000,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-07-16"
 },
@@ -1705,6 +2013,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-09"
 },
@@ -1716,6 +2026,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-09"
 },
@@ -1727,6 +2039,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-05-14"
 },
@@ -1738,6 +2052,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-08-27"
 },
@@ -1749,6 +2065,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-06-19"
 },
@@ -1760,6 +2078,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-09"
 },
@@ -1771,6 +2091,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-09-18"
 },
@@ -1782,6 +2104,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-09"
 },
@@ -1793,6 +2117,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-01-09"
 },
@@ -1804,6 +2130,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-03-24"
 },
@@ -1815,6 +2143,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-03-28"
 },
@@ -1826,6 +2156,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2022-03-08"
 },
@@ -1837,6 +2169,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-02-13"
 },
@@ -1848,6 +2182,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-05-16"
 },
@@ -1859,6 +2195,8 @@
 "priority": "普通",
 "customer": "",
 "amount": 26250,
+"svc": null,
+"media": null,
 "note": "顧問｜家具蝦皮電商：每月收款、預收當月服務費（當月先收）｜負責人虎虎｜持續中",
 "last": "2026-06-19"
 },
@@ -1870,6 +2208,8 @@
 "priority": "重要",
 "customer": "神燈假期",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "廣告投放：每月執行、月結（當月請上月款）｜金額依投放量｜持續中",
 "last": "2026-05-27"
 },
@@ -1881,6 +2221,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-04-20"
 },
@@ -1892,6 +2234,8 @@
 "priority": "普通",
 "customer": "荷茂",
 "amount": 100000,
+"svc": null,
+"media": 77429,
 "note": "客戶：荷茂｜廣告投放：每月執行、續約到12月。每季收款 300,000（含廣告費+服務費，頭款制），約 100,000/月；廣告外包每月 77,429。",
 "last": "2026-06-19"
 },
@@ -1903,6 +2247,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-04-07"
 },
@@ -1914,6 +2260,8 @@
 "priority": "普通",
 "customer": "愛妮島",
 "amount": 69000,
+"svc": null,
+"media": 38000,
 "note": "接案｜每月執行、月結（當月請上月款）｜⚠️ 每月底要確認下月投放預算｜持續中",
 "last": "2025-01-06"
 },
@@ -1925,6 +2273,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-05-24"
 },
@@ -1936,6 +2286,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-04-07"
 },
@@ -1947,6 +2299,8 @@
 "priority": "普通",
 "customer": "神燈假期",
 "amount": 18000,
+"svc": null,
+"media": null,
 "note": "客戶：神燈假期｜網站維運：半年一期（7-12月），本期 18,000。",
 "last": "2025-05-16"
 },
@@ -1958,6 +2312,8 @@
 "priority": "普通",
 "customer": "神燈假期",
 "amount": 78000,
+"svc": null,
+"media": null,
 "note": "客戶：神燈假期｜包車資訊站製作｜頭款46,800+尾款31,200=78,000｜原5/28延期至7/31",
 "last": "2026-06-19"
 },
@@ -1969,6 +2325,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-04-07"
 },
@@ -1980,6 +2338,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-04-07"
 },
@@ -1991,6 +2351,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "社群｜動態：有任務進來才收費（金額視任務而定）｜無固定排程",
 "last": "2025-05-14"
 },
@@ -2002,6 +2364,8 @@
 "priority": "重要",
 "customer": "神燈假期",
 "amount": 128000,
+"svc": null,
+"media": null,
 "note": "客戶：神燈假期｜土拍網站製作｜頭款76,800+尾款51,200=128,000｜預計8/30完成",
 "last": "2026-06-19"
 },
@@ -2013,6 +2377,8 @@
 "priority": "普通",
 "customer": "",
 "amount": 8400,
+"svc": null,
+"media": null,
 "note": "接案｜每月 8,400，逐月續約（每月底決定下月是否續）。目前規劃至 7月（5-7月共 25,200）。",
 "last": "2026-05-24"
 },
@@ -2024,6 +2390,8 @@
 "priority": "普通",
 "customer": "",
 "amount": 3150,
+"svc": null,
+"media": null,
 "note": "接案｜每月請款 3,150｜月結（當月請上月款，請款落後一個月）｜持續中（截止日暫設年底）",
 "last": "2025-09-18"
 },
@@ -2035,6 +2403,8 @@
 "priority": "重要",
 "customer": "一日牙醫",
 "amount": 207600,
+"svc": null,
+"media": 1644000,
 "note": "客戶：一日牙醫｜廣告投放：每月執行、月結（當月請上月款）｜金額依投放量（見日記帳，年進帳破千萬）｜持續中",
 "last": "2025-06-21"
 },
@@ -2046,6 +2416,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-04-07"
 },
@@ -2057,6 +2429,8 @@
 "priority": "普通",
 "customer": "愛妮島",
 "amount": 8000,
+"svc": null,
+"media": null,
 "note": "客戶：愛妮島｜網站營運：每月收款、月結（當月收上月款）｜每月 8,000（4個站×每站 2,000）｜持續中",
 "last": "2025-01-06"
 },
@@ -2068,6 +2442,8 @@
 "priority": "重要",
 "customer": "神燈假期",
 "amount": 53321,
+"svc": 3000,
+"media": null,
 "note": "客戶：神燈假期｜廣告投放：每月執行、月結（當月請上月款）｜金額依投放量（見日記帳）｜持續中",
 "last": "2025-01-06"
 },
@@ -2079,6 +2455,8 @@
 "priority": "重要",
 "customer": "",
 "amount": 585000,
+"svc": 382174,
+"media": null,
 "note": "接案｜兩個月一期（本期6-7月）。【收入】總額585,000：頭款70%=409,500（執行前已收）、尾款30%=175,500（8月完工請款）。【外包成本】382,174：頭款後付60%=229,304、尾款後付40%=152,870。【本期淨利】約202,826。完工約7月底。",
 "last": "2025-01-06"
 },
@@ -2090,6 +2468,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "接案｜每月執行、月結（當月請上月款項，請款落後一個月）｜持續中（截止日暫設年底）",
 "last": "2025-05-02"
 },
@@ -2101,6 +2481,8 @@
 "priority": "普通",
 "customer": "固鋼",
 "amount": 12006,
+"svc": null,
+"media": null,
 "note": "客戶：固鋼｜廣告投放：每月收款、月結（當月收上月服務費）｜持續中",
 "last": "2026-03-17"
 },
@@ -2112,6 +2494,8 @@
 "priority": "重要",
 "customer": "",
 "amount": 26250,
+"svc": null,
+"media": null,
 "note": "網站｜日日好食-北美網站製作｜報價：收入 26,250、外包 20,976（淨利 5,274）｜目前等客戶簽回，簽回後啟動",
 "last": "2026-06-19"
 },
@@ -2123,6 +2507,8 @@
 "priority": "重要",
 "customer": "",
 "amount": 9000,
+"svc": null,
+"media": null,
 "note": "接案｜每月服務費 9,000｜月結（當月請上月款，請款落後一個月）｜持續中（截止日暫設年底）",
 "last": "2026-05-27"
 },
@@ -2134,6 +2520,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-04-07"
 },
@@ -2145,6 +2533,8 @@
 "priority": "普通",
 "customer": "神燈假期",
 "amount": 10500,
+"svc": null,
+"media": null,
 "note": "客戶：神燈假期｜員工旅遊網站營運：半年一期（7-12月），本期 10,500。",
 "last": "2025-05-26"
 },
@@ -2156,6 +2546,8 @@
 "priority": "普通",
 "customer": "",
 "amount": 0,
+"svc": null,
+"media": null,
 "note": "投資（非接案、無收入）",
 "last": "2026-05-24"
 },
@@ -2167,6 +2559,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-04-14"
 },
@@ -2178,6 +2572,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-04-14"
 },
@@ -2189,6 +2585,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-05-25"
 },
@@ -2200,6 +2598,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-08-21"
 },
@@ -2211,6 +2611,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步｜檢查清單 0/3",
 "last": "2024-08-21"
 },
@@ -2222,6 +2624,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-06-19"
 },
@@ -2233,6 +2637,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-06-19"
 },
@@ -2244,6 +2650,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-12-11"
 },
@@ -2255,6 +2663,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-02-13"
 },
@@ -2266,6 +2676,8 @@
 "priority": "重要",
 "customer": "",
 "amount": 0,
+"svc": null,
+"media": null,
 "note": "投資（非接案、無收入）",
 "last": "2025-05-16"
 },
@@ -2277,6 +2689,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-05-14"
 },
@@ -2288,6 +2702,8 @@
 "priority": "普通",
 "customer": "伸仁紡織",
 "amount": 31500,
+"svc": null,
+"media": null,
 "note": "客戶：伸仁紡織｜團購主/KOL：每月服務費 31,500、當月收取｜持續中",
 "last": "2026-04-22"
 },
@@ -2299,6 +2715,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-04-22"
 },
@@ -2310,6 +2728,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-05-25"
 },
@@ -2321,6 +2741,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步｜檢查清單 0/3",
 "last": "2024-08-21"
 },
@@ -2332,6 +2754,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-04-13"
 },
@@ -2343,6 +2767,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-12-11"
 },
@@ -2354,6 +2780,8 @@
 "priority": "普通",
 "customer": "",
 "amount": 0,
+"svc": null,
+"media": null,
 "note": "投資（非接案、無收入）",
 "last": "2026-05-24"
 },
@@ -2365,6 +2793,8 @@
 "priority": "重要",
 "customer": "",
 "amount": 0,
+"svc": null,
+"media": null,
 "note": "投資（非接案）｜預計 2026/12/31 結束",
 "last": "2026-04-22"
 },
@@ -2376,6 +2806,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2025-05-14"
 },
@@ -2387,6 +2819,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-08-21"
 },
@@ -2398,6 +2832,8 @@
 "priority": "普通",
 "customer": "伸仁紡織",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "客戶：伸仁紡織｜網站搬家與採購伺服器：一次性，已於6/18完成",
 "last": "2026-04-22"
 },
@@ -2409,6 +2845,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-04-23"
 },
@@ -2420,6 +2858,8 @@
 "priority": null,
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-05-25"
 },
@@ -2431,6 +2871,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-04-13"
 },
@@ -2442,6 +2884,8 @@
 "priority": "普通",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2024-08-21"
 },
@@ -2453,6 +2897,8 @@
 "priority": "普通",
 "customer": "",
 "amount": 0,
+"svc": null,
+"media": null,
 "note": "投資（非接案、無收入）",
 "last": "2026-04-07"
 },
@@ -2464,6 +2910,8 @@
 "priority": "重要",
 "customer": "詩硯",
 "amount": 19000,
+"svc": null,
+"media": null,
 "note": "客戶：詩硯｜盧醫師廣告投放：每月執行。未來預估＝過去廣告服務費平均（1–6月共115,000／6≈19,000/月），廣告費由客戶另行儲值。",
 "last": "2026-05-24"
 },
@@ -2475,6 +2923,8 @@
 "priority": "普通",
 "customer": "",
 "amount": 0,
+"svc": null,
+"media": null,
 "note": "投資（非接案、無收入）｜預計 7 月底完工",
 "last": "2026-03-25"
 },
@@ -2486,6 +2936,8 @@
 "priority": "重要",
 "customer": "",
 "amount": null,
+"svc": null,
+"media": null,
 "note": "Trello 同步",
 "last": "2026-02-11"
 }

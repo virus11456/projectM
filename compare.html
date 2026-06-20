@@ -28,7 +28,10 @@
   .sw-fore{background:linear-gradient(135deg,#27c093,#27c093cc)}
   .sw-recv{background:rgba(255,180,84,.18);border:1.5px dashed var(--amber)}
   .sw-past{background:rgba(255,255,255,.06);border:1px solid var(--line)}
-  .tl{border:1px solid var(--line);border-radius:12px;overflow:auto;max-height:calc(100vh - 240px)}
+  .tl{border:1px solid var(--line);border-radius:12px;overflow:auto;max-height:calc(100vh - 300px)}
+  .scard.pay{border-color:rgba(255,122,133,.5)} .scard.pay .val{color:#ff7a85}
+  .scard.med{border-color:rgba(139,147,163,.5)} .scard.med .val{color:#aab2c2}
+  .scard.net{border-color:rgba(79,140,255,.6)} .scard.net .val{color:#6aa0ff}
   .grid{min-width:1100px}
   .hrow{display:flex;position:sticky;top:0;z-index:8;background:var(--panel2);border-bottom:1px solid var(--line)}
   .hname{flex:0 0 210px;padding:10px 14px;font-size:11.5px;font-weight:700;color:var(--mut);border-right:2px solid var(--line);position:sticky;left:0;background:var(--panel2);z-index:9}
@@ -40,11 +43,15 @@
   .grp .gt{color:var(--mut);font-weight:600;font-size:11px;margin-left:auto}
   .row{display:flex;align-items:stretch;min-height:66px;border-top:1px solid rgba(39,44,58,.45)}
   .row:hover{background:rgba(255,255,255,.025)}
-  .rname{flex:0 0 210px;padding:10px 14px 10px 26px;font-size:12.5px;font-weight:600;border-right:2px solid var(--line);position:sticky;left:0;background:var(--panel);z-index:2;display:flex;align-items:center;line-height:1.35}
+  .rname{flex:0 0 210px;padding:8px 12px 8px 26px;font-size:12.5px;font-weight:600;border-right:2px solid var(--line);position:sticky;left:0;background:var(--panel);z-index:2;display:flex;flex-direction:column;justify-content:center;gap:3px;line-height:1.3}
   .row:hover .rname{background:#1b1f29}
   .rname .rdot{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%}
+  .rname .nmline{display:flex;align-items:center;min-width:0}
   .rname .tag{flex:0 0 auto;font-size:10px;font-weight:800;padding:2px 6px;border-radius:5px;margin-right:6px;background:rgba(255,255,255,.08);color:#cdd3df;letter-spacing:.3px}
-  .rname .nm{min-width:0;overflow:hidden;text-overflow:ellipsis}
+  .rname .nm{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .pay{display:flex;flex-wrap:wrap;gap:4px 8px;font-size:9.5px;font-weight:700;line-height:1.1}
+  .psvc{color:#ff7a85}
+  .pmed{color:#9aa3b2}
   .track{flex:1;position:relative}
   .mcol{position:absolute;top:0;bottom:0;border-right:1px solid rgba(39,44,58,.4)}
   .mcol.cur{background:rgba(255,180,84,.07)}
@@ -79,6 +86,7 @@
       <span class="lg"><span class="swatch sw-fore"></span><b>預計收入</b>：已簽約、本月之後還沒做（未開發票）</span>
       <span class="lg"><span class="swatch sw-recv"></span><b>應收帳款</b>：本月正在做／已交付待收款</span>
       <span class="lg"><span class="swatch sw-past"></span>已過月份（多半已收）淡化</span>
+      <br>專案名稱下方紅字＝<span class="psvc"><b>💸外包服務費</b></span>（付給合作夥伴）、<span class="pmed"><b>📺廣告媒體費</b></span>（客戶儲值回補、淨額≈0）。
       <br>每月領錢的專案＝<b>一個月一個方塊</b>；一次性／期間案＝一個大方塊。💰越多金額越大。橘色直欄＝本月。來源：Notion。
     </div>
     <div class="tl"><div class="grid" id="grid"></div></div>
@@ -108,7 +116,7 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
   const color={}; order.forEach((c,i)=>color[c]=PAL[i%PAL.length]);
   rows.sort((a,b)=>(a.cust<b.cust?-1:a.cust>b.cust?1:0)||a.s-b.s);
 
-  let recvTot=0, foreTot=0;   // 應收帳款 / 預計收入 合計
+  let recvTot=0, foreTot=0, svcTot=0, mediaTot=0;   // 應收 / 預計 / 應付外包服務 / 廣告媒體(回補)
 
   let h='<div class="hrow"><div class="hname">專案（依客戶分組）</div><div class="hmon">'
        +mn.map((m,i)=>`<div class="mc ${i===curM?'cur':''}">${m}</div>`).join('')+'</div></div>';
@@ -123,14 +131,16 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
     const bg=`linear-gradient(135deg,${col},${col}cc)`;
     const em=emo(r.amount);
     const invest=isInvest(r.note,r.amount);
+    const monthly=isMonthly(r.note);
     const cols=mn.map((m,i)=>`<div class="mcol ${i===curM?'cur':''}" style="left:${i/12*100}%;width:${100/12}%"></div>`).join('');
     let bars='';
-    if(isMonthly(r.note)){
+    if(monthly){
       // 一個月一個方塊；依時間分類
       for(let i=r.s;i<=r.e;i++){
         const L=i/12*100, W=100/12;
         const cls = i<curM ? 'past' : i===curM ? 'recv' : 'fore';
-        if(!invest){ if(cls==='recv') recvTot+=(r.amount||0); else if(cls==='fore') foreTot+=(r.amount||0); }
+        if(!invest){ if(cls==='recv') recvTot+=(r.amount||0); else if(cls==='fore') foreTot+=(r.amount||0);
+          if(i>=curM){ svcTot+=(r.svc||0); mediaTot+=(r.media||0); } }
         const tag = invest?'投資' : cls==='recv'?'應收' : cls==='fore'?'預計' : '已收';
         const style = invest
           ? 'background:rgba(255,255,255,.05);color:#9aa3b2;box-shadow:none;border:1px dashed #272c3a'
@@ -146,7 +156,7 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
       let cls,tag;
       if(invest){ cls='inv'; tag='投資案'; }
       else if(r.e<curM){ cls='recv'; tag='應收帳款'; recvTot+=(r.amount||0); }
-      else { cls='fore'; tag='預計收入'; foreTot+=(r.amount||0); }
+      else { cls='fore'; tag='預計收入'; foreTot+=(r.amount||0); svcTot+=(r.svc||0); mediaTot+=(r.media||0); }
       const amt=invest?'':(r.amount||r.amount===0)?`${em} $${fmt(r.amount)}`:em;
       const barbg = cls==='fore' ? `style="left:${L}%;width:${W}%;background:${bg}"` : `style="left:${L}%;width:${W}%"`;
       bars=`<div class="bar ${cls==='fore'?'':cls}" ${barbg} title="${r.name}｜${r.start}~${r.due}｜${tag}">
@@ -158,14 +168,25 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
     const tg=tagOf(r.name);
     let disp=strip(r.name);
     if(r.cust&&r.cust!=="其他"){const p=disp.replace(new RegExp('^'+r.cust.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'[\\-_、：:　 ]+'),'');if(p)disp=p;}
-    h+=`<div class="row"><div class="rname"><span class="rdot" style="background:${col}"></span>${tg?`<span class="tag">${tg}</span>`:''}<span class="nm">${disp}</span></div>
-      <div class="track">${cols}${bars}</div></div>`;
+    const per=monthly?"/月":"";
+    let payHtml='';
+    if(!invest&&(r.svc||r.media)){
+      payHtml='<div class="pay">'
+        +(r.svc?`<span class="psvc" title="付給外包/合作夥伴的服務費">💸外包 -${abbr(r.svc)}${per}</span>`:'')
+        +(r.media?`<span class="pmed" title="廣告媒體投放費，由客戶以廣告費儲值回補，淨額接近0">📺媒體 -${abbr(r.media)}${per}·回補</span>`:'')
+        +'</div>';
+    }
+    h+=`<div class="row"><div class="rname"><span class="rdot" style="background:${col}"></span>`
+      +`<div class="nmline">${tg?`<span class="tag">${tg}</span>`:''}<span class="nm">${disp}</span></div>${payHtml}</div>`
+      +`<div class="track">${cols}${bars}</div></div>`;
   });
 
   document.getElementById('sumrow').innerHTML=
-    `<div class="scard recv"><div class="lab">📩 應收帳款（本月執行／待收）</div><div class="val">$${fmt(recvTot)}</div><div class="hint">本月正在做、即將請款的金額</div></div>`+
-    `<div class="scard fore"><div class="lab">💰 預計收入（未來未開發票）</div><div class="val">$${fmt(foreTot)}</div><div class="hint">本月之後已排程、尚未執行的金額</div></div>`+
-    `<div class="scard"><div class="lab">合計（接下來會進來）</div><div class="val">$${fmt(recvTot+foreTot)}</div><div class="hint">應收＋預計，不含已收與投資案</div></div>`;
+    `<div class="scard recv"><div class="lab">📩 應收帳款</div><div class="val">$${fmt(recvTot)}</div><div class="hint">本月正在做、即將請款</div></div>`+
+    `<div class="scard fore"><div class="lab">💰 預計收入</div><div class="val">$${fmt(foreTot)}</div><div class="hint">本月之後已排程、未執行</div></div>`+
+    `<div class="scard pay"><div class="lab">💸 應付外包（服務費）</div><div class="val">-$${fmt(svcTot)}</div><div class="hint">接下來要付給外包/合作夥伴</div></div>`+
+    `<div class="scard net"><div class="lab">🟰 淨收入（收入−外包）</div><div class="val">$${fmt(recvTot+foreTot-svcTot)}</div><div class="hint">應收＋預計 −外包服務費</div></div>`+
+    `<div class="scard med"><div class="lab">📺 廣告媒體費（客戶回補）</div><div class="val">-$${fmt(mediaTot)}</div><div class="hint">先墊投放、客戶儲值回補，淨額≈0</div></div>`;
   document.getElementById('grid').innerHTML=h;
 }).catch(e=>{document.getElementById('sub').textContent='載入失敗：'+e;});
 </script>

@@ -80,6 +80,18 @@
   .bar.recv{border:1.5px dashed var(--amber);background:rgba(255,180,84,.16)!important;color:#ffd9a3;box-shadow:none}
   .bar.inv{background:rgba(255,255,255,.05)!important;color:var(--mut);box-shadow:none;border:1px dashed var(--line)}
   .scrollhint{display:none;color:var(--mut);font-size:11.5px;margin:0 2px 8px;text-align:center}
+  .arwrap{margin-top:28px}
+  .arh{font-size:15px;margin:0 0 4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .arh span{color:var(--amber);font-weight:800;font-size:14px}
+  .arsub{color:var(--mut);font-size:12px;margin:0 0 12px;line-height:1.55}
+  .artbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+  .artbl table{border-collapse:collapse;width:100%;font-size:13px;white-space:nowrap}
+  .artbl th,.artbl td{padding:9px 13px;text-align:left;border-bottom:1px solid var(--line)}
+  .artbl thead th{color:var(--mut);font-weight:700;font-size:11.5px;background:var(--panel2)}
+  .artbl tbody tr:hover td{background:rgba(255,180,84,.06)}
+  .artbl td.r,.artbl th.r{text-align:right}
+  .age-old{color:#ff5d6c;font-weight:800}
+  .age-mid{color:var(--amber);font-weight:700}
   /* ===== RWD ===== */
   @media(max-width:1000px){
     .scard{flex:1 1 30%;min-width:0}              /* 平板：每排約3張 */
@@ -124,6 +136,12 @@
     </div>
     <div class="scrollhint">← 左右滑動查看 1–12 月 ·（專案欄固定）→</div>
     <div class="tl"><div class="grid" id="grid"></div></div>
+
+    <div class="arwrap">
+      <h2 class="arh">📋 應收未收（已認列、還沒收到的款）<span id="artot"></span></h2>
+      <div class="arsub">這些是已經<b>賺到／認列</b>但<b>現金還沒進來</b>的款。帳齡越久越上面——方便你確認是「還沒做完」還是「做完了還沒請款／客戶還沒付」。來源：日記帳「應收帳款」科目。</div>
+      <div class="artbl"><table id="arTable"></table></div>
+    </div>
   </div>
 <script>
 const mn=["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
@@ -272,6 +290,21 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
     `<div class="scard med"><div class="lab">📺 廣告媒體費</div><div class="val">-$${fmt(mediaTot)}</div><div class="hint">客戶儲值回補，淨額≈0</div></div>`;
   document.getElementById('grid').innerHTML=h;
 }).catch(e=>{document.getElementById('sub').textContent='載入失敗：'+e;});
+
+// 應收未收（待收款）— 來源：日記帳 應收帳款科目
+fetch('data/projects_monthly.json').then(r=>r.json()).then(P=>{
+  const today=new Date(), td=today.toISOString().slice(0,10);
+  const days=s=>Math.floor((today-new Date(s))/86400000);
+  const items=(P.receivables_open||[]).filter(x=>x.date<=td).sort((a,b)=>a.date<b.date?-1:1);
+  const tot=items.reduce((a,x)=>a+x.amt,0);
+  document.getElementById('artot').textContent=' $'+fmt(tot)+'（'+items.length+'筆待收）';
+  const agec=d=>d>60?'age-old':d>30?'age-mid':'';
+  document.getElementById('arTable').innerHTML = items.length?
+    '<thead><tr><th>認列日</th><th class="r">帳齡</th><th>客戶／專案</th><th>項目</th><th class="r">金額</th></tr></thead><tbody>'+
+    items.map(x=>{const a=days(x.date);return `<tr><td>${x.date}</td><td class="r ${agec(a)}">${a} 天</td><td><b>${x.name}</b></td><td>${x.desc||'—'}</td><td class="r">$${fmt(x.amt)}</td></tr>`;}).join('')+
+    `<tr><td colspan="4" style="font-weight:800;background:var(--panel2)">合計</td><td class="r" style="font-weight:800;color:var(--amber);background:var(--panel2)">$${fmt(tot)}</td></tr></tbody>`
+    : '<tbody><tr><td style="padding:14px;color:var(--mut)">目前沒有未收的款 🎉</td></tr></tbody>';
+}).catch(e=>{document.getElementById('arTable').innerHTML='<tbody><tr><td style="padding:14px;color:var(--mut)">應收未收資料載入失敗</td></tr></tbody>';});
 </script>
 </body>
 </html>

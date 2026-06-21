@@ -42,8 +42,10 @@ def main():
     ws = find_sheet(wb, "日記帳")
     rev, cost = {}, {}
     acct = {"預計收入": [0]*12, "應收帳款": [0]*12, "應付帳款": [0]*12}
+    ar_book, ar_collected = [], 0.0   # 應收帳款：認列明細 / 已收回總額
     for r in range(4, ws.max_row + 1):
         d = ws.cell(r, 2).value
+        desc = ws.cell(r, 3).value
         amt = ws.cell(r, 5).value
         cat = ws.cell(r, 4).value
         outacc = ws.cell(r, 6).value
@@ -65,6 +67,23 @@ def main():
                 acct[a][m] += amt
             if outacc == a:
                 acct[a][m] -= amt
+        # 應收帳款明細：認列（轉入應收）與收回（轉出應收）
+        if inacc == "應收帳款" and amt > 0:
+            ar_book.append([d.date().isoformat(), pname, str(desc or "").strip(), amt])
+        if outacc == "應收帳款":
+            ar_collected += amt
+
+    # FIFO：已收回的款項沖銷最早認列的應收，剩下的就是「應收未收」
+    ar_book.sort(key=lambda x: x[0])
+    rem = ar_collected
+    ar_open = []
+    for dt, pname, desc, amt in ar_book:
+        if rem >= amt:
+            rem -= amt
+            continue
+        a = amt - rem if rem > 0 else amt
+        rem = 0
+        ar_open.append({"date": dt, "name": pname, "desc": desc, "amt": round(a)})
 
     projects = sorted(set(rev) | set(cost),
                       key=lambda p: -sum(rev.get(p, [0]*12)))
@@ -80,6 +99,8 @@ def main():
         "months": ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],
         "projects": rows,
         "accounts": {k: [round(x) for x in v] for k, v in acct.items()},
+        "receivables_open": ar_open,
+        "receivables_open_total": round(sum(x["amt"] for x in ar_open)),
     }
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:

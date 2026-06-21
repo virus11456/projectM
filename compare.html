@@ -141,7 +141,7 @@
       <span class="lg"><span class="swatch sw-fore"></span><b>預計收入</b>：已簽約、本月之後還沒做（未開發票）</span>
       <span class="lg"><span class="swatch sw-recv"></span><b>應收帳款</b>：本月正在做／已交付待收款</span>
       <span class="lg"><span class="swatch sw-past"></span>已過月份（多半已收）淡化</span>
-      <br>月份下方：<span class="msum"><b>綠＝入帳</b></span>、<span style="color:#ff7a85"><b>紅＝出(專案應付＋薪資8萬/月)</b></span>、<span style="color:#6aa0ff"><b>藍＝淨現金流</b></span>（<span style="color:#ff5d6c"><b>負為紅字</b></span>＝當月出大於入）。專案名稱下方紅字＝<span class="psvc"><b>💸可扣成本</b></span>（會扣）、<span class="pmed"><b>📺廣告媒體費</b></span>（客戶回補、不扣）。
+      <br>月份下方：<span class="msum"><b>綠＝入帳</b></span>、<span style="color:#ff7a85"><b>紅＝出(專案應付＋薪資8萬/月)</b></span>、<span style="color:#6aa0ff"><b>藍＝淨現金流</b></span>（<span style="color:#ff5d6c"><b>負為紅字</b></span>＝當月出大於入）。專案名稱下方紅字＝<span class="psvc"><b>💸可扣成本</b></span>（外包＋內含廣告成本，會扣）。
       <br>每月領錢的專案＝<b>一個月一個方塊</b>；一次性／期間案＝一個大方塊。💰越多金額越大。橘色直欄＝本月。來源：Notion。
     </div>
     <div class="scrollhint">← 左右滑動查看 1–12 月 ·（專案欄固定）→</div>
@@ -180,7 +180,7 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
   const color={}; order.forEach((c,i)=>color[c]=PAL[i%PAL.length]);
   rows.sort((a,b)=>(a.cust<b.cust?-1:a.cust>b.cust?1:0)||a.s-b.s);
 
-  let recvTot=0, foreTot=0, svcTot=0, mediaTot=0;   // 應收 / 預計 / 應付成本 / 廣告媒體(回補)
+  let recvTot=0, foreTot=0, svcTot=0;   // 應收 / 預計 / 應付成本
   const monthSum=new Array(12).fill(0);             // 每月入帳(毛)
   const costMonth=new Array(12).fill(0);            // 每月可扣成本
 
@@ -199,13 +199,9 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
     evs.forEach(ev=>{ monthSum[ev.m]+=ev.amt;
       if(ev.m===curM) recvTot+=ev.amt; else if(ev.m>curM) foreTot+=ev.amt; });
     if(!isInvest(r.note,r.amount)){
-      if(isMonthly(r.note)){ for(let i=r.s;i<=r.e;i++) costMonth[i]+=(r.svc||0); }      // 每月案：每月扣
-      else { evs.forEach(ev=>{ if(totalInc>0) costMonth[ev.m]+=(r.svc||0)*(ev.amt/totalInc); }); } // 排程/期間：依入帳占比分攤
-      if(r.e>=curM){ // 應付總計（未來）
-        if(isMonthly(r.note)){ let fm=0; for(let i=Math.max(r.s,curM);i<=r.e;i++) fm++;
-          svcTot+=(r.svc||0)*fm; mediaTot+=(r.media||0)*fm; }
-        else { svcTot+=(r.svc||0); mediaTot+=(r.media||0); }
-      }
+      const hasSched=parseBill(r.bill).length>0;
+      if(isMonthly(r.note)&&!hasSched){ for(let i=r.s;i<=r.e;i++) costMonth[i]+=(r.svc||0); }   // 純每月案：svc 為每月、逐月扣
+      else { evs.forEach(ev=>{ if(totalInc>0) costMonth[ev.m]+=(r.svc||0)*(ev.amt/totalInc); }); } // 有排程/期間：svc 為總額、依入帳占比分攤
     }
   });
   const outMonth=costMonth.map(c=>c+OVERHEAD);                    // 每月出：專案應付＋固定薪資
@@ -213,6 +209,7 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
   const grand=monthSum.reduce((a,b)=>a+b,0);
   const grandOut=outMonth.reduce((a,b)=>a+b,0), grandNet=grand-grandOut;
   const futOH=(12-curM)*OVERHEAD;   // 本月起到年底的薪資
+  svcTot=costMonth.slice(curM).reduce((a,b)=>a+b,0);   // 本月起到年底的應付成本（與每月一致）
 
   let h='<div class="hrow"><div class="hname">專案（依客戶分組）'
        +`<span class="grand">入 $${fmt(grand)}</span><span class="grandout">出 -$${fmt(grandOut)}</span><span class="grandnet ${grandNet<0?'neg':''}">淨 $${fmt(grandNet)}</span></div><div class="hmon">`
@@ -288,11 +285,8 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
     if(r.cust&&r.cust!=="其他"){const p=disp.replace(new RegExp('^'+r.cust.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'[\\-_、：:　 ]+'),'');if(p)disp=p;}
     const per=monthly?"/月":"";
     let payHtml='';
-    if(!invest&&(r.svc||r.media)){
-      payHtml='<div class="pay">'
-        +(r.svc?`<span class="psvc" title="可扣成本：外包服務費／內含廣告成本，會從收入扣除">💸成本 -${abbr(r.svc)}${per}</span>`:'')
-        +(r.media?`<span class="pmed" title="廣告媒體投放費，由客戶以廣告費儲值回補，淨額接近0，不從收入扣除">📺媒體 -${abbr(r.media)}${per}·回補</span>`:'')
-        +'</div>';
+    if(!invest&&r.svc){
+      payHtml=`<div class="pay"><span class="psvc" title="可扣成本：外包服務費／內含廣告成本，會從收入扣除">💸成本 -${abbr(r.svc)}${per}</span></div>`;
     }
     h+=`<div class="row"><div class="rname"><span class="rdot" style="background:${col}"></span>`
       +`<div class="nmline">${tg?`<span class="tag">${tg}</span>`:''}<span class="nm">${disp}</span></div>${payHtml}</div>`
@@ -302,10 +296,9 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
   document.getElementById('sumrow').innerHTML=
     `<div class="scard recv"><div class="lab">📩 應收帳款</div><div class="val">$${fmt(recvTot)}</div><div class="hint">本月正在做、即將請款</div></div>`+
     `<div class="scard fore"><div class="lab">💰 預計收入</div><div class="val">$${fmt(foreTot)}</div><div class="hint">本月之後已排程、未執行</div></div>`+
-    `<div class="scard pay"><div class="lab">💸 應付帳款</div><div class="val">-$${fmt(svcTot)}</div><div class="hint">外包＋內含廣告成本</div></div>`+
+    `<div class="scard pay"><div class="lab">💸 應付帳款（本月~年底）</div><div class="val">-$${fmt(svcTot)}</div><div class="hint">外包＋內含廣告成本</div></div>`+
     `<div class="scard sal"><div class="lab">🧑‍💼 固定成本(薪資)</div><div class="val">-$${fmt(futOH)}</div><div class="hint">${HEADCOUNT}人×$${fmt(SALARY_EACH)}=$${fmt(OVERHEAD)}/月 ×${12-curM}個月</div></div>`+
-    `<div class="scard net"><div class="lab">🟰 淨收入</div><div class="val">$${fmt(recvTot+foreTot-svcTot-futOH)}</div><div class="hint">應收＋預計 −成本 −薪資</div></div>`+
-    `<div class="scard med"><div class="lab">📺 廣告媒體費</div><div class="val">-$${fmt(mediaTot)}</div><div class="hint">客戶儲值回補，淨額≈0</div></div>`;
+    `<div class="scard net"><div class="lab">🟰 淨收入（本月~年底）</div><div class="val">$${fmt(recvTot+foreTot-svcTot-futOH)}</div><div class="hint">應收＋預計 −成本 −薪資（累計到年底）</div></div>`;
   document.getElementById('grid').innerHTML=h;
 
   // 接下來總結：本月～年底還可收多少、淨多少、幾個案子在跑

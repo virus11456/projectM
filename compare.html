@@ -79,7 +79,33 @@
   .execbar{position:absolute;top:11px;bottom:11px;border-radius:8px;background:rgba(255,255,255,.035);border:1px dashed rgba(255,255,255,.16)}
   .bar.recv{border:1.5px dashed var(--amber);background:rgba(255,180,84,.16)!important;color:#ffd9a3;box-shadow:none}
   .bar.inv{background:rgba(255,255,255,.05)!important;color:var(--mut);box-shadow:none;border:1px dashed var(--line)}
-  @media(max-width:640px){.top,.wrap{padding-left:12px;padding-right:12px}.hname,.rname{flex-basis:138px}.rname{font-size:11.5px;padding-left:24px}}
+  .scrollhint{display:none;color:var(--mut);font-size:11.5px;margin:0 2px 8px;text-align:center}
+  /* ===== RWD ===== */
+  @media(max-width:1000px){
+    .scard{flex:1 1 30%;min-width:0}              /* 平板：每排約3張 */
+    .scard .val{font-size:21px}
+  }
+  @media(max-width:680px){
+    .top{padding:14px 14px}.top h1{font-size:16px}.wrap{padding:12px 12px 60px}
+    .scard{flex:1 1 46%;min-height:80px;padding:11px 12px}  /* 手機：每排2張 */
+    .scard .val{font-size:19px}.scard .lab{font-size:11px}.scard .hint{font-size:9.5px}
+    .scrollhint{display:block}
+    .legend{font-size:11px;line-height:1.7}
+    .tl{max-height:none}
+    .grid{min-width:760px}
+    .hname,.rname{flex:0 0 116px}
+    .hname{font-size:10.5px;padding:8px 8px}
+    .rname{font-size:11px;padding:7px 8px 7px 20px}
+    .rname .rdot{left:8px}
+    .rname .tag{font-size:9px;padding:1px 4px;margin-right:4px}
+    .pay{font-size:9px}
+    .hmon .mc{font-size:10px;padding:6px 0}
+    .hmon .mc .msum{font-size:10px}.hmon .mc .mnet{font-size:8.5px}
+    .hname .grand{font-size:11px}.hname .grandnet{font-size:10px}
+    .row{height:64px}
+    .mblk .a{font-size:10px}.mblk .e{font-size:10px}.mblk .t{font-size:8px}
+    .b-amt{font-size:12px}.b-note{font-size:9.5px;-webkit-line-clamp:2}
+  }
 </style>
 </head>
 <body>
@@ -96,6 +122,7 @@
       <br>月份下方<span class="msum"><b>綠字＝入帳(毛)</b></span>、<span style="color:#6aa0ff"><b>藍字＝淨(扣專案成本＋薪資8萬/月)</b></span>。專案名稱下方紅字＝<span class="psvc"><b>💸可扣成本</b></span>（外包＋內含廣告成本，會扣）、<span class="pmed"><b>📺廣告媒體費</b></span>（客戶儲值回補、淨額≈0、不扣）。
       <br>每月領錢的專案＝<b>一個月一個方塊</b>；一次性／期間案＝一個大方塊。💰越多金額越大。橘色直欄＝本月。來源：Notion。
     </div>
+    <div class="scrollhint">← 左右滑動查看 1–12 月 ·（專案欄固定）→</div>
     <div class="tl"><div class="grid" id="grid"></div></div>
   </div>
 <script>

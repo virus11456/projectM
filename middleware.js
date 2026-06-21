@@ -14,6 +14,9 @@ export default async function middleware(req) {
   const SECRET = process.env.AUTH_SECRET;
   if (!USER || !PASS || !SECRET) return new Response('尚未設定登入憑證', { status: 503 });
 
+  // 公開資源：讓登入頁也能載入小助手（純前端動畫、無機密）
+  if (path === '/club.js') return next();
+
   // 登入表單送出
   if (path === '/login' && req.method === 'POST') {
     const form = await req.formData();

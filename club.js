@@ -40,6 +40,15 @@
   const NET_URL=pxURL([".HHH.","H...H","H...H",".HHH.","...t.","..t..",".t..."],3,{H:'#e7e9ee',t:'#9c6f00'});
   const CUP_URL=pxURL(["..s..","CCCCC","CdddC","CdddC","CoooC",".CCC."],3,{s:'#e7e9ee',C:'#cfe9ff',d:'#c98bff',o:'#5a3b2a'});
   const HEART_URL=pxURL([".R.R.","RRRRR","RRRRR",".RRR.","..R.."],3,{R:'#ff5d6c'});
+  // 睡覺 / 打電動 / 澆花 / 抽菸
+  const Z_URL=pxURL(["ZZZZZ","...Z.","..Z..",".Z...","ZZZZZ"],3,{Z:'#caf5ff'});
+  const PAD_ON=pxURL(["ccccc","cSSSc","cSSSc","ccccc","cb.bc","ccccc"],3,{c:'#5b8cff',S:'#27c093',b:'#22304d'});
+  const PAD_OFF=pxURL(["ccccc","cSSSc","cSSSc","ccccc","cb.bc","ccccc"],3,{c:'#5b8cff',S:'#16331f',b:'#22304d'});
+  const FLOWER_URL=pxURL([".FFF.","FFYFF",".FFF.","..G..","..G..",".ppp."],3,{F:'#ff7aa0',Y:'#ffcf3a',G:'#27c093',p:'#9c6f00'});
+  const CAN_URL=pxURL([".ccccc.","ccccccS","ccccc..","ccccc..",".ccccc."],3,{c:'#9aa3b2',S:'#7e8694'});
+  const DROP_URL=pxURL([".w","ww","ww",".w"],3,{w:'#36cfd1'});
+  const SMOKE_URL=pxURL([".s.","sss",".s."],3,{s:'#aab2c2'});
+  const CIG_URL=pxURL(["wwwwo","wwwwo"],3,{w:'#e7e9ee',o:'#ffb454'});
 
   // 樣式
   const st=document.createElement('style');st.id='club-style';st.textContent=`
@@ -67,6 +76,10 @@
   .club-net{right:80px;bottom:46px;width:18px;animation:clubbob 1.5s steps(2) infinite}
   .club-cup{right:82px;bottom:30px;width:20px;animation:cupbob 1.3s steps(2) infinite}
   @keyframes cupbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+  .club-pad{right:80px;bottom:30px;width:18px;animation:cupbob 1.1s steps(2) infinite}
+  .club-flower{right:60px;bottom:8px;width:18px}
+  .club-can{right:86px;bottom:38px;width:20px}
+  .club-cig{right:74px;bottom:52px;width:15px}
   @media(max-width:640px){#club{right:10px;bottom:10px}#clubbubble{right:78px;bottom:22px;width:170px;font-size:11px}}`;
   document.head.appendChild(st);
 
@@ -77,9 +90,11 @@
   function mount(){document.body.appendChild(club);document.body.appendChild(bubble);}
   if(document.body)mount();else document.addEventListener('DOMContentLoaded',mount);
 
-  // 眨眼
-  setInterval(()=>{const x=club.getContext('2d');x.clearRect(0,0,club.width,club.height);x.drawImage(blinkSprite,0,0);
-    setTimeout(()=>{const y=club.getContext('2d');y.clearRect(0,0,club.width,club.height);y.drawImage(normalSprite,0,0);},140);},3800);
+  // 眨眼 / 睡覺（閉眼）
+  function drawClub(spr){const x=club.getContext('2d');x.clearRect(0,0,club.width,club.height);x.drawImage(spr,0,0);}
+  let asleep=false;
+  setInterval(()=>{if(asleep){drawClub(blinkSprite);return;}
+    drawClub(blinkSprite);setTimeout(()=>{if(!asleep)drawClub(normalSprite);},140);},3800);
 
   // 抓資料供提示用
   const DATA={};
@@ -114,7 +129,7 @@
   // ===== 閒置小活動：釣魚 / 抓蝴蝶 / 喝手搖飲 =====
   let actTimers=[];
   function spawn(el,cls){el.className=cls;document.body.appendChild(el);return el;}
-  function clearAct(){actTimers.forEach(clearInterval);actTimers=[];document.querySelectorAll('.club-prop').forEach(e=>e.remove());}
+  function clearAct(){actTimers.forEach(clearInterval);actTimers=[];document.querySelectorAll('.club-prop').forEach(e=>e.remove());asleep=false;drawClub(normalSprite);}
   function fling(x,y,src,w){const img=new Image();img.src=src;img.className='pxcoin';img.style.width=(w||18)+'px';document.body.appendChild(img);
     let px=x,py=y,vx=(Math.random()-0.5)*3,vy=-7.5,rot=0,vr=(Math.random()-0.5)*16,fl=py;
     (function s(){vy+=0.4;px+=vx;py+=vy;rot+=vr;img.style.transform=`translate(${px}px,${py}px) rotate(${rot}deg)`;if(py<fl+8)requestAnimationFrame(s);else img.remove();})();}
@@ -137,7 +152,26 @@
     const cup=spawn(Object.assign(new Image(),{src:CUP_URL}),'club-prop club-cup');cup.style.width='20px';
     actTimers.push(setInterval(()=>{const r=cup.getBoundingClientRect();floatUp(r.left+3,r.top-4,HEART_URL);},2400));
   }
-  const ACTS=[actFishing,actButterfly,actBubbleTea];
+  function dropDown(x,y){const img=new Image();img.src=DROP_URL;img.className='pxcoin';img.style.width='6px';document.body.appendChild(img);
+    let py=y,vy=1,end=y+34;(function s(){vy+=0.3;py+=vy;img.style.transform=`translate(${x}px,${py}px)`;if(py<end)requestAnimationFrame(s);else img.remove();})();}
+  function actSleep(){
+    asleep=true;drawClub(blinkSprite);
+    actTimers.push(setInterval(()=>{const cb=club.getBoundingClientRect();floatUp(cb.left+cb.width-8,cb.top-2,Z_URL);},1600));
+  }
+  function actGame(){
+    const pad=spawn(Object.assign(new Image(),{src:PAD_ON}),'club-prop club-pad');
+    let on=true;actTimers.push(setInterval(()=>{on=!on;pad.src=on?PAD_ON:PAD_OFF;},340));
+  }
+  function actWater(){
+    spawn(Object.assign(new Image(),{src:FLOWER_URL}),'club-prop club-flower');
+    const can=spawn(Object.assign(new Image(),{src:CAN_URL}),'club-prop club-can');
+    actTimers.push(setInterval(()=>{const r=can.getBoundingClientRect();dropDown(r.left+r.width-5,r.top+r.height-3);},650));
+  }
+  function actSmoke(){
+    const cig=spawn(Object.assign(new Image(),{src:CIG_URL}),'club-prop club-cig');
+    actTimers.push(setInterval(()=>{const r=cig.getBoundingClientRect();floatUp(r.left,r.top-3,SMOKE_URL);},950));
+  }
+  const ACTS=[actFishing,actButterfly,actBubbleTea,actSleep,actGame,actWater,actSmoke];
   let idleT;
   function startIdle(){clearAct();ACTS[Math.floor(Math.random()*ACTS.length)]();}
   function resetIdle(){clearAct();clearTimeout(idleT);idleT=setTimeout(startIdle,8000);}

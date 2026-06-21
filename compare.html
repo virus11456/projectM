@@ -240,7 +240,12 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
       sched.forEach(ev=>{ if(!bym[ev.m])bym[ev.m]={amt:0,ls:[]}; bym[ev.m].amt+=ev.amt; if(ev.label)bym[ev.m].ls.push(ev.label); });
       Object.keys(bym).map(Number).sort((a,b)=>a-b).forEach(m=>{
         const v=bym[m].amt, lab=bym[m].ls.join('＋'), L=m/12*100, W=100/12;
-        const cls=m<curM?'past':m===curM?'recv':'fore', tag=cls==='recv'?'應收':cls==='fore'?'預計':'已收';
+        // 優先看排程標籤的實際收款狀態，沒標才用月份判斷
+        let cls;
+        if(/已收|預收/.test(lab)) cls='past';
+        else if(/未收|應收/.test(lab)) cls='recv';
+        else cls = m<curM?'past':m===curM?'recv':'fore';
+        const tag = /預收/.test(lab)?'預收' : cls==='recv'?'應收' : cls==='fore'?'預計':'已收';
         bars+=`<div class="bar mblk ${cls}" style="left:calc(${L}% + 3px);width:calc(${W}% - 6px);background:${bg}"
           title="${r.name}｜${mn[m]}請款｜$${fmt(v)}｜${lab||tag}">
           <div class="e">${emo(v)||'💵'}</div><div class="a">${abbr(v)}</div><div class="t">${tag}</div></div>`;

@@ -35,8 +35,10 @@
   .grid{min-width:1100px}
   .hrow{display:flex;position:sticky;top:0;z-index:8;background:var(--panel2);border-bottom:1px solid var(--line)}
   .hname{flex:0 0 210px;padding:10px 14px;font-size:11.5px;font-weight:700;color:var(--mut);border-right:2px solid var(--line);position:sticky;left:0;background:var(--panel2);z-index:9}
+  .hname .grand{display:block;margin-top:3px;font-size:12.5px;font-weight:800;color:var(--green)}
   .hmon{flex:1;display:flex}
-  .hmon .mc{flex:1;text-align:center;padding:10px 0;font-size:11px;font-weight:700;color:var(--mut);border-right:1px solid rgba(39,44,58,.6)}
+  .hmon .mc{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 0;font-size:11px;font-weight:700;color:var(--mut);border-right:1px solid rgba(39,44,58,.6)}
+  .hmon .mc .msum{font-size:11px;font-weight:800;color:var(--green)}
   .hmon .mc.cur{background:rgba(255,180,84,.22);color:#fff;border-radius:6px 6px 0 0}
   .grp{display:flex;align-items:center;gap:8px;background:#10131a;border-top:1px solid var(--line);padding:7px 14px;font-size:12px;font-weight:800;position:sticky;left:0;z-index:3}
   .grp .gd{width:11px;height:11px;border-radius:3px;flex-shrink:0}
@@ -71,6 +73,7 @@
   .b-tag{font-size:9px;font-weight:800;letter-spacing:.5px;line-height:1}
   .b-note{font-size:10.5px;font-weight:600;line-height:1.35;opacity:.95;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
   .b-date{font-size:9.5px;opacity:.8;font-weight:600}
+  .execbar{position:absolute;top:11px;bottom:11px;border-radius:8px;background:rgba(255,255,255,.035);border:1px dashed rgba(255,255,255,.16)}
   .bar.recv{border:1.5px dashed var(--amber);background:rgba(255,180,84,.16)!important;color:#ffd9a3;box-shadow:none}
   .bar.inv{background:rgba(255,255,255,.05)!important;color:var(--mut);box-shadow:none;border:1px dashed var(--line)}
   @media(max-width:640px){.top,.wrap{padding-left:12px;padding-right:12px}.hname,.rname{flex-basis:138px}.rname{font-size:11.5px;padding-left:24px}}
@@ -118,9 +121,31 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
   rows.sort((a,b)=>(a.cust<b.cust?-1:a.cust>b.cust?1:0)||a.s-b.s);
 
   let recvTot=0, foreTot=0, svcTot=0, mediaTot=0;   // 應收 / 預計 / 應付外包服務 / 廣告媒體(回補)
+  const monthSum=new Array(12).fill(0);             // 每月入帳預估
 
-  let h='<div class="hrow"><div class="hname">專案（依客戶分組）</div><div class="hmon">'
-       +mn.map((m,i)=>`<div class="mc ${i===curM?'cur':''}">${m}</div>`).join('')+'</div></div>';
+  // 請款排程語法： 月:金額:標籤;月:金額:標籤  （例 6:409500:頭款;8:175500:尾款）
+  const parseBill=s=>!s?[]:s.split(';').map(p=>{const x=p.split(':');return{m:(+x[0])-1,amt:+x[1]||0,label:(x[2]||'').trim()};}).filter(x=>x.m>=0&&x.m<12);
+  // 一個專案的入帳事件：有排程用排程；每月案每月一筆；其餘整筆掛在起始月
+  function billEvents(r){
+    if(isInvest(r.note,r.amount))return[];
+    const sc=parseBill(r.bill); if(sc.length)return sc;
+    if(isMonthly(r.note)){const a=[];for(let i=r.s;i<=r.e;i++)a.push({m:i,amt:r.amount||0});return a;}
+    return[{m:r.s,amt:r.amount||0}];
+  }
+  // 預先彙總：每月入帳、應收/預計、應付外包/媒體
+  rows.forEach(r=>{
+    billEvents(r).forEach(ev=>{ monthSum[ev.m]+=ev.amt;
+      if(ev.m===curM) recvTot+=ev.amt; else if(ev.m>curM) foreTot+=ev.amt; });
+    if(!isInvest(r.note,r.amount)&&r.e>=curM){
+      if(isMonthly(r.note)){ let fm=0; for(let i=Math.max(r.s,curM);i<=r.e;i++) fm++;
+        svcTot+=(r.svc||0)*fm; mediaTot+=(r.media||0)*fm; }
+      else { svcTot+=(r.svc||0); mediaTot+=(r.media||0); }
+    }
+  });
+  const grand=monthSum.reduce((a,b)=>a+b,0);
+
+  let h='<div class="hrow"><div class="hname">專案（依客戶分組）<span class="grand">全年 $'+fmt(grand)+'</span></div><div class="hmon">'
+       +mn.map((m,i)=>`<div class="mc ${i===curM?'cur':''}">${m}<span class="msum">$${abbr(monthSum[i])}</span></div>`).join('')+'</div></div>';
   let lastCust=null;
   rows.forEach(r=>{
     const col=color[r.cust];
@@ -133,15 +158,27 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
     const em=emo(r.amount);
     const invest=isInvest(r.note,r.amount);
     const monthly=isMonthly(r.note);
+    const sched=parseBill(r.bill);
     const cols=mn.map((m,i)=>`<div class="mcol ${i===curM?'cur':''}" style="left:${i/12*100}%;width:${100/12}%"></div>`).join('');
     let bars='';
-    if(monthly){
+    if(sched.length&&!invest){
+      // 請款排程：執行期底襯 + 每個請款月一個方塊
+      const eL=r.s/12*100, eW=(r.e-r.s+1)/12*100;
+      bars+=`<div class="execbar" style="left:calc(${eL}% + 2px);width:calc(${eW}% - 4px)" title="執行期 ${r.start.slice(5)}~${r.due.slice(5)}"></div>`;
+      const bym={};
+      sched.forEach(ev=>{ if(!bym[ev.m])bym[ev.m]={amt:0,ls:[]}; bym[ev.m].amt+=ev.amt; if(ev.label)bym[ev.m].ls.push(ev.label); });
+      Object.keys(bym).map(Number).sort((a,b)=>a-b).forEach(m=>{
+        const v=bym[m].amt, lab=bym[m].ls.join('＋'), L=m/12*100, W=100/12;
+        const cls=m<curM?'past':m===curM?'recv':'fore', tag=cls==='recv'?'應收':cls==='fore'?'預計':'已收';
+        bars+=`<div class="bar mblk ${cls}" style="left:calc(${L}% + 3px);width:calc(${W}% - 6px);background:${bg}"
+          title="${r.name}｜${mn[m]}請款｜$${fmt(v)}｜${lab||tag}">
+          <div class="e">${emo(v)||'💵'}</div><div class="a">${abbr(v)}</div><div class="t">${tag}</div></div>`;
+      });
+    } else if(monthly){
       // 一個月一個方塊；依時間分類
       for(let i=r.s;i<=r.e;i++){
         const L=i/12*100, W=100/12;
         const cls = i<curM ? 'past' : i===curM ? 'recv' : 'fore';
-        if(!invest){ if(cls==='recv') recvTot+=(r.amount||0); else if(cls==='fore') foreTot+=(r.amount||0);
-          if(i>=curM){ svcTot+=(r.svc||0); mediaTot+=(r.media||0); } }
         const tag = invest?'投資' : cls==='recv'?'應收' : cls==='fore'?'預計' : '已收';
         const style = invest
           ? 'background:rgba(255,255,255,.05);color:#9aa3b2;box-shadow:none;border:1px dashed #272c3a'
@@ -160,8 +197,8 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
       const note=cleanNote(r.note);
       let cls,tag;
       if(invest){ cls='inv'; tag='投資案'; }
-      else if(r.e<curM){ cls='recv'; tag='應收帳款'; recvTot+=(r.amount||0); }
-      else { cls='fore'; tag='預計收入'; foreTot+=(r.amount||0); svcTot+=(r.svc||0); mediaTot+=(r.media||0); }
+      else if(r.e<curM){ cls='recv'; tag='應收帳款'; }
+      else { cls='fore'; tag='預計收入'; }
       const amt=invest?'':(r.amount||r.amount===0)?`${em} $${fmt(r.amount)}`:em;
       const barbg = cls==='fore' ? `style="left:${L}%;width:${W}%;background:${bg}"` : `style="left:${L}%;width:${W}%"`;
       bars=`<div class="bar ${cls==='fore'?'':cls}" ${barbg} title="${r.name}｜${r.start}~${r.due}｜${tag}">

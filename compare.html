@@ -37,11 +37,15 @@
   .hrow{display:flex;position:sticky;top:0;z-index:8;background:var(--panel2);border-bottom:1px solid var(--line)}
   .hname{flex:0 0 210px;padding:10px 14px;font-size:11.5px;font-weight:700;color:var(--mut);border-right:2px solid var(--line);position:sticky;left:0;background:var(--panel2);z-index:9}
   .hname .grand{display:block;margin-top:3px;font-size:12.5px;font-weight:800;color:var(--green)}
-  .hname .grandnet{display:block;margin-top:1px;font-size:11.5px;font-weight:700;color:#6aa0ff}
+  .hname .grandout{display:block;margin-top:1px;font-size:11px;font-weight:700;color:#ff7a85}
+  .hname .grandnet{display:block;margin-top:1px;font-size:11.5px;font-weight:800;color:#6aa0ff}
+  .hname .grandnet.neg{color:#ff5d6c}
   .hmon{flex:1;display:flex}
-  .hmon .mc{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:7px 0;font-size:11px;font-weight:700;color:var(--mut);border-right:1px solid rgba(39,44,58,.6)}
+  .hmon .mc{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:6px 0;font-size:11px;font-weight:700;color:var(--mut);border-right:1px solid rgba(39,44,58,.6)}
   .hmon .mc .msum{font-size:11px;font-weight:800;color:var(--green)}
-  .hmon .mc .mnet{font-size:9.5px;font-weight:700;color:#6aa0ff}
+  .hmon .mc .mout{font-size:9.5px;font-weight:700;color:#ff7a85}
+  .hmon .mc .mnet{font-size:10px;font-weight:800;color:#6aa0ff}
+  .hmon .mc .mnet.neg{color:#ff5d6c}
   .hmon .mc.cur{background:rgba(255,180,84,.22);color:#fff;border-radius:6px 6px 0 0}
   .grp{display:flex;align-items:center;gap:8px;background:#10131a;border-top:1px solid var(--line);padding:7px 14px;font-size:12px;font-weight:800;position:sticky;left:0;z-index:3}
   .grp .gd{width:11px;height:11px;border-radius:3px;flex-shrink:0}
@@ -131,7 +135,7 @@
       <span class="lg"><span class="swatch sw-fore"></span><b>預計收入</b>：已簽約、本月之後還沒做（未開發票）</span>
       <span class="lg"><span class="swatch sw-recv"></span><b>應收帳款</b>：本月正在做／已交付待收款</span>
       <span class="lg"><span class="swatch sw-past"></span>已過月份（多半已收）淡化</span>
-      <br>月份下方<span class="msum"><b>綠字＝入帳(毛)</b></span>、<span style="color:#6aa0ff"><b>藍字＝淨(扣專案成本＋薪資8萬/月)</b></span>。專案名稱下方紅字＝<span class="psvc"><b>💸可扣成本</b></span>（外包＋內含廣告成本，會扣）、<span class="pmed"><b>📺廣告媒體費</b></span>（客戶儲值回補、淨額≈0、不扣）。
+      <br>月份下方：<span class="msum"><b>綠＝入帳</b></span>、<span style="color:#ff7a85"><b>紅＝出(專案應付＋薪資8萬/月)</b></span>、<span style="color:#6aa0ff"><b>藍＝淨現金流</b></span>（<span style="color:#ff5d6c"><b>負為紅字</b></span>＝當月出大於入）。專案名稱下方紅字＝<span class="psvc"><b>💸可扣成本</b></span>（會扣）、<span class="pmed"><b>📺廣告媒體費</b></span>（客戶回補、不扣）。
       <br>每月領錢的專案＝<b>一個月一個方塊</b>；一次性／期間案＝一個大方塊。💰越多金額越大。橘色直欄＝本月。來源：Notion。
     </div>
     <div class="scrollhint">← 左右滑動查看 1–12 月 ·（專案欄固定）→</div>
@@ -198,12 +202,15 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
       }
     }
   });
-  const netMonth=monthSum.map((v,i)=>v-costMonth[i]-OVERHEAD);   // 扣專案成本＋固定薪資
-  const grand=monthSum.reduce((a,b)=>a+b,0), grandNet=netMonth.reduce((a,b)=>a+b,0);
+  const outMonth=costMonth.map(c=>c+OVERHEAD);                    // 每月出：專案應付＋固定薪資
+  const netMonth=monthSum.map((v,i)=>v-outMonth[i]);             // 每月淨現金流
+  const grand=monthSum.reduce((a,b)=>a+b,0);
+  const grandOut=outMonth.reduce((a,b)=>a+b,0), grandNet=grand-grandOut;
   const futOH=(12-curM)*OVERHEAD;   // 本月起到年底的薪資
 
-  let h='<div class="hrow"><div class="hname">專案（依客戶分組）<span class="grand">全年入帳 $'+fmt(grand)+'</span><span class="grandnet">淨 $'+fmt(grandNet)+'</span></div><div class="hmon">'
-       +mn.map((m,i)=>`<div class="mc ${i===curM?'cur':''}">${m}<span class="msum">$${abbr(monthSum[i])}</span><span class="mnet">淨$${abbr(netMonth[i])}</span></div>`).join('')+'</div></div>';
+  let h='<div class="hrow"><div class="hname">專案（依客戶分組）'
+       +`<span class="grand">入 $${fmt(grand)}</span><span class="grandout">出 -$${fmt(grandOut)}</span><span class="grandnet ${grandNet<0?'neg':''}">淨 $${fmt(grandNet)}</span></div><div class="hmon">`
+       +mn.map((m,i)=>`<div class="mc ${i===curM?'cur':''}">${m}<span class="msum">$${abbr(monthSum[i])}</span><span class="mout">-$${abbr(outMonth[i])}</span><span class="mnet ${netMonth[i]<0?'neg':''}">淨$${abbr(netMonth[i])}</span></div>`).join('')+'</div></div>';
   let lastCust=null;
   rows.forEach(r=>{
     const col=color[r.cust];

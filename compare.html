@@ -30,6 +30,7 @@
   .sw-past{background:rgba(255,255,255,.06);border:1px solid var(--line)}
   .tl{border:1px solid var(--line);border-radius:12px;overflow:auto;max-height:calc(100vh - 300px)}
   .scard.pay .val{color:#ff7a85}
+  .scard.sal .val{color:#e8893f}
   .scard.med .val{color:#aab2c2}
   .scard.net .val{color:#6aa0ff}
   .grid{min-width:1100px}
@@ -92,7 +93,7 @@
       <span class="lg"><span class="swatch sw-fore"></span><b>預計收入</b>：已簽約、本月之後還沒做（未開發票）</span>
       <span class="lg"><span class="swatch sw-recv"></span><b>應收帳款</b>：本月正在做／已交付待收款</span>
       <span class="lg"><span class="swatch sw-past"></span>已過月份（多半已收）淡化</span>
-      <br>月份下方<span class="msum"><b>綠字＝入帳(毛)</b></span>、<span style="color:#6aa0ff"><b>藍字＝淨(扣成本後)</b></span>。專案名稱下方紅字＝<span class="psvc"><b>💸可扣成本</b></span>（外包＋內含廣告成本，會扣）、<span class="pmed"><b>📺廣告媒體費</b></span>（客戶儲值回補、淨額≈0、不扣）。
+      <br>月份下方<span class="msum"><b>綠字＝入帳(毛)</b></span>、<span style="color:#6aa0ff"><b>藍字＝淨(扣專案成本＋薪資8萬/月)</b></span>。專案名稱下方紅字＝<span class="psvc"><b>💸可扣成本</b></span>（外包＋內含廣告成本，會扣）、<span class="pmed"><b>📺廣告媒體費</b></span>（客戶儲值回補、淨額≈0、不扣）。
       <br>每月領錢的專案＝<b>一個月一個方塊</b>；一次性／期間案＝一個大方塊。💰越多金額越大。橘色直欄＝本月。來源：Notion。
     </div>
     <div class="tl"><div class="grid" id="grid"></div></div>
@@ -100,6 +101,7 @@
 <script>
 const mn=["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
 const curM=new Date().getMonth();
+const OVERHEAD=80000;   // 公司固定成本：員工薪資（每月），會從每月淨額扣除
 const PAL=["#4f8cff","#27c093","#ffb454","#9b7bff","#ff5d6c","#36cfd1","#e8893f","#56c2a4","#c98bff","#f0c563","#7aa0ff","#ef7d92","#5bd0bf","#b0863f"];
 const fmt=n=>n.toLocaleString('en-US');
 const abbr=v=>!v&&v!==0?"":v>=1e6?(v/1e6).toFixed(1)+"M":v>=1e3?Math.round(v/1e3)+"k":""+v;
@@ -150,8 +152,9 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
       }
     }
   });
-  const netMonth=monthSum.map((v,i)=>v-costMonth[i]);
+  const netMonth=monthSum.map((v,i)=>v-costMonth[i]-OVERHEAD);   // 扣專案成本＋固定薪資
   const grand=monthSum.reduce((a,b)=>a+b,0), grandNet=netMonth.reduce((a,b)=>a+b,0);
+  const futOH=(12-curM)*OVERHEAD;   // 本月起到年底的薪資
 
   let h='<div class="hrow"><div class="hname">專案（依客戶分組）<span class="grand">全年入帳 $'+fmt(grand)+'</span><span class="grandnet">淨 $'+fmt(grandNet)+'</span></div><div class="hmon">'
        +mn.map((m,i)=>`<div class="mc ${i===curM?'cur':''}">${m}<span class="msum">$${abbr(monthSum[i])}</span><span class="mnet">淨$${abbr(netMonth[i])}</span></div>`).join('')+'</div></div>';
@@ -236,7 +239,8 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
     `<div class="scard recv"><div class="lab">📩 應收帳款</div><div class="val">$${fmt(recvTot)}</div><div class="hint">本月正在做、即將請款</div></div>`+
     `<div class="scard fore"><div class="lab">💰 預計收入</div><div class="val">$${fmt(foreTot)}</div><div class="hint">本月之後已排程、未執行</div></div>`+
     `<div class="scard pay"><div class="lab">💸 應付帳款</div><div class="val">-$${fmt(svcTot)}</div><div class="hint">外包＋內含廣告成本</div></div>`+
-    `<div class="scard net"><div class="lab">🟰 淨收入</div><div class="val">$${fmt(recvTot+foreTot-svcTot)}</div><div class="hint">應收＋預計 −成本</div></div>`+
+    `<div class="scard sal"><div class="lab">🧑‍💼 固定成本(薪資)</div><div class="val">-$${fmt(futOH)}</div><div class="hint">$${fmt(OVERHEAD)}/月 ×${12-curM}個月(至年底)</div></div>`+
+    `<div class="scard net"><div class="lab">🟰 淨收入</div><div class="val">$${fmt(recvTot+foreTot-svcTot-futOH)}</div><div class="hint">應收＋預計 −成本 −薪資</div></div>`+
     `<div class="scard med"><div class="lab">📺 廣告媒體費</div><div class="val">-$${fmt(mediaTot)}</div><div class="hint">客戶儲值回補，淨額≈0</div></div>`;
   document.getElementById('grid').innerHTML=h;
 }).catch(e=>{document.getElementById('sub').textContent='載入失敗：'+e;});

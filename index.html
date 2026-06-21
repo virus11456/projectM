@@ -122,7 +122,6 @@
       <a data-t="cashflow">💵 每月現金流</a>
       <a data-t="future">🔮 未來進帳</a>
       <a data-t="matrix">🗂️ 收入 × 月份</a>
-      <a data-t="projects">📁 專案 × 月份</a>
       <a data-t="progress">✅ 專案進度</a>
     </nav>
     <div class="side-foot">
@@ -177,13 +176,6 @@
       <div class="tbl-wrap"><table id="matrixTable"></table></div>
     </section>
 
-    <!-- PROJECTS -->
-    <section class="sec" id="projects">
-      <h2><span class="bar"></span>專案 × 月份（接案時間軸）</h2>
-      <div class="sub" style="margin-bottom:12px">縱軸 = 專案，橫軸 = 月份；● 代表該專案在當月為進行中（依開案日期）。</div>
-      <div class="tbl-wrap"><table id="projTable"></table></div>
-      <div class="note">逐筆「每個專案每月實收金額」需完整日記帳（Google Sheet 逐月明細）才能拆出；目前 Sheet 讀取僅含已實現月份的明細，故以「接案時間軸 + 收入分類矩陣」呈現。要做到專案 × 月份的金額熱力圖，我可以再接一次完整日記帳。</div>
-    </section>
 
     <!-- PROGRESS -->
     <section class="sec" id="progress">
@@ -335,18 +327,6 @@ document.getElementById('netFuture').innerHTML=(futureNet>=0?'<span class="pos">
   });
   h+='<tr class="total-row"><td>月總營收</td>'+DATA.revenue.map(v=>`<td>${(v/1000).toFixed(0)}k</td>`).join('')+`<td>${(totRev/1000000).toFixed(2)}M</td></tr>`;
   document.getElementById('matrixTable').innerHTML=h+'</tbody>';
-})();
-
-/* ---------- project timeline ---------- */
-(function(){
-  const ym=DATA.months.map((m,i)=>2026*100+(i+1));
-  let h='<thead><tr><th>專案</th><th>開案</th>'+DATA.months.map(m=>`<th>${m}</th>`).join('')+'</tr></thead><tbody>';
-  DATA.projects.forEach(p=>{
-    const start=yyyymm(p[1]);
-    h+=`<tr><td>${p[0]}</td><td class="muted" style="text-align:left">${p[1]}</td>`+
-      ym.map(m=>`<td>${start<=m?'<span style="color:var(--accent)">●</span>':'<span class="muted">·</span>'}</td>`).join('')+'</tr>';
-  });
-  document.getElementById('projTable').innerHTML=h+'</tbody>';
 })();
 
 /* ---------- progress (Trello board) ---------- */

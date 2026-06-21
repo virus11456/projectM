@@ -83,6 +83,11 @@
   .execbar{position:absolute;top:11px;bottom:11px;border-radius:8px;background:rgba(255,255,255,.035);border:1px dashed rgba(255,255,255,.16)}
   .bar.recv{border:1.5px dashed var(--amber);background:rgba(255,180,84,.16)!important;color:#ffd9a3;box-shadow:none}
   .bar.inv{background:rgba(255,255,255,.05)!important;color:var(--mut);box-shadow:none;border:1px dashed var(--line)}
+  .headline{background:linear-gradient(135deg,rgba(79,140,255,.13),rgba(39,192,147,.10));border:1px solid var(--line);border-radius:12px;padding:13px 17px;margin:0 2px 14px;font-size:13.5px;line-height:1.85}
+  .headline .hi{color:var(--green);font-weight:800;font-size:16px}
+  .headline .hn{color:#6aa0ff;font-weight:800;font-size:15px}
+  .headline .hr{color:#ff7a85;font-weight:800}
+  .headline b{color:var(--txt)}
   .scrollhint{display:none;color:var(--mut);font-size:11.5px;margin:0 2px 8px;text-align:center}
   .arwrap{margin-top:28px}
   .arh{font-size:15px;margin:0 0 4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -131,6 +136,7 @@
   </div>
   <div class="wrap">
     <div class="sumrow" id="sumrow"></div>
+    <div class="headline" id="headline"></div>
     <div class="legend">
       <span class="lg"><span class="swatch sw-fore"></span><b>預計收入</b>：已簽約、本月之後還沒做（未開發票）</span>
       <span class="lg"><span class="swatch sw-recv"></span><b>應收帳款</b>：本月正在做／已交付待收款</span>
@@ -296,6 +302,17 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
     `<div class="scard net"><div class="lab">🟰 淨收入</div><div class="val">$${fmt(recvTot+foreTot-svcTot-futOH)}</div><div class="hint">應收＋預計 −成本 −薪資</div></div>`+
     `<div class="scard med"><div class="lab">📺 廣告媒體費</div><div class="val">-$${fmt(mediaTot)}</div><div class="hint">客戶儲值回補，淨額≈0</div></div>`;
   document.getElementById('grid').innerHTML=h;
+
+  // 接下來總結：本月～年底還可收多少、淨多少、幾個案子在跑
+  const ahead=a=>a.slice(curM).reduce((x,y)=>x+y,0);
+  const collectAhead=ahead(monthSum), netAhead=ahead(netMonth);
+  const cases=rows.filter(r=>!isInvest(r.note,r.amount)).length;
+  const invests=rows.filter(r=>isInvest(r.note,r.amount)).length;
+  const custs=new Set(rows.filter(r=>!isInvest(r.note,r.amount)).map(r=>r.cust)).size;
+  window.__headBase=`💡 <b>${mn[curM]}～12月還可收 <span class="hi">$${fmt(collectAhead)}</span></b>`
+    +`，扣成本與薪資後淨現金流 <span class="hn">$${fmt(netAhead)}</span>。`
+    +`目前 <b>${cases}</b> 個接案在跑（${custs} 個客戶）、<b>${invests}</b> 個投資案。`;
+  document.getElementById('headline').innerHTML=window.__headBase;
 }).catch(e=>{document.getElementById('sub').textContent='載入失敗：'+e;});
 
 // 應收未收（待收款）— 來源：日記帳 應收帳款科目
@@ -305,6 +322,8 @@ fetch('data/projects_monthly.json').then(r=>r.json()).then(P=>{
   const items=(P.receivables_open||[]).filter(x=>x.date<=td).sort((a,b)=>a.date<b.date?-1:1);
   const tot=items.reduce((a,x)=>a+x.amt,0);
   document.getElementById('artot').textContent=' $'+fmt(tot)+'（'+items.length+'筆待收）';
+  const hb=document.getElementById('headline');
+  if(hb&&window.__headBase) hb.innerHTML=window.__headBase+` 其中<b>已認列、還沒收到</b>的款 <span class="hr">$${fmt(tot)}</span> 要追（見下表）。`;
   const agec=d=>d>60?'age-old':d>30?'age-mid':'';
   document.getElementById('arTable').innerHTML = items.length?
     '<thead><tr><th>認列日</th><th class="r">帳齡</th><th>客戶／專案</th><th>項目</th><th class="r">金額</th></tr></thead><tbody>'+

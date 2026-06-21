@@ -26,10 +26,11 @@ export default function middleware(request) {
     }
   }
 
-  return new Response('🔒 簡單行銷營運中台 — 公司內部機密，需要登入', {
+  return new Response('需要登入（公司內部機密）', {
     status: 401,
     headers: {
-      'WWW-Authenticate': 'Basic realm="簡單行銷營運中台（公司內部機密）", charset="UTF-8"',
+      // realm 必須是純 ASCII，否則瀏覽器不會跳出登入框
+      'WWW-Authenticate': 'Basic realm="Simple Marketing Dashboard"',
       'content-type': 'text/plain; charset=utf-8',
     },
   });

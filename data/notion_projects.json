@@ -4,6 +4,34 @@
 "db": "https://app.notion.com/p/51e7d8bdea014a32ad1fb7c8d13c0384",
 "cards": [
 {
+"name": "[網站]愛妮島網站製作",
+"status": "執行中",
+"start": "2026-01-01",
+"due": "2026-09-30",
+"priority": null,
+"customer": "愛妮島",
+"amount": 181000,
+"svc": 50000,
+"media": null,
+"note": "客戶：愛妮島｜網站製作（多筆）。6語系探索頁2k+3k、旅行社網站改版35k(外包14k)、SPA頁8k(外包1k)、HHotel改版頭款66.5k(6月)+尾款66.5k(9月)(各外包17.5k)。外包合計約50k。",
+"bill": "1:2000:6語系探索頁;2:3000:6語系探索頁;4:35000:旅行社網站改版;6:74500:SPA頁+HHotel頭款;9:66500:HHotel尾款",
+"last": null
+},
+{
+"name": "[廣告]博弈廣告John",
+"status": "開發中-初步接觸",
+"start": "2026-06-19",
+"due": null,
+"priority": "普通",
+"customer": "",
+"amount": null,
+"svc": null,
+"media": null,
+"note": "",
+"bill": "",
+"last": null
+},
+{
 "name": "[廣告]荷茂_時代天使廣告投放(5-6月)-monica",
 "status": "執行中",
 "start": "2026-05-01",
@@ -2461,10 +2489,10 @@
 "priority": "普通",
 "customer": "愛妮島",
 "amount": 69000,
-"svc": 38000,
+"svc": 370554,
 "media": null,
-"note": "客戶：愛妮島｜每月執行、月結（當月請上月款）。廣告成本約38,000/月已內含於報價→需從收入扣除。月底確認下月投放預算。",
-"bill": "",
+"note": "客戶：愛妮島｜Google Ads廣告投放。逐月實際收入：1月49k、2-4月各69k、5月無、6月35k；7月起預估30k/月。廣告媒體成本約收入78%（內含、需扣），未來可隨實際調整。",
+"bill": "1:49000:實;2:69000:實;3:69000:實;4:69000:實;6:35000:實;7:30000:估;8:30000:估;9:30000:估;10:30000:估;11:30000:估;12:30000:估",
 "last": "2025-01-06"
 },
 {
@@ -2819,7 +2847,7 @@
 },
 {
 "name": "[全案]64卦「歸妹」-算命香氛品牌",
-"status": "開發中-初步接觸",
+"status": "未合作",
 "start": null,
 "due": null,
 "priority": "普通",
@@ -2875,7 +2903,7 @@
 },
 {
 "name": "[全案]越南醫美行銷-李坤鴻(味源)",
-"status": "開發中-洽談中",
+"status": "暫停",
 "start": null,
 "due": null,
 "priority": "普通",
@@ -2945,7 +2973,7 @@
 },
 {
 "name": "[營運]整合notion到工作自動化",
-"status": "開發中-洽談中",
+"status": "執行中",
 "start": null,
 "due": null,
 "priority": "重要",
@@ -2987,7 +3015,7 @@
 },
 {
 "name": "[全案]任務平台(web)",
-"status": "開發中-洽談中",
+"status": "執行中",
 "start": null,
 "due": null,
 "priority": "普通",
@@ -3001,7 +3029,7 @@
 },
 {
 "name": "[全案]味源-海外行銷",
-"status": "開發中-洽談中",
+"status": "暫停",
 "start": null,
 "due": null,
 "priority": "普通",
@@ -3085,7 +3113,7 @@
 },
 {
 "name": "[Claude]健康app",
-"status": "開發中-洽談中",
+"status": "未合作",
 "start": null,
 "due": null,
 "priority": "普通",
@@ -3183,7 +3211,7 @@
 },
 {
 "name": "[全案]莫桑石行銷-小江",
-"status": "開發中-洽談中",
+"status": "未合作",
 "start": null,
 "due": null,
 "priority": "重要",

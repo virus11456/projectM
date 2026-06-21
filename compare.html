@@ -16,10 +16,10 @@
   .wrap{padding:14px 20px 70px}
   /* 現金彙總 */
   .sumrow{display:flex;gap:14px;flex-wrap:wrap;margin:4px 2px 14px}
-  .scard{flex:1 1 0;min-width:172px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 16px}
+  .scard{flex:1 1 0;min-width:172px;min-height:92px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 16px;display:flex;flex-direction:column;align-items:stretch}
   .scard .lab{font-size:12px;color:var(--mut);font-weight:600;display:flex;align-items:center;gap:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .scard .val{font-size:24px;font-weight:800;margin-top:5px;line-height:1.15}
-  .scard .hint{font-size:10.5px;color:var(--mut);margin-top:3px;line-height:1.35;height:28px;overflow:hidden}
+  .scard .val{font-size:23px;font-weight:800;margin-top:6px;line-height:1.15;white-space:nowrap}
+  .scard .hint{font-size:10.5px;color:var(--mut);margin-top:auto;padding-top:4px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .scard.recv .val{color:var(--amber)}
   .scard.fore .val{color:var(--green)}
   .legend{color:var(--mut);font-size:12px;margin:0 2px 12px;line-height:1.9}
@@ -235,7 +235,7 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
   document.getElementById('sumrow').innerHTML=
     `<div class="scard recv"><div class="lab">📩 應收帳款</div><div class="val">$${fmt(recvTot)}</div><div class="hint">本月正在做、即將請款</div></div>`+
     `<div class="scard fore"><div class="lab">💰 預計收入</div><div class="val">$${fmt(foreTot)}</div><div class="hint">本月之後已排程、未執行</div></div>`+
-    `<div class="scard pay"><div class="lab">💸 應付成本</div><div class="val">-$${fmt(svcTot)}</div><div class="hint">外包＋內含廣告成本</div></div>`+
+    `<div class="scard pay"><div class="lab">💸 應付帳款</div><div class="val">-$${fmt(svcTot)}</div><div class="hint">外包＋內含廣告成本</div></div>`+
     `<div class="scard net"><div class="lab">🟰 淨收入</div><div class="val">$${fmt(recvTot+foreTot-svcTot)}</div><div class="hint">應收＋預計 −成本</div></div>`+
     `<div class="scard med"><div class="lab">📺 廣告媒體費</div><div class="val">-$${fmt(mediaTot)}</div><div class="hint">客戶儲值回補，淨額≈0</div></div>`;
   document.getElementById('grid').innerHTML=h;

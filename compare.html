@@ -36,9 +36,11 @@
   .hrow{display:flex;position:sticky;top:0;z-index:8;background:var(--panel2);border-bottom:1px solid var(--line)}
   .hname{flex:0 0 210px;padding:10px 14px;font-size:11.5px;font-weight:700;color:var(--mut);border-right:2px solid var(--line);position:sticky;left:0;background:var(--panel2);z-index:9}
   .hname .grand{display:block;margin-top:3px;font-size:12.5px;font-weight:800;color:var(--green)}
+  .hname .grandnet{display:block;margin-top:1px;font-size:11.5px;font-weight:700;color:#6aa0ff}
   .hmon{flex:1;display:flex}
-  .hmon .mc{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 0;font-size:11px;font-weight:700;color:var(--mut);border-right:1px solid rgba(39,44,58,.6)}
+  .hmon .mc{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:7px 0;font-size:11px;font-weight:700;color:var(--mut);border-right:1px solid rgba(39,44,58,.6)}
   .hmon .mc .msum{font-size:11px;font-weight:800;color:var(--green)}
+  .hmon .mc .mnet{font-size:9.5px;font-weight:700;color:#6aa0ff}
   .hmon .mc.cur{background:rgba(255,180,84,.22);color:#fff;border-radius:6px 6px 0 0}
   .grp{display:flex;align-items:center;gap:8px;background:#10131a;border-top:1px solid var(--line);padding:7px 14px;font-size:12px;font-weight:800;position:sticky;left:0;z-index:3}
   .grp .gd{width:11px;height:11px;border-radius:3px;flex-shrink:0}
@@ -90,7 +92,7 @@
       <span class="lg"><span class="swatch sw-fore"></span><b>預計收入</b>：已簽約、本月之後還沒做（未開發票）</span>
       <span class="lg"><span class="swatch sw-recv"></span><b>應收帳款</b>：本月正在做／已交付待收款</span>
       <span class="lg"><span class="swatch sw-past"></span>已過月份（多半已收）淡化</span>
-      <br>專案名稱下方紅字＝<span class="psvc"><b>💸外包服務費</b></span>（付給合作夥伴）、<span class="pmed"><b>📺廣告媒體費</b></span>（客戶儲值回補、淨額≈0）。
+      <br>月份下方<span class="msum"><b>綠字＝入帳(毛)</b></span>、<span style="color:#6aa0ff"><b>藍字＝淨(扣成本後)</b></span>。專案名稱下方紅字＝<span class="psvc"><b>💸可扣成本</b></span>（外包＋內含廣告成本，會扣）、<span class="pmed"><b>📺廣告媒體費</b></span>（客戶儲值回補、淨額≈0、不扣）。
       <br>每月領錢的專案＝<b>一個月一個方塊</b>；一次性／期間案＝一個大方塊。💰越多金額越大。橘色直欄＝本月。來源：Notion。
     </div>
     <div class="tl"><div class="grid" id="grid"></div></div>
@@ -120,8 +122,9 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
   const color={}; order.forEach((c,i)=>color[c]=PAL[i%PAL.length]);
   rows.sort((a,b)=>(a.cust<b.cust?-1:a.cust>b.cust?1:0)||a.s-b.s);
 
-  let recvTot=0, foreTot=0, svcTot=0, mediaTot=0;   // 應收 / 預計 / 應付外包服務 / 廣告媒體(回補)
-  const monthSum=new Array(12).fill(0);             // 每月入帳預估
+  let recvTot=0, foreTot=0, svcTot=0, mediaTot=0;   // 應收 / 預計 / 應付成本 / 廣告媒體(回補)
+  const monthSum=new Array(12).fill(0);             // 每月入帳(毛)
+  const costMonth=new Array(12).fill(0);            // 每月可扣成本
 
   // 請款排程語法： 月:金額:標籤;月:金額:標籤  （例 6:409500:頭款;8:175500:尾款）
   const parseBill=s=>!s?[]:s.split(';').map(p=>{const x=p.split(':');return{m:(+x[0])-1,amt:+x[1]||0,label:(x[2]||'').trim()};}).filter(x=>x.m>=0&&x.m<12);
@@ -132,20 +135,26 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
     if(isMonthly(r.note)){const a=[];for(let i=r.s;i<=r.e;i++)a.push({m:i,amt:r.amount||0});return a;}
     return[{m:r.s,amt:r.amount||0}];
   }
-  // 預先彙總：每月入帳、應收/預計、應付外包/媒體
+  // 預先彙總：每月入帳(毛)、可扣成本、應收/預計、應付
   rows.forEach(r=>{
-    billEvents(r).forEach(ev=>{ monthSum[ev.m]+=ev.amt;
+    const evs=billEvents(r), totalInc=evs.reduce((a,e)=>a+e.amt,0);
+    evs.forEach(ev=>{ monthSum[ev.m]+=ev.amt;
       if(ev.m===curM) recvTot+=ev.amt; else if(ev.m>curM) foreTot+=ev.amt; });
-    if(!isInvest(r.note,r.amount)&&r.e>=curM){
-      if(isMonthly(r.note)){ let fm=0; for(let i=Math.max(r.s,curM);i<=r.e;i++) fm++;
-        svcTot+=(r.svc||0)*fm; mediaTot+=(r.media||0)*fm; }
-      else { svcTot+=(r.svc||0); mediaTot+=(r.media||0); }
+    if(!isInvest(r.note,r.amount)){
+      if(isMonthly(r.note)){ for(let i=r.s;i<=r.e;i++) costMonth[i]+=(r.svc||0); }      // 每月案：每月扣
+      else { evs.forEach(ev=>{ if(totalInc>0) costMonth[ev.m]+=(r.svc||0)*(ev.amt/totalInc); }); } // 排程/期間：依入帳占比分攤
+      if(r.e>=curM){ // 應付總計（未來）
+        if(isMonthly(r.note)){ let fm=0; for(let i=Math.max(r.s,curM);i<=r.e;i++) fm++;
+          svcTot+=(r.svc||0)*fm; mediaTot+=(r.media||0)*fm; }
+        else { svcTot+=(r.svc||0); mediaTot+=(r.media||0); }
+      }
     }
   });
-  const grand=monthSum.reduce((a,b)=>a+b,0);
+  const netMonth=monthSum.map((v,i)=>v-costMonth[i]);
+  const grand=monthSum.reduce((a,b)=>a+b,0), grandNet=netMonth.reduce((a,b)=>a+b,0);
 
-  let h='<div class="hrow"><div class="hname">專案（依客戶分組）<span class="grand">全年 $'+fmt(grand)+'</span></div><div class="hmon">'
-       +mn.map((m,i)=>`<div class="mc ${i===curM?'cur':''}">${m}<span class="msum">$${abbr(monthSum[i])}</span></div>`).join('')+'</div></div>';
+  let h='<div class="hrow"><div class="hname">專案（依客戶分組）<span class="grand">全年入帳 $'+fmt(grand)+'</span><span class="grandnet">淨 $'+fmt(grandNet)+'</span></div><div class="hmon">'
+       +mn.map((m,i)=>`<div class="mc ${i===curM?'cur':''}">${m}<span class="msum">$${abbr(monthSum[i])}</span><span class="mnet">淨$${abbr(netMonth[i])}</span></div>`).join('')+'</div></div>';
   let lastCust=null;
   rows.forEach(r=>{
     const col=color[r.cust];
@@ -214,8 +223,8 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
     let payHtml='';
     if(!invest&&(r.svc||r.media)){
       payHtml='<div class="pay">'
-        +(r.svc?`<span class="psvc" title="付給外包/合作夥伴的服務費">💸外包 -${abbr(r.svc)}${per}</span>`:'')
-        +(r.media?`<span class="pmed" title="廣告媒體投放費，由客戶以廣告費儲值回補，淨額接近0">📺媒體 -${abbr(r.media)}${per}·回補</span>`:'')
+        +(r.svc?`<span class="psvc" title="可扣成本：外包服務費／內含廣告成本，會從收入扣除">💸成本 -${abbr(r.svc)}${per}</span>`:'')
+        +(r.media?`<span class="pmed" title="廣告媒體投放費，由客戶以廣告費儲值回補，淨額接近0，不從收入扣除">📺媒體 -${abbr(r.media)}${per}·回補</span>`:'')
         +'</div>';
     }
     h+=`<div class="row"><div class="rname"><span class="rdot" style="background:${col}"></span>`
@@ -226,8 +235,8 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
   document.getElementById('sumrow').innerHTML=
     `<div class="scard recv"><div class="lab">📩 應收帳款</div><div class="val">$${fmt(recvTot)}</div><div class="hint">本月正在做、即將請款</div></div>`+
     `<div class="scard fore"><div class="lab">💰 預計收入</div><div class="val">$${fmt(foreTot)}</div><div class="hint">本月之後已排程、未執行</div></div>`+
-    `<div class="scard pay"><div class="lab">💸 應付外包</div><div class="val">-$${fmt(svcTot)}</div><div class="hint">服務費，付給外包／合作夥伴</div></div>`+
-    `<div class="scard net"><div class="lab">🟰 淨收入</div><div class="val">$${fmt(recvTot+foreTot-svcTot)}</div><div class="hint">應收＋預計 −外包服務費</div></div>`+
+    `<div class="scard pay"><div class="lab">💸 應付成本</div><div class="val">-$${fmt(svcTot)}</div><div class="hint">外包＋內含廣告成本</div></div>`+
+    `<div class="scard net"><div class="lab">🟰 淨收入</div><div class="val">$${fmt(recvTot+foreTot-svcTot)}</div><div class="hint">應收＋預計 −成本</div></div>`+
     `<div class="scard med"><div class="lab">📺 廣告媒體費</div><div class="val">-$${fmt(mediaTot)}</div><div class="hint">客戶儲值回補，淨額≈0</div></div>`;
   document.getElementById('grid').innerHTML=h;
 }).catch(e=>{document.getElementById('sub').textContent='載入失敗：'+e;});

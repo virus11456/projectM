@@ -127,24 +127,6 @@
     .mblk .a{font-size:10px}.mblk .e{font-size:10px}.mblk .t{font-size:8px}
     .b-amt{font-size:12px}.b-note{font-size:9.5px;-webkit-line-clamp:2}
   }
-  /* ===== 8-bit 小助手 ===== */
-  #claw{position:fixed;right:20px;bottom:20px;z-index:9998;cursor:pointer;image-rendering:pixelated;
-        animation:clawbob 1.5s steps(2) infinite;filter:drop-shadow(0 4px 0 rgba(0,0,0,.35))}
-  #claw:hover{filter:drop-shadow(0 4px 0 rgba(0,0,0,.35)) brightness(1.1)}
-  @keyframes clawbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-  #claw.jump{animation:clawjump .5s steps(4)}
-  @keyframes clawjump{0%{transform:translateY(0)}40%{transform:translateY(-26px)}70%{transform:translateY(-7px)}100%{transform:translateY(0)}}
-  #clawbubble{position:fixed;right:96px;bottom:34px;z-index:9998;width:236px;background:#171a21;color:#e7e9ee;
-    border:3px solid #ffcf3a;border-radius:3px;padding:10px 12px;font-size:12.5px;line-height:1.55;
-    box-shadow:0 0 0 3px #0f1115,5px 5px 0 rgba(0,0,0,.45);display:none}
-  #clawbubble.show{display:block;animation:bpop .18s steps(2)}
-  #clawbubble b{color:#ffcf3a}
-  #clawbubble:after{content:'';position:absolute;right:-13px;bottom:16px;width:0;height:0;border:7px solid transparent;border-left-color:#ffcf3a}
-  @keyframes bpop{0%{transform:scale(.5)}100%{transform:scale(1)}}
-  .pxcoin{position:fixed;left:0;top:0;image-rendering:pixelated;pointer-events:none;z-index:9999}
-  .mblk:hover,.track .bar:hover{animation:pxpop .26s steps(3)}
-  @keyframes pxpop{0%{}50%{transform:translateY(-4px)}100%{}}
-  @media(max-width:640px){#claw{right:10px;bottom:10px}#clawbubble{right:78px;bottom:22px;width:170px;font-size:11px}}
 </style>
 </head>
 <body>
@@ -350,92 +332,6 @@ fetch('data/projects_monthly.json').then(r=>r.json()).then(P=>{
     : '<tbody><tr><td style="padding:14px;color:var(--mut)">目前沒有未收的款 🎉</td></tr></tbody>';
 }).catch(e=>{document.getElementById('arTable').innerHTML='<tbody><tr><td style="padding:14px;color:var(--mut)">應收未收資料載入失敗</td></tr></tbody>';});
 </script>
-<script>
-/* ===== 8-bit 小助手（中台吉祥物）===== */
-(function(){
-  const PX=6;
-  // 像素地圖：o=橘身, d=深橘陰影, b=黑眼, .=透明
-  const BODY=[
-    ".oo.....oo.",
-    ".ooo...ooo.",
-    ".ooooooooo.",
-    "ooooooooooo",
-    "oobbooobboo",
-    "oobbooobboo",
-    "ooooooooooo",
-    "ooooooooooo",
-    "oodooooodoo",
-    "oo.oo.oo.oo",
-    "oo.oo.oo.oo"
-  ];
-  const PAL={o:'#c2734e',d:'#a85c3b',b:'#161616'};
-  function sprite(map,scale,blink){
-    const w=map[0].length,h=map.length;
-    const c=document.createElement('canvas');c.width=w*scale;c.height=h*scale;
-    const x=c.getContext('2d');x.imageSmoothingEnabled=false;
-    for(let r=0;r<h;r++)for(let q=0;q<w;q++){
-      let ch=map[r][q];
-      if(blink&&ch==='b')ch='o';                 // 眨眼：眼睛變身體色
-      const col=PAL[ch]; if(!col)continue;
-      x.fillStyle=col;x.fillRect(q*scale,r*scale,scale,scale);
-    }
-    return c;
-  }
-  // 金幣 sprite
-  const COINMAP=["..3333..",".341143.","34111113","34121213","34121213","34111113",".311113.","..3333.."];
-  const CPAL={'1':'#f6c700','2':'#9c6f00','3':'#6e4e00','4':'#fff1a8'};
-  function coinSprite(scale){
-    const w=8,h=8,c=document.createElement('canvas');c.width=w*scale;c.height=h*scale;
-    const x=c.getContext('2d');for(let r=0;r<h;r++)for(let q=0;q<w;q++){const col=CPAL[COINMAP[r][q]];if(!col)continue;x.fillStyle=col;x.fillRect(q*scale,r*scale,scale,scale);}
-    return c.toDataURL();
-  }
-  const COIN=coinSprite(3);
-
-  // 建立小助手
-  const claw=sprite(BODY,PX,false); claw.id='claw'; claw.title='點我！';
-  const blinkClaw=sprite(BODY,PX,true);
-  document.body.appendChild(claw);
-  const bubble=document.createElement('div'); bubble.id='clawbubble'; document.body.appendChild(bubble);
-
-  // 眨眼
-  setInterval(()=>{const x=claw.getContext('2d');x.clearRect(0,0,claw.width,claw.height);x.drawImage(blinkClaw,0,0);
-    setTimeout(()=>{const y=claw.getContext('2d');y.clearRect(0,0,claw.width,claw.height);y.drawImage(sprite(BODY,PX,false),0,0);},140);
-  },3800);
-
-  const f=n=>'$'+Math.round(n).toLocaleString('en-US');
-  function tips(){
-    const d=window.__dash||{};
-    const t=['嗨！我是中台小助手 👾<br>點我看看接下來的數字～'];
-    if(d.collectAhead!=null)t.push(`${d.curMonth}～年底預估還可收<br><b>${f(d.collectAhead)}</b> 💰`);
-    if(d.netAhead!=null)t.push(`扣完成本＋薪資，<br>淨現金流 <b>${f(d.netAhead)}</b> 🟰`);
-    if(d.arTot)t.push(`有 <b>${d.arCount}</b> 筆「應收未收」要追，<br>共 <b>${f(d.arTot)}</b>，別忘了催款！📩`);
-    if(d.cases!=null)t.push(`目前 <b>${d.cases}</b> 個接案在跑<br>（${d.custs} 個客戶），加油！🔥`);
-    t.push('資料每天自動同步，<br>放心衝刺吧！🚀');
-    return t;
-  }
-  let idx=0,hideT;
-  function say(){
-    const list=tips(); bubble.innerHTML=list[idx%list.length]; idx++;
-    bubble.classList.add('show');
-    clearTimeout(hideT); hideT=setTimeout(()=>bubble.classList.remove('show'),5200);
-  }
-  function burst(cx,cy,n){
-    for(let i=0;i<(n||16);i++){
-      const img=new Image(); img.src=COIN; img.className='pxcoin';
-      const sz=14+Math.random()*12; img.style.width=sz+'px'; document.body.appendChild(img);
-      let px=cx,py=cy,vx=(Math.random()-0.5)*8,vy=-Math.random()*10-5,rot=0,vr=(Math.random()-0.5)*22;
-      (function step(){vy+=0.5;px+=vx;py+=vy;rot+=vr;img.style.transform=`translate(${px}px,${py}px) rotate(${rot}deg)`;
-        if(py<innerHeight+50)requestAnimationFrame(step);else img.remove();})();
-    }
-  }
-  claw.addEventListener('click',()=>{
-    claw.classList.remove('jump'); void claw.offsetWidth; claw.classList.add('jump');
-    const r=claw.getBoundingClientRect(); burst(r.left+r.width/2-14,r.top,16);
-    say();
-  });
-  // 首次來訪自動打招呼
-  setTimeout(say,1400);
-})();
-</script>
+<script src="club.js" defer></script>
 </body>
 </html>

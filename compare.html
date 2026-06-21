@@ -101,7 +101,8 @@
 <script>
 const mn=["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
 const curM=new Date().getMonth();
-const OVERHEAD=80000;   // 公司固定成本：員工薪資（每月），會從每月淨額扣除
+const HEADCOUNT=2, SALARY_EACH=40000;   // 員工人數 × 每人月薪
+const OVERHEAD=HEADCOUNT*SALARY_EACH;   // 公司固定成本：薪資（每月），會從每月淨額扣除
 const PAL=["#4f8cff","#27c093","#ffb454","#9b7bff","#ff5d6c","#36cfd1","#e8893f","#56c2a4","#c98bff","#f0c563","#7aa0ff","#ef7d92","#5bd0bf","#b0863f"];
 const fmt=n=>n.toLocaleString('en-US');
 const abbr=v=>!v&&v!==0?"":v>=1e6?(v/1e6).toFixed(1)+"M":v>=1e3?Math.round(v/1e3)+"k":""+v;
@@ -239,7 +240,7 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
     `<div class="scard recv"><div class="lab">📩 應收帳款</div><div class="val">$${fmt(recvTot)}</div><div class="hint">本月正在做、即將請款</div></div>`+
     `<div class="scard fore"><div class="lab">💰 預計收入</div><div class="val">$${fmt(foreTot)}</div><div class="hint">本月之後已排程、未執行</div></div>`+
     `<div class="scard pay"><div class="lab">💸 應付帳款</div><div class="val">-$${fmt(svcTot)}</div><div class="hint">外包＋內含廣告成本</div></div>`+
-    `<div class="scard sal"><div class="lab">🧑‍💼 固定成本(薪資)</div><div class="val">-$${fmt(futOH)}</div><div class="hint">$${fmt(OVERHEAD)}/月 ×${12-curM}個月(至年底)</div></div>`+
+    `<div class="scard sal"><div class="lab">🧑‍💼 固定成本(薪資)</div><div class="val">-$${fmt(futOH)}</div><div class="hint">${HEADCOUNT}人×$${fmt(SALARY_EACH)}=$${fmt(OVERHEAD)}/月 ×${12-curM}個月</div></div>`+
     `<div class="scard net"><div class="lab">🟰 淨收入</div><div class="val">$${fmt(recvTot+foreTot-svcTot-futOH)}</div><div class="hint">應收＋預計 −成本 −薪資</div></div>`+
     `<div class="scard med"><div class="lab">📺 廣告媒體費</div><div class="val">-$${fmt(mediaTot)}</div><div class="hint">客戶儲值回補，淨額≈0</div></div>`;
   document.getElementById('grid').innerHTML=h;

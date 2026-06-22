@@ -1,8 +1,22 @@
 {
-"updated": "2026-06-21",
+"updated": "2026-06-22",
 "source": "Notion 同步看板（FY2026）",
 "db": "https://app.notion.com/p/51e7d8bdea014a32ad1fb7c8d13c0384",
 "cards": [
+{
+"name": "[GEO]固鋼CUOCO排名網站",
+"status": "執行中",
+"start": "2026-07-01",
+"due": "2026-08-31",
+"priority": null,
+"customer": "固鋼",
+"amount": 225750,
+"svc": null,
+"media": null,
+"note": "客戶：固鋼｜CUOCO GEO 排名網站。7月開始、8月完工。頭款135,450(7月請款)、尾款90,300(9月請款)。目前皆為應收帳款（未收）。",
+"bill": "7:135450:頭款;9:90300:尾款",
+"last": null
+},
 {
 "name": "[網站]愛妮島HHotel網站改版",
 "status": "執行中",

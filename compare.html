@@ -171,8 +171,23 @@ function emo(v){ if(v==null||v===0)return""; if(v>=500000)return"💰💰💰�
 const isMonthly=note=>/每月|月結|月費|每月任務|逐月|依投放量|依量/.test(note||"");
 const isInvest=(note,amt)=>/投資/.test(note||"")||amt===0;
 
-fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
-  document.getElementById('sub').textContent=`來源：Notion · 更新 ${N.updated} · 本月＝${mn[curM]}`;
+const RANK={'應收':3,'預計':2,'已收':1};
+let JBILL=[];
+// 依「對帳關鍵字」從日記帳算出各月入帳與實際收款狀態（全自動、不手填）
+function journalEvents(jkey){
+  if(!jkey)return[];
+  const bym={};
+  JBILL.forEach(b=>{ if(!b.desc||b.desc.indexOf(jkey)<0)return;
+    const m=b.m-1; if(!bym[m])bym[m]={amt:0,status:b.status};
+    bym[m].amt+=b.amt; if(RANK[b.status]>RANK[bym[m].status])bym[m].status=b.status; });
+  return Object.keys(bym).map(m=>({m:+m,amt:bym[m].amt,status:bym[m].status})).sort((a,b)=>a.m-b.m);
+}
+Promise.all([
+  fetch('data/notion_projects.json').then(r=>r.json()),
+  fetch('data/projects_monthly.json').then(r=>r.json()).catch(()=>({billing:[]}))
+]).then(([N,P])=>{
+  JBILL=P.billing||[];
+  document.getElementById('sub').textContent=`來源：Notion＋日記帳自動對帳 · 更新 ${N.updated} · 本月＝${mn[curM]}`;
   let rows=N.cards.filter(c=>scls[c.status]&&c.start&&c.due)
     .map(c=>({...c,s:mi(c.start),e:mi(c.due),cust:c.customer||"其他"}))
     .filter(c=>c.s!==null&&c.e!==null&&c.e>=c.s);
@@ -189,6 +204,7 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
   // 一個專案的入帳事件：有排程用排程；每月案每月一筆；其餘整筆掛在起始月
   function billEvents(r){
     if(isInvest(r.note,r.amount))return[];
+    if(r.jkey){const je=journalEvents(r.jkey); if(je.length)return je;}   // 有對帳關鍵字 → 直接用日記帳
     const sc=parseBill(r.bill); if(sc.length)return sc;
     if(isMonthly(r.note)){const a=[];for(let i=r.s;i<=r.e;i++)a.push({m:i,amt:r.amount||0});return a;}
     return[{m:r.s,amt:r.amount||0}];
@@ -197,9 +213,10 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
   rows.forEach(r=>{
     const evs=billEvents(r), totalInc=evs.reduce((a,e)=>a+e.amt,0);
     evs.forEach(ev=>{ monthSum[ev.m]+=ev.amt;
-      if(ev.m===curM) recvTot+=ev.amt; else if(ev.m>curM) foreTot+=ev.amt; });
+      if(ev.status){ if(ev.status==='應收')recvTot+=ev.amt; else if(ev.status==='預計')foreTot+=ev.amt; }  // 依日記帳實際狀態
+      else if(ev.m===curM) recvTot+=ev.amt; else if(ev.m>curM) foreTot+=ev.amt; });
     if(!isInvest(r.note,r.amount)){
-      const hasSched=parseBill(r.bill).length>0;
+      const hasSched=r.jkey||parseBill(r.bill).length>0;
       if(isMonthly(r.note)&&!hasSched){ for(let i=r.s;i<=r.e;i++) costMonth[i]+=(r.svc||0); }   // 純每月案：svc 為每月、逐月扣
       else { evs.forEach(ev=>{ if(totalInc>0) costMonth[ev.m]+=(r.svc||0)*(ev.amt/totalInc); }); } // 有排程/期間：svc 為總額、依入帳占比分攤
     }
@@ -226,7 +243,8 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
     const em=emo(r.amount);
     const invest=isInvest(r.note,r.amount);
     const monthly=isMonthly(r.note);
-    const sched=parseBill(r.bill);
+    const jev=r.jkey?journalEvents(r.jkey):[];
+    const sched=jev.length?jev.map(e=>({m:e.m,amt:e.amt,label:e.status})):parseBill(r.bill);
     const cols=mn.map((m,i)=>`<div class="mcol ${i===curM?'cur':''}" style="left:${i/12*100}%;width:${100/12}%"></div>`).join('');
     let bars='';
     if(sched.length&&!invest){
@@ -241,6 +259,7 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
         let cls;
         if(/已收|預收/.test(lab)) cls='past';
         else if(/未收|應收/.test(lab)) cls='recv';
+        else if(/預計/.test(lab)) cls='fore';
         else cls = m<curM?'past':m===curM?'recv':'fore';
         const tag = /預收/.test(lab)?'預收' : cls==='recv'?'應收' : cls==='fore'?'預計':'已收';
         bars+=`<div class="bar mblk ${cls}" style="left:calc(${L}% + 3px);width:calc(${W}% - 6px);background:${bg}"

@@ -62,6 +62,7 @@ def main():
                 "media": _num(pr.get("廣告媒體費")),
                 "note": _text(pr.get("備註")),
                 "bill": _text(pr.get("請款排程")),
+                "jkey": _text(pr.get("對帳關鍵字")),
                 "last": _date(pr.get("最後活動")),
             })
         if d.get("has_more"):

@@ -15,6 +15,7 @@
 "media": null,
 "note": "客戶：固鋼｜CUOCO GEO排名網站。頭款134,190(7月)、尾款89,460(9月)，日記帳目前皆為應收帳款(未收)。依日記帳。",
 "bill": "7:134190:頭款(應收未收);9:89460:尾款(應收未收)",
+"jkey": "CUOCO",
 "last": null
 },
 {
@@ -29,6 +30,7 @@
 "media": null,
 "note": "客戶：愛妮島｜HHotel網站改版。頭款73,000(6月)、尾款73,000(9月)，日記帳目前皆為預計收入(未收)。各外包17,500。依日記帳。",
 "bill": "6:73000:頭款(預計);9:73000:尾款(預計)",
+"jkey": "HHotel",
 "last": null
 },
 {
@@ -43,6 +45,7 @@
 "media": null,
 "note": "客戶：愛妮島｜網站製作(小筆)：6語系探索頁2k+3k、旅行社網站改版35k(外包14k)、SPA頁8k(外包1k)。HHotel改版已獨立成另一張卡。",
 "bill": "1:2000:6語系(應收未收);2:3000:6語系(應收未收);4:35000:旅行社改版(已收);6:8000:SPA頁(已收)",
+"jkey": "",
 "last": null
 },
 {
@@ -57,6 +60,7 @@
 "media": null,
 "note": "",
 "bill": "",
+"jkey": "",
 "last": null
 },
 {
@@ -71,6 +75,7 @@
 "media": null,
 "note": "常態性廣告投放（時代天使）。5&6月：5月已收客戶67,500；廣告費實際花費47,700(5月15,975+6月31,725)→可扣成本；淨約19,800。持續續約中。",
 "bill": "5:67500:5&6月款(已收)",
+"jkey": "",
 "last": null
 },
 {
@@ -85,6 +90,7 @@
 "media": null,
 "note": "接案｜兩個月一期。執行4-5月。頭款409,500(4月已收)、尾款175,500(5月認列、目前應收未收)。依日記帳狀態。",
 "bill": "4:409500:頭款(已收);5:175500:尾款(應收未收)",
+"jkey": "4月&5月_凱基口碑",
 "last": null
 },
 {
@@ -99,6 +105,7 @@
 "media": null,
 "note": "客戶：詩硯｜陳醫師(雙子星)廣告投放：每月執行。未來預估＝過去廣告服務費平均（1–6月共42,000／6≈7,000/月），廣告費由客戶另行儲值。",
 "bill": "",
+"jkey": "",
 "last": null
 },
 {
@@ -113,6 +120,7 @@
 "media": null,
 "note": "已確認續約至12月（荷茂月結廣告投放已延長），此提醒結案。",
 "bill": "",
+"jkey": "",
 "last": null
 },
 {
@@ -127,6 +135,7 @@
 "media": null,
 "note": "關鍵任務｜神燈網站維運+員工旅遊網站營運為半年預收。12月要準備收下一期 2027/01-2027/06 的維運費。",
 "bill": "",
+"jkey": "",
 "last": null
 },
 {
@@ -141,6 +150,7 @@
 "media": null,
 "note": "依需求動態調整（金額視製作量而定；可比對日記帳「神燈素材」，如…1月 6,000）",
 "bill": "",
+"jkey": "",
 "last": null
 },
 {
@@ -155,6 +165,7 @@
 "media": null,
 "note": "關鍵任務｜愛妮島廣告月結（當月請上月款），每月底要確認下月投放預算。每月重複。",
 "bill": "",
+"jkey": "",
 "last": null
 },
 {
@@ -169,6 +180,7 @@
 "media": null,
 "note": "關鍵任務｜KGI 兩個月一期，本期6-7月做完前要談好下一期（8-9月）並收頭款，避免斷檔。下次提醒：9月（開10-11月）。",
 "bill": "",
+"jkey": "",
 "last": null
 },
 {
@@ -183,6 +195,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -197,6 +210,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-03-17"
 },
 {
@@ -211,6 +225,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -225,6 +240,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-05-02"
 },
 {
@@ -239,6 +255,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -253,6 +270,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -267,6 +285,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -281,6 +300,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-02-27"
 },
 {
@@ -295,6 +315,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -309,6 +330,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-13"
 },
 {
@@ -323,6 +345,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -337,6 +360,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -351,6 +375,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -365,6 +390,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-02-11"
 },
 {
@@ -379,6 +405,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -393,6 +420,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-05-14"
 },
 {
@@ -407,6 +435,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -421,6 +450,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -435,6 +465,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -449,6 +480,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -463,6 +495,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-07-10"
 },
 {
@@ -477,6 +510,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-12-11"
 },
 {
@@ -491,6 +525,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -505,6 +540,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -519,6 +555,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -533,6 +570,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-03-25"
 },
 {
@@ -547,6 +585,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -561,6 +600,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-05-14"
 },
 {
@@ -575,6 +615,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -589,6 +630,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-06-19"
 },
 {
@@ -603,6 +645,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -617,6 +660,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-07-10"
 },
 {
@@ -631,6 +675,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -645,6 +690,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-10-19"
 },
 {
@@ -659,6 +705,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -673,6 +720,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -687,6 +735,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -701,6 +750,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -715,6 +765,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -729,6 +780,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -743,6 +795,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -757,6 +810,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -771,6 +825,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -785,6 +840,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-05-26"
 },
 {
@@ -799,6 +855,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -813,6 +870,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -827,6 +885,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -841,6 +900,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -855,6 +915,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -869,6 +930,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -883,6 +945,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -897,6 +960,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-21"
 },
 {
@@ -911,6 +975,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -925,6 +990,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -939,6 +1005,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -953,6 +1020,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -967,6 +1035,7 @@
 "media": null,
 "note": "Trello 同步｜檢查清單 0/9",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -981,6 +1050,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -995,6 +1065,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1009,6 +1080,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-05-27"
 },
 {
@@ -1023,6 +1095,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-05-14"
 },
 {
@@ -1037,6 +1110,7 @@
 "media": null,
 "note": "Trello 同步｜檢查清單 0/3",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1051,6 +1125,7 @@
 "media": null,
 "note": "Trello 同步｜檢查清單 0/4",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1065,6 +1140,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1079,6 +1155,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1093,6 +1170,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1107,6 +1185,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-06-19"
 },
 {
@@ -1121,6 +1200,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-05-27"
 },
 {
@@ -1135,6 +1215,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-21"
 },
 {
@@ -1149,6 +1230,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1163,6 +1245,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-02-11"
 },
 {
@@ -1177,6 +1260,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1191,6 +1275,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1205,6 +1290,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1219,6 +1305,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1233,6 +1320,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1247,6 +1335,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1261,6 +1350,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1275,6 +1365,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1289,6 +1380,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2022-03-31"
 },
 {
@@ -1303,6 +1395,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1317,6 +1410,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-02-11"
 },
 {
@@ -1331,6 +1425,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1345,6 +1440,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-06"
 },
 {
@@ -1359,6 +1455,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1373,6 +1470,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-05-02"
 },
 {
@@ -1387,6 +1485,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1401,6 +1500,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-09"
 },
 {
@@ -1415,6 +1515,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1429,6 +1530,7 @@
 "media": null,
 "note": "Trello 同步｜檢查清單 0/1",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1443,6 +1545,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-09-18"
 },
 {
@@ -1457,6 +1560,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-02-11"
 },
 {
@@ -1471,6 +1575,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1485,6 +1590,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-10-04"
 },
 {
@@ -1499,6 +1605,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1513,6 +1620,7 @@
 "media": null,
 "note": "客戶：一日牙醫｜SEO：每月任務、每月 4,000、月結（當月收上月款）｜持續中",
 "bill": "",
+"jkey": "",
 "last": "2025-12-11"
 },
 {
@@ -1527,6 +1635,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1541,6 +1650,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-04-25"
 },
 {
@@ -1555,6 +1665,7 @@
 "media": null,
 "note": "Trello 同步｜檢查清單 0/3",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1569,6 +1680,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-06"
 },
 {
@@ -1583,6 +1695,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-11-08"
 },
 {
@@ -1597,6 +1710,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-09-18"
 },
 {
@@ -1611,6 +1725,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-09"
 },
 {
@@ -1625,6 +1740,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2022-06-22"
 },
 {
@@ -1639,6 +1755,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-04-07"
 },
 {
@@ -1653,6 +1770,7 @@
 "media": null,
 "note": "Trello 同步｜檢查清單 1/2",
 "bill": "",
+"jkey": "",
 "last": "2025-01-09"
 },
 {
@@ -1667,6 +1785,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-05-14"
 },
 {
@@ -1681,6 +1800,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-03-05"
 },
 {
@@ -1695,6 +1815,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-09"
 },
 {
@@ -1709,6 +1830,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-08-21"
 },
 {
@@ -1723,6 +1845,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-04-07"
 },
 {
@@ -1737,6 +1860,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-09-18"
 },
 {
@@ -1751,6 +1875,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-02-11"
 },
 {
@@ -1765,6 +1890,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-05-26"
 },
 {
@@ -1779,6 +1905,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-16"
 },
 {
@@ -1793,6 +1920,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-09"
 },
 {
@@ -1807,6 +1935,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-10-04"
 },
 {
@@ -1821,6 +1950,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-03-05"
 },
 {
@@ -1835,6 +1965,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-09"
 },
 {
@@ -1849,6 +1980,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-09"
 },
 {
@@ -1863,6 +1995,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2022-03-31"
 },
 {
@@ -1877,6 +2010,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-09-18"
 },
 {
@@ -1891,6 +2025,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-09"
 },
 {
@@ -1905,6 +2040,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-05-24"
 },
 {
@@ -1919,6 +2055,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-07-16"
 },
 {
@@ -1933,6 +2070,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-09"
 },
 {
@@ -1947,6 +2085,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-03-24"
 },
 {
@@ -1961,6 +2100,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-09"
 },
 {
@@ -1975,6 +2115,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-05-26"
 },
 {
@@ -1989,6 +2130,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-09-18"
 },
 {
@@ -2003,6 +2145,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-12-11"
 },
 {
@@ -2017,6 +2160,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-09"
 },
 {
@@ -2031,6 +2175,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-03-24"
 },
 {
@@ -2045,6 +2190,7 @@
 "media": null,
 "note": "Trello 同步｜檢查清單 0/2",
 "bill": "",
+"jkey": "",
 "last": "2024-07-10"
 },
 {
@@ -2059,6 +2205,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-09"
 },
 {
@@ -2073,6 +2220,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-09-18"
 },
 {
@@ -2087,6 +2235,7 @@
 "media": null,
 "note": "客戶：一日牙醫｜GEO建置與文章設置。總額145,000；頭款72,500(4月已收)。6月做完、尾款72,500於7月收。",
 "bill": "4:72500:頭款(已收);7:72500:尾款(應收未收)",
+"jkey": "GEO建置",
 "last": "2026-06-19"
 },
 {
@@ -2101,6 +2250,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-09"
 },
 {
@@ -2115,6 +2265,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-09"
 },
 {
@@ -2129,6 +2280,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-09-18"
 },
 {
@@ -2143,6 +2295,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-03-24"
 },
 {
@@ -2157,6 +2310,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-08-21"
 },
 {
@@ -2171,6 +2325,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-09"
 },
 {
@@ -2185,6 +2340,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-02-11"
 },
 {
@@ -2199,6 +2355,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-09-18"
 },
 {
@@ -2213,6 +2370,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-04-07"
 },
 {
@@ -2227,6 +2385,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-09"
 },
 {
@@ -2241,6 +2400,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-07-16"
 },
 {
@@ -2255,6 +2415,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-09"
 },
 {
@@ -2269,6 +2430,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-09"
 },
 {
@@ -2283,6 +2445,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-05-14"
 },
 {
@@ -2297,6 +2460,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-08-27"
 },
 {
@@ -2311,6 +2475,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-06-19"
 },
 {
@@ -2325,6 +2490,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-09"
 },
 {
@@ -2339,6 +2505,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-09-18"
 },
 {
@@ -2353,6 +2520,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-09"
 },
 {
@@ -2367,6 +2535,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-01-09"
 },
 {
@@ -2381,6 +2550,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-03-24"
 },
 {
@@ -2395,6 +2565,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-03-28"
 },
 {
@@ -2409,6 +2580,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2022-03-08"
 },
 {
@@ -2423,6 +2595,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-02-13"
 },
 {
@@ -2437,6 +2610,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-05-16"
 },
 {
@@ -2451,6 +2625,7 @@
 "media": null,
 "note": "顧問｜家具蝦皮電商：每月收款、預收當月服務費（當月先收）｜負責人虎虎｜持續中",
 "bill": "",
+"jkey": "",
 "last": "2026-06-19"
 },
 {
@@ -2465,6 +2640,7 @@
 "media": null,
 "note": "廣告投放：每月執行、月結（當月請上月款）｜金額依投放量｜持續中",
 "bill": "",
+"jkey": "",
 "last": "2026-05-27"
 },
 {
@@ -2479,6 +2655,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-04-20"
 },
 {
@@ -2493,6 +2670,7 @@
 "media": null,
 "note": "客戶：荷茂｜廣告投放：每月執行、續約到12月。每季收款300,000（含廣告費+服務費），約100,000/月；廣告成本77,429/月已內含於報價→需從收入扣除。",
 "bill": "",
+"jkey": "",
 "last": "2026-06-19"
 },
 {
@@ -2507,6 +2685,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-04-07"
 },
 {
@@ -2521,6 +2700,7 @@
 "media": null,
 "note": "客戶：愛妮島｜Google Ads廣告投放。逐月實際收入：1月49k、2-4月各69k、5月無、6月35k；7月起預估30k/月。廣告媒體成本約收入78%（內含、需扣），未來可隨實際調整。",
 "bill": "1:49000:實;2:69000:實;3:69000:實;4:69000:實;6:35000:實;7:30000:估;8:30000:估;9:30000:估;10:30000:估;11:30000:估;12:30000:估",
+"jkey": "",
 "last": "2025-01-06"
 },
 {
@@ -2535,6 +2715,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-05-24"
 },
 {
@@ -2549,6 +2730,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-04-07"
 },
 {
@@ -2563,6 +2745,7 @@
 "media": null,
 "note": "客戶：神燈假期｜網站維運：半年一期（7-12月），本期 18,000。",
 "bill": "",
+"jkey": "",
 "last": "2025-05-16"
 },
 {
@@ -2577,6 +2760,7 @@
 "media": null,
 "note": "客戶：神燈假期｜包車資訊站製作。總額78,000；頭款46,800(5/28已收)、尾款31,200(8月完工請款)。執行至7月。",
 "bill": "5:46800:頭款(已收);8:31200:尾款(預計)",
+"jkey": "包車資訊站",
 "last": "2026-06-19"
 },
 {
@@ -2591,6 +2775,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-04-07"
 },
 {
@@ -2605,6 +2790,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-04-07"
 },
 {
@@ -2619,6 +2805,7 @@
 "media": null,
 "note": "社群｜動態：有任務進來才收費（金額視任務而定）｜無固定排程",
 "bill": "",
+"jkey": "",
 "last": "2025-05-14"
 },
 {
@@ -2633,6 +2820,7 @@
 "media": null,
 "note": "客戶：神燈假期｜土拍網站製作。總額128,000；頭款76,800(5/28已收)、尾款51,200(8月完工請款)。",
 "bill": "5:76800:頭款(已收);8:51200:尾款(預計)",
+"jkey": "土拍網站",
 "last": "2026-06-19"
 },
 {
@@ -2647,6 +2835,7 @@
 "media": null,
 "note": "接案｜AC Pay 獨立客戶。每月廣告投放服務費8,400，逐月續約。",
 "bill": "",
+"jkey": "",
 "last": "2026-05-24"
 },
 {
@@ -2661,6 +2850,7 @@
 "media": null,
 "note": "接案｜每月請款 3,150｜月結（當月請上月款，請款落後一個月）｜持續中（截止日暫設年底）",
 "bill": "",
+"jkey": "",
 "last": "2025-09-18"
 },
 {
@@ -2675,6 +2865,7 @@
 "media": 1644000,
 "note": "客戶：一日牙醫｜廣告投放：每月執行、月結（當月請上月款）｜金額依投放量（見日記帳，年進帳破千萬）｜持續中",
 "bill": "",
+"jkey": "",
 "last": "2025-06-21"
 },
 {
@@ -2689,6 +2880,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-04-07"
 },
 {
@@ -2703,6 +2895,7 @@
 "media": null,
 "note": "客戶：愛妮島｜網站營運：每月收款、月結（當月收上月款）｜每月 8,000（4個站×每站 2,000）｜持續中",
 "bill": "",
+"jkey": "",
 "last": "2025-01-06"
 },
 {
@@ -2717,6 +2910,7 @@
 "media": null,
 "note": "客戶：神燈假期｜廣告投放：每月執行、月結（當月請上月款）｜金額依投放量（見日記帳）｜持續中",
 "bill": "",
+"jkey": "",
 "last": "2025-01-06"
 },
 {
@@ -2731,6 +2925,7 @@
 "media": null,
 "note": "接案｜兩個月一期。執行6-7月。頭款409,500(6月認列、目前應收未收)、尾款175,500(8月預計)。依日記帳狀態。",
 "bill": "6:409500:頭款(應收未收);8:175500:尾款(預計)",
+"jkey": "6月&7月_凱基口碑",
 "last": "2025-01-06"
 },
 {
@@ -2745,6 +2940,7 @@
 "media": null,
 "note": "接案｜每月執行、月結（當月請上月款項，請款落後一個月）｜持續中（截止日暫設年底）",
 "bill": "",
+"jkey": "",
 "last": "2025-05-02"
 },
 {
@@ -2759,6 +2955,7 @@
 "media": null,
 "note": "客戶：固鋼｜廣告投放：每月收款、月結（當月收上月服務費）｜持續中",
 "bill": "",
+"jkey": "",
 "last": "2026-03-17"
 },
 {
@@ -2773,6 +2970,7 @@
 "media": null,
 "note": "網站｜日日好食-北美網站製作｜報價：收入 26,250、外包 20,976（淨利 5,274）｜目前等客戶簽回，簽回後啟動",
 "bill": "",
+"jkey": "",
 "last": "2026-06-19"
 },
 {
@@ -2787,6 +2985,7 @@
 "media": null,
 "note": "接案｜每月服務費 9,000｜月結（當月請上月款，請款落後一個月）｜持續中（截止日暫設年底）",
 "bill": "",
+"jkey": "",
 "last": "2026-05-27"
 },
 {
@@ -2801,6 +3000,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-04-07"
 },
 {
@@ -2815,6 +3015,7 @@
 "media": null,
 "note": "客戶：神燈假期｜員工旅遊網站營運：半年一期（7-12月），本期 10,500。",
 "bill": "",
+"jkey": "",
 "last": "2025-05-26"
 },
 {
@@ -2829,6 +3030,7 @@
 "media": null,
 "note": "投資（非接案、無收入）",
 "bill": "",
+"jkey": "",
 "last": "2026-05-24"
 },
 {
@@ -2843,6 +3045,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-04-14"
 },
 {
@@ -2857,6 +3060,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-04-14"
 },
 {
@@ -2871,6 +3075,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-05-25"
 },
 {
@@ -2885,6 +3090,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-08-21"
 },
 {
@@ -2899,6 +3105,7 @@
 "media": null,
 "note": "Trello 同步｜檢查清單 0/3",
 "bill": "",
+"jkey": "",
 "last": "2024-08-21"
 },
 {
@@ -2913,6 +3120,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-06-19"
 },
 {
@@ -2927,6 +3135,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-06-19"
 },
 {
@@ -2941,6 +3150,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-12-11"
 },
 {
@@ -2955,6 +3165,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-02-13"
 },
 {
@@ -2969,6 +3180,7 @@
 "media": null,
 "note": "投資（非接案、無收入）",
 "bill": "",
+"jkey": "",
 "last": "2025-05-16"
 },
 {
@@ -2983,6 +3195,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-05-14"
 },
 {
@@ -2997,6 +3210,7 @@
 "media": null,
 "note": "客戶：伸仁紡織｜團購主/KOL：每月服務費 31,500、當月收取｜持續中",
 "bill": "",
+"jkey": "",
 "last": "2026-04-22"
 },
 {
@@ -3011,6 +3225,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-04-22"
 },
 {
@@ -3025,6 +3240,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-05-25"
 },
 {
@@ -3039,6 +3255,7 @@
 "media": null,
 "note": "Trello 同步｜檢查清單 0/3",
 "bill": "",
+"jkey": "",
 "last": "2024-08-21"
 },
 {
@@ -3053,6 +3270,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-04-13"
 },
 {
@@ -3067,6 +3285,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-12-11"
 },
 {
@@ -3081,6 +3300,7 @@
 "media": null,
 "note": "投資（非接案、無收入）",
 "bill": "",
+"jkey": "",
 "last": "2026-05-24"
 },
 {
@@ -3095,6 +3315,7 @@
 "media": null,
 "note": "投資（非接案）｜預計 2026/12/31 結束",
 "bill": "",
+"jkey": "",
 "last": "2026-04-22"
 },
 {
@@ -3109,6 +3330,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2025-05-14"
 },
 {
@@ -3123,6 +3345,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-08-21"
 },
 {
@@ -3137,6 +3360,7 @@
 "media": null,
 "note": "客戶：伸仁紡織｜網站搬家與採購伺服器：一次性，已於6/18完成",
 "bill": "",
+"jkey": "",
 "last": "2026-04-22"
 },
 {
@@ -3151,6 +3375,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-04-23"
 },
 {
@@ -3165,6 +3390,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-05-25"
 },
 {
@@ -3179,6 +3405,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-04-13"
 },
 {
@@ -3193,6 +3420,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2024-08-21"
 },
 {
@@ -3207,6 +3435,7 @@
 "media": null,
 "note": "投資（非接案、無收入）",
 "bill": "",
+"jkey": "",
 "last": "2026-04-07"
 },
 {
@@ -3221,6 +3450,7 @@
 "media": null,
 "note": "客戶：詩硯｜盧醫師廣告投放：每月執行。未來預估＝過去廣告服務費平均（1–6月共115,000／6≈19,000/月），廣告費由客戶另行儲值。",
 "bill": "",
+"jkey": "",
 "last": "2026-05-24"
 },
 {
@@ -3235,6 +3465,7 @@
 "media": null,
 "note": "投資（非接案、無收入）｜預計 7 月底完工",
 "bill": "",
+"jkey": "",
 "last": "2026-03-25"
 },
 {
@@ -3249,6 +3480,7 @@
 "media": null,
 "note": "Trello 同步",
 "bill": "",
+"jkey": "",
 "last": "2026-02-11"
 }
 ]

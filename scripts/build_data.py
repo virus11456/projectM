@@ -43,6 +43,7 @@ def main():
     rev, cost = {}, {}
     acct = {"預計收入": [0]*12, "應收帳款": [0]*12, "應付帳款": [0]*12}
     ar_book, ar_collected = [], 0.0   # 應收帳款：認列明細 / 已收回總額
+    billing = []                      # 每筆收入的實際收款狀態（供時間軸自動對帳）
     for r in range(4, ws.max_row + 1):
         d = ws.cell(r, 2).value
         desc = ws.cell(r, 3).value
@@ -57,6 +58,12 @@ def main():
         amt = float(amt) if amt not in (None, "") else 0.0
         big = cat2big.get(str(cat).strip(), "") if cat else ""
         pname = str(proj).strip() if proj else "（未標專案）"
+        # 收入收款明細（含未分類但轉入應收/預收的認列）：供時間軸自動對帳
+        if amt > 0 and (big == "收入" or inacc in ("應收帳款", "預計收入")):
+            # 轉入應收帳款=應收未收；轉入預計收入=預計；其餘(銀行等)=已收
+            status = "應收" if inacc == "應收帳款" else ("預計" if inacc == "預計收入" else "已收")
+            billing.append({"proj": pname, "desc": str(desc or "").strip(),
+                            "m": d.month, "amt": round(amt), "status": status})
         if big == "收入":
             rev.setdefault(pname, [0]*12)[m] += amt
         elif big == "成本":
@@ -101,6 +108,7 @@ def main():
         "accounts": {k: [round(x) for x in v] for k, v in acct.items()},
         "receivables_open": ar_open,
         "receivables_open_total": round(sum(x["amt"] for x in ar_open)),
+        "billing": billing,
     }
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:

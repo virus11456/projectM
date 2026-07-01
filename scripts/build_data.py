@@ -44,6 +44,7 @@ def main():
     acct = {"預計收入": [0]*12, "應收帳款": [0]*12, "應付帳款": [0]*12}
     ar_book, ar_collected = [], 0.0   # 應收帳款：認列明細 / 已收回總額
     billing = []                      # 每筆收入的實際收款狀態（供時間軸自動對帳）
+    collected_descs = []              # 已收款分錄的描述（把應收/預收轉入銀行）
     for r in range(4, ws.max_row + 1):
         d = ws.cell(r, 2).value
         desc = ws.cell(r, 3).value
@@ -58,6 +59,9 @@ def main():
         amt = float(amt) if amt not in (None, "") else 0.0
         big = cat2big.get(str(cat).strip(), "") if cat else ""
         pname = str(proj).strip() if proj else "（未標專案）"
+        # 收款分錄：把應收帳款/預計收入 轉入 真實帳戶（銀行）＝該筆已收現
+        if outacc in ("應收帳款", "預計收入") and inacc and inacc not in ("應收帳款", "預計收入"):
+            collected_descs.append(str(desc or "").strip())
         # 收入收款明細（含未分類但轉入應收/預收的認列）：供時間軸自動對帳
         if amt > 0 and (big == "收入" or inacc in ("應收帳款", "預計收入")):
             # 轉入應收帳款=應收未收；轉入預計收入=預計；其餘(銀行等)=已收
@@ -80,17 +84,13 @@ def main():
         if outacc == "應收帳款":
             ar_collected += amt
 
-    # FIFO：已收回的款項沖銷最早認列的應收，剩下的就是「應收未收」
+    # 應收未收＝已認列到應收帳款、且「沒有」對應收款分錄(描述相符)的款
     ar_book.sort(key=lambda x: x[0])
-    rem = ar_collected
     ar_open = []
     for dt, pname, desc, amt in ar_book:
-        if rem >= amt:
-            rem -= amt
-            continue
-        a = amt - rem if rem > 0 else amt
-        rem = 0
-        ar_open.append({"date": dt, "name": pname, "desc": desc, "amt": round(a)})
+        if desc and any(desc in cd for cd in collected_descs):
+            continue  # 已收款，沖銷
+        ar_open.append({"date": dt, "name": pname, "desc": desc, "amt": round(amt)})
 
     projects = sorted(set(rev) | set(cost),
                       key=lambda p: -sum(rev.get(p, [0]*12)))
@@ -110,6 +110,11 @@ def main():
         "receivables_open_total": round(sum(x["amt"] for x in ar_open)),
         "billing": billing,
     }
+    # 已認列的款若之後有對應收款分錄（描述相符）＝改標已收
+    for b in billing:
+        if b["status"] in ("應收", "預計") and b["desc"]:
+            if any(b["desc"] in cd for cd in collected_descs):
+                b["status"] = "已收"
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=0)

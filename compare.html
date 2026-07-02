@@ -101,6 +101,14 @@
   .artbl td.r,.artbl th.r{text-align:right}
   .age-old{color:#ff5d6c;font-weight:800}
   .age-mid{color:var(--amber);font-weight:700}
+  .nodate{margin-top:22px;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:12px 16px}
+  .nodate>summary{cursor:pointer;font-size:14px;font-weight:800;list-style:none}
+  .nodate>summary::-webkit-details-marker{display:none}
+  .nodate>summary .c{color:var(--amber)}
+  .nodate .ndsub{color:var(--mut);font-size:12px;margin:8px 0 10px;line-height:1.5}
+  .nodate .ndlist{display:flex;flex-wrap:wrap;gap:7px}
+  .nodate .chip{font-size:11.5px;padding:4px 9px;border-radius:7px;background:var(--panel2);border:1px solid var(--line);color:#cdd3df;white-space:nowrap}
+  .nodate .chip b{color:var(--mut);font-weight:600;font-size:10px}
   /* ===== RWD ===== */
   @media(max-width:1000px){
     .scard{flex:1 1 30%;min-width:0}              /* 平板：每排約3張 */
@@ -152,6 +160,8 @@
       <div class="arsub">這些是已經<b>賺到／認列</b>但<b>現金還沒進來</b>的款。帳齡越久越上面——方便你確認是「還沒做完」還是「做完了還沒請款／客戶還沒付」。來源：日記帳「應收帳款」科目。</div>
       <div class="artbl"><table id="arTable"></table></div>
     </div>
+
+    <details class="nodate" id="nodateBox"></details>
   </div>
 <script>
 const mn=["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
@@ -331,6 +341,18 @@ Promise.all([
     +`目前 <b>${cases}</b> 個接案在跑（${custs} 個客戶）、<b>${invests}</b> 個投資案。`;
   window.__dash=Object.assign(window.__dash||{},{collectAhead,netAhead,cases,invests,custs,curMonth:mn[curM]});
   document.getElementById('headline').innerHTML=window.__headBase;
+
+  // 尚未排期：作用中但缺開始/截止日 → 不會出現在甘特圖
+  const noDate=N.cards.filter(c=>scls[c.status]&&(!c.start||!c.due));
+  const nb=document.getElementById('nodateBox');
+  if(nb&&noDate.length){
+    nb.innerHTML=`<summary>📋 尚未排期 <span class="c">${noDate.length}</span> 個專案（點開）</summary>`
+      +`<div class="ndsub">這些卡片是<b>作用中</b>但<b>沒填「開始日期」或「截止日期」</b>，所以無法畫在時間軸上。到 Notion 補上兩個日期，隔天同步後就會出現在上面的甘特圖。</div>`
+      +`<div class="ndlist">`+noDate.sort((a,b)=>(a.cust<b.cust?-1:1)).map(c=>{
+        const miss=!c.start&&!c.due?'缺開始+截止':!c.start?'缺開始日':'缺截止日';
+        return `<span class="chip" title="狀態：${c.status}｜${miss}">${strip(c.name)} <b>· ${miss}</b></span>`;
+      }).join('')+`</div>`;
+  }
 }).catch(e=>{document.getElementById('sub').textContent='載入失敗：'+e;});
 
 // 應收未收（待收款）— 來源：日記帳 應收帳款科目

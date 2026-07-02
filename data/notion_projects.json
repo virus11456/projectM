@@ -21,8 +21,8 @@
 {
 "name": "[企劃]大陸廠商群眾募資",
 "status": "開發中-初步接觸",
-"start": null,
-"due": null,
+"start": "2026-07-02",
+"due": "2026-10-02",
 "priority": null,
 "customer": "Candy",
 "amount": null,
@@ -36,8 +36,8 @@
 {
 "name": "[企劃]Qlink Vtuber的設置",
 "status": "開發中-初步接觸",
-"start": null,
-"due": null,
+"start": "2026-07-02",
+"due": "2026-10-02",
 "priority": null,
 "customer": "candy",
 "amount": null,
@@ -51,8 +51,8 @@
 {
 "name": "[廣告]美賣旅行社廣告服務",
 "status": "開發中-初步接觸",
-"start": null,
-"due": null,
+"start": "2026-07-02",
+"due": "2026-10-02",
 "priority": null,
 "customer": "candy",
 "amount": null,
@@ -66,8 +66,8 @@
 {
 "name": "[企劃]美賣電商刷營業額",
 "status": "開發中-初步接觸",
-"start": null,
-"due": null,
+"start": "2026-07-02",
+"due": "2026-10-02",
 "priority": null,
 "customer": "candy",
 "amount": null,

@@ -1,8 +1,38 @@
 {
-"updated": "2026-07-02",
+"updated": "2026-07-20",
 "source": "Notion 同步看板（FY2026）",
 "db": "https://app.notion.com/p/51e7d8bdea014a32ad1fb7c8d13c0384",
 "cards": [
+{
+"name": "[網站]凌科生活科技-網站製作",
+"status": "開發中-初步接觸",
+"start": null,
+"due": null,
+"priority": null,
+"customer": "凌科生活科技",
+"amount": null,
+"svc": null,
+"media": null,
+"note": "李啟彰介紹｜網站製作需求。公司：凌科生活科技有限公司。聯絡：李玟燕小姐 04-22134111 / service@lingke.com.tw。",
+"bill": "",
+"jkey": "",
+"last": null
+},
+{
+"name": "[網站]士揚國際-網站製作",
+"status": "開發中-初步接觸",
+"start": null,
+"due": null,
+"priority": null,
+"customer": "士揚國際",
+"amount": null,
+"svc": null,
+"media": null,
+"note": "李啟彰介紹｜網站製作需求。公司：士揚國際股份有限公司。聯絡：劉小姐 05-2745009。",
+"bill": "",
+"jkey": "",
+"last": null
+},
 {
 "name": "[網站]日日好食-台灣網站製作 ",
 "status": "開發中-洽談中",

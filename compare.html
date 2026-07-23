@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>專案時間軸（甘特圖）· 簡單行銷營運中台</title>
 <style>
-  :root{--bg:#0f1115;--panel:#171a21;--panel2:#1e2230;--line:#272c3a;--txt:#e7e9ee;--mut:#9aa3b2;--amber:#ffb454;}
+  :root{--bg:#0f1115;--panel:#171a21;--panel2:#1e2230;--line:#272c3a;--txt:#e7e9ee;--mut:#9aa3b2;--amber:#ffb454;--green:#27c093;}
   *{box-sizing:border-box}
   body{margin:0;font-family:"Inter","Noto Sans TC",system-ui,"PingFang TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--txt);-webkit-font-smoothing:antialiased}
   a{color:#4f8cff;text-decoration:none}
@@ -14,32 +14,129 @@
   .back{font-size:13px;font-weight:600;padding:7px 13px;border:1px solid var(--line);border-radius:9px;color:var(--txt)}
   .back:hover{background:var(--panel2)}
   .wrap{padding:14px 20px 70px}
-  .legend{color:var(--mut);font-size:12.5px;margin:0 2px 12px;line-height:1.6}
-  .tl{border:1px solid var(--line);border-radius:12px;overflow:auto;max-height:calc(100vh - 150px)}
-  .grid{min-width:980px}
-  /* header */
+  /* 現金彙總 */
+  .sumrow{display:flex;gap:14px;flex-wrap:wrap;margin:4px 2px 14px}
+  .scard{flex:1 1 0;min-width:172px;min-height:92px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 16px;display:flex;flex-direction:column;align-items:stretch}
+  .scard .lab{font-size:12px;color:var(--mut);font-weight:600;display:flex;align-items:center;gap:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .scard .val{font-size:23px;font-weight:800;margin-top:6px;line-height:1.15;white-space:nowrap}
+  .scard .hint{font-size:10.5px;color:var(--mut);margin-top:auto;padding-top:4px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .scard.recv .val{color:var(--amber)}
+  .scard.fore .val{color:var(--green)}
+  .legend{color:var(--mut);font-size:12px;margin:0 2px 12px;line-height:1.9}
+  .lg{display:inline-flex;align-items:center;gap:5px;margin-right:14px}
+  .swatch{width:30px;height:15px;border-radius:5px;display:inline-block;vertical-align:middle}
+  .sw-fore{background:linear-gradient(135deg,#27c093,#27c093cc)}
+  .sw-recv{background:rgba(255,180,84,.18);border:1.5px dashed var(--amber)}
+  .sw-past{background:rgba(255,255,255,.06);border:1px solid var(--line)}
+  .tl{border:1px solid var(--line);border-radius:12px;overflow:auto;max-height:calc(100vh - 300px)}
+  .scard.pay .val{color:#ff7a85}
+  .scard.sal .val{color:#e8893f}
+  .scard.med .val{color:#aab2c2}
+  .scard.net .val{color:#6aa0ff}
+  .grid{min-width:1100px}
   .hrow{display:flex;position:sticky;top:0;z-index:8;background:var(--panel2);border-bottom:1px solid var(--line)}
-  .hname{flex:0 0 230px;padding:10px 14px;font-size:11.5px;font-weight:700;color:var(--mut);border-right:2px solid var(--line);position:sticky;left:0;background:var(--panel2);z-index:9}
+  .hname{flex:0 0 210px;padding:10px 14px;font-size:11.5px;font-weight:700;color:var(--mut);border-right:2px solid var(--line);position:sticky;left:0;background:var(--panel2);z-index:9}
+  .hname .grand{display:block;margin-top:3px;font-size:12.5px;font-weight:800;color:var(--green)}
+  .hname .grandout{display:block;margin-top:1px;font-size:11px;font-weight:700;color:#ff7a85}
+  .hname .grandnet{display:block;margin-top:1px;font-size:11.5px;font-weight:800;color:#6aa0ff}
+  .hname .grandnet.neg{color:#ff5d6c}
   .hmon{flex:1;display:flex}
-  .hmon .mc{flex:1;text-align:center;padding:10px 0;font-size:11px;font-weight:700;color:var(--mut);border-right:1px solid rgba(39,44,58,.6)}
+  .hmon .mc{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:6px 0;font-size:11px;font-weight:700;color:var(--mut);border-right:1px solid rgba(39,44,58,.6)}
+  .hmon .mc .msum{font-size:11px;font-weight:800;color:var(--green)}
+  .hmon .mc .mout{font-size:9.5px;font-weight:700;color:#ff7a85}
+  .hmon .mc .mnet{font-size:10px;font-weight:800;color:#6aa0ff}
+  .hmon .mc .mnet.neg{color:#ff5d6c}
   .hmon .mc.cur{background:rgba(255,180,84,.22);color:#fff;border-radius:6px 6px 0 0}
-  /* client group */
   .grp{display:flex;align-items:center;gap:8px;background:#10131a;border-top:1px solid var(--line);padding:7px 14px;font-size:12px;font-weight:800;position:sticky;left:0;z-index:3}
   .grp .gd{width:11px;height:11px;border-radius:3px;flex-shrink:0}
   .grp .gt{color:var(--mut);font-weight:600;font-size:11px;margin-left:auto}
-  /* rows */
-  .row{display:flex;align-items:center;height:40px;border-top:1px solid rgba(39,44,58,.45)}
+  .row{display:flex;align-items:stretch;height:70px;border-top:1px solid rgba(39,44,58,.45)}
   .row:hover{background:rgba(255,255,255,.025)}
-  .rname{flex:0 0 230px;padding:0 14px 0 26px;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-right:2px solid var(--line);position:sticky;left:0;background:var(--panel);z-index:2}
+  .rname{flex:0 0 210px;overflow:hidden;padding:8px 12px 8px 26px;font-size:12.5px;font-weight:600;border-right:2px solid var(--line);position:sticky;left:0;background:var(--panel);z-index:2;display:flex;flex-direction:column;justify-content:center;gap:3px;line-height:1.3}
   .row:hover .rname{background:#1b1f29}
   .rname .rdot{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%}
-  .track{flex:1;position:relative;height:100%}
+  .rname .nmline{display:flex;align-items:center;min-width:0}
+  .rname .tag{flex:0 0 auto;font-size:10px;font-weight:800;padding:2px 6px;border-radius:5px;margin-right:6px;background:rgba(255,255,255,.08);color:#cdd3df;letter-spacing:.3px}
+  .rname .nm{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .pay{display:flex;flex-wrap:wrap;gap:3px 8px;font-size:9.5px;font-weight:700;line-height:1.1;white-space:nowrap}
+  .psvc{color:#ff7a85}
+  .pmed{color:#9aa3b2}
+  .track{flex:1;position:relative}
   .mcol{position:absolute;top:0;bottom:0;border-right:1px solid rgba(39,44,58,.4)}
   .mcol.cur{background:rgba(255,180,84,.07)}
-  .bar{position:absolute;top:9px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:flex-end;padding:0 9px;font-size:11px;font-weight:800;color:#fff;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.35)}
-  .bar.dim{opacity:.5;background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.12) 0 5px,transparent 5px 10px)}
-  .bar .lbl-out{position:absolute;left:calc(100% + 7px);color:var(--mut);font-size:10.5px;font-weight:700}
-  @media(max-width:640px){.top,.wrap{padding-left:12px;padding-right:12px}.hname,.rname{flex-basis:140px}.rname{font-size:11.5px;padding-left:24px}}
+  .bar{position:absolute;top:8px;bottom:8px;border-radius:9px;padding:6px 9px;color:#fff;overflow:hidden;
+       box-shadow:0 1px 5px rgba(0,0,0,.4);display:flex;flex-direction:column;justify-content:center;gap:2px;min-width:0}
+  /* 每月小方塊：三種狀態 */
+  .mblk{align-items:center;justify-content:center;text-align:center;padding:4px 2px;gap:1px;border-radius:8px}
+  .mblk .e{font-size:11px;line-height:1}
+  .mblk .a{font-size:11px;font-weight:800;line-height:1.05}
+  .mblk .t{font-size:8.5px;font-weight:700;opacity:.9;line-height:1}
+  .mblk .pastn{font-size:10px;font-weight:700;opacity:.7;line-height:1}
+  .mblk.fore{}                                   /* 預計收入：實心 */
+  .mblk.recv{box-shadow:none;border:1.5px dashed var(--amber);background:rgba(255,180,84,.16)!important;color:#ffd9a3}  /* 應收帳款 */
+  .mblk.past{box-shadow:none;background:rgba(255,255,255,.04)!important;color:var(--mut);opacity:.5}                     /* 已收（過去） */
+  /* 一次性 / 期間大方塊 */
+  .b-amt{font-size:14px;font-weight:800;line-height:1.1}
+  .b-tag{font-size:9px;font-weight:800;letter-spacing:.5px;line-height:1}
+  .b-note{font-size:10.5px;font-weight:600;line-height:1.35;opacity:.95;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .b-date{font-size:9.5px;opacity:.8;font-weight:600}
+  .execbar{position:absolute;top:11px;bottom:11px;border-radius:8px;background:rgba(255,255,255,.035);border:1px dashed rgba(255,255,255,.16)}
+  .bar.recv{border:1.5px dashed var(--amber);background:rgba(255,180,84,.16)!important;color:#ffd9a3;box-shadow:none}
+  .bar.inv{background:rgba(255,255,255,.05)!important;color:var(--mut);box-shadow:none;border:1px dashed var(--line)}
+  .bar.dev{background:repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 6px,rgba(255,255,255,.02) 6px 12px)!important;color:#9aa3b2;box-shadow:none;border:1.5px dashed rgba(255,255,255,.28)}
+  .bar.dev .b-tag{color:#c9b6ff}
+  .headline{background:linear-gradient(135deg,rgba(79,140,255,.13),rgba(39,192,147,.10));border:1px solid var(--line);border-radius:12px;padding:13px 17px;margin:0 2px 14px;font-size:13.5px;line-height:1.85}
+  .headline .hi{color:var(--green);font-weight:800;font-size:16px}
+  .headline .hn{color:#6aa0ff;font-weight:800;font-size:15px}
+  .headline .hr{color:#ff7a85;font-weight:800}
+  .headline b{color:var(--txt)}
+  .scrollhint{display:none;color:var(--mut);font-size:11.5px;margin:0 2px 8px;text-align:center}
+  .arwrap{margin-top:28px}
+  .arh{font-size:15px;margin:0 0 4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .arh span{color:var(--amber);font-weight:800;font-size:14px}
+  .arsub{color:var(--mut);font-size:12px;margin:0 0 12px;line-height:1.55}
+  .artbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+  .artbl table{border-collapse:collapse;width:100%;font-size:13px;white-space:nowrap}
+  .artbl th,.artbl td{padding:9px 13px;text-align:left;border-bottom:1px solid var(--line)}
+  .artbl thead th{color:var(--mut);font-weight:700;font-size:11.5px;background:var(--panel2)}
+  .artbl tbody tr:hover td{background:rgba(255,180,84,.06)}
+  .artbl td.r,.artbl th.r{text-align:right}
+  .age-old{color:#ff5d6c;font-weight:800}
+  .age-mid{color:var(--amber);font-weight:700}
+  .nodate{margin-top:22px;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:12px 16px}
+  .nodate>summary{cursor:pointer;font-size:14px;font-weight:800;list-style:none}
+  .nodate>summary::-webkit-details-marker{display:none}
+  .nodate>summary .c{color:var(--amber)}
+  .nodate .ndsub{color:var(--mut);font-size:12px;margin:8px 0 10px;line-height:1.5}
+  .nodate .ndlist{display:flex;flex-wrap:wrap;gap:7px}
+  .nodate .chip{font-size:11.5px;padding:4px 9px;border-radius:7px;background:var(--panel2);border:1px solid var(--line);color:#cdd3df;white-space:nowrap}
+  .nodate .chip b{color:var(--mut);font-weight:600;font-size:10px}
+  /* ===== RWD ===== */
+  @media(max-width:1000px){
+    .scard{flex:1 1 30%;min-width:0}              /* 平板：每排約3張 */
+    .scard .val{font-size:21px}
+  }
+  @media(max-width:680px){
+    .top{padding:14px 14px}.top h1{font-size:16px}.wrap{padding:12px 12px 60px}
+    .scard{flex:1 1 46%;min-height:80px;padding:11px 12px}  /* 手機：每排2張 */
+    .scard .val{font-size:19px}.scard .lab{font-size:11px}.scard .hint{font-size:9.5px}
+    .scrollhint{display:block}
+    .legend{font-size:11px;line-height:1.7}
+    .tl{max-height:none}
+    .grid{min-width:760px}
+    .hname,.rname{flex:0 0 116px}
+    .hname{font-size:10.5px;padding:8px 8px}
+    .rname{font-size:11px;padding:7px 8px 7px 20px}
+    .rname .rdot{left:8px}
+    .rname .tag{font-size:9px;padding:1px 4px;margin-right:4px}
+    .pay{font-size:9px}
+    .hmon .mc{font-size:10px;padding:6px 0}
+    .hmon .mc .msum{font-size:10px}.hmon .mc .mnet{font-size:8.5px}
+    .hname .grand{font-size:11px}.hname .grandnet{font-size:10px}
+    .row{height:64px}
+    .mblk .a{font-size:10px}.mblk .e{font-size:10px}.mblk .t{font-size:8px}
+    .b-amt{font-size:12px}.b-note{font-size:9.5px;-webkit-line-clamp:2}
+  }
 </style>
 </head>
 <body>
@@ -48,31 +145,112 @@
     <div><h1>📊 專案時間軸（甘特圖）</h1><div class="sub" id="sub">載入中…</div></div>
   </div>
   <div class="wrap">
-    <div class="legend">每條橫條＝專案的<b>開始 → 截止</b>；<b>同一個客戶用同一個顏色</b>，左欄是專案名、條上是<b>階段金額</b>。斜紋＝暫停/洽談中。橘色直欄＝本月。來源：Notion。</div>
+    <div class="sumrow" id="sumrow"></div>
+    <div class="headline" id="headline"></div>
+    <div class="legend">
+      <span class="lg"><span class="swatch sw-fore"></span><b>預計收入</b>：已簽約、本月之後還沒做（未開發票）</span>
+      <span class="lg"><span class="swatch sw-recv"></span><b>應收帳款</b>：本月正在做／已交付待收款</span>
+      <span class="lg"><span class="swatch sw-past"></span>已過月份（多半已收）淡化</span>
+      <br>月份下方：<span class="msum"><b>綠＝入帳</b></span>、<span style="color:#ff7a85"><b>紅＝出(專案應付＋薪資8萬/月)</b></span>、<span style="color:#6aa0ff"><b>藍＝淨現金流</b></span>（<span style="color:#ff5d6c"><b>負為紅字</b></span>＝當月出大於入）。專案名稱下方紅字＝<span class="psvc"><b>💸可扣成本</b></span>（外包＋內含廣告成本，會扣）。
+      <br>每月領錢的專案＝<b>一個月一個方塊</b>；一次性／期間案＝一個大方塊。💰越多金額越大。橘色直欄＝本月。來源：Notion。
+    </div>
+    <div class="scrollhint">← 左右滑動查看 1–12 月 ·（專案欄固定）→</div>
     <div class="tl"><div class="grid" id="grid"></div></div>
+
+    <div class="arwrap">
+      <h2 class="arh">📋 應收未收（已認列、還沒收到的款）<span id="artot"></span></h2>
+      <div class="arsub">這些是已經<b>賺到／認列</b>但<b>現金還沒進來</b>的款。帳齡越久越上面——方便你確認是「還沒做完」還是「做完了還沒請款／客戶還沒付」。來源：日記帳「應收帳款」科目。</div>
+      <div class="artbl"><table id="arTable"></table></div>
+    </div>
+
+    <details class="nodate" id="nodateBox"></details>
   </div>
 <script>
 const mn=["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
 const curM=new Date().getMonth();
+const HEADCOUNT=2, SALARY_EACH=40000;   // 員工人數 × 每人月薪
+const OVERHEAD=HEADCOUNT*SALARY_EACH;   // 公司固定成本：薪資（每月），會從每月淨額扣除
 const PAL=["#4f8cff","#27c093","#ffb454","#9b7bff","#ff5d6c","#36cfd1","#e8893f","#56c2a4","#c98bff","#f0c563","#7aa0ff","#ef7d92","#5bd0bf","#b0863f"];
-const abbr=v=>!v&&v!==0?"":v>=1e6?(v/1e6).toFixed(v%1e6?2:0)+"M":v>=1e3?Math.round(v/1e3)+"k":""+v;
+const fmt=n=>n.toLocaleString('en-US');
+const abbr=v=>!v&&v!==0?"":v>=1e6?(v/1e6).toFixed(1)+"M":v>=1e3?Math.round(v/1e3)+"k":""+v;
 const mi=d=>{if(!d)return null;const[y,m]=d.split("-").map(Number);return Math.min(11,Math.max(0,(y-2026)*12+(m-1)));};
+const tagOf=n=>{const m=n.match(/^\s*[\[\［]([^\]\］]*)[\]\］]/);return m?m[1].trim():"";};
 const strip=n=>n.replace(/^\s*[\[\［][^\]\］]*[\]\］]\s*/,"").replace(/（[^）]*）\s*$/,"").trim()||n;
 const scls={"執行中":1,"開發中-洽談中":1,"開發中-初步接觸":1,"暫停":1,"待認領":1};
-const dimStatus=new Set(["暫停","開發中-洽談中","開發中-初步接觸","待認領"]);
+const cleanNote=s=>(s||"").replace(/^客戶：[^｜|]*[｜|]/,"").replace(/｜?持續中/,"").replace(/^Trello 同步\S*/,"").trim();
+// 依金額大小給 💰
+function emo(v){ if(v==null||v===0)return""; if(v>=500000)return"💰💰💰💰💰"; if(v>=200000)return"💰💰💰💰"; if(v>=100000)return"💰💰💰"; if(v>=50000)return"💰💰"; if(v>=10000)return"💰"; return"💵"; }
+const isMonthly=note=>/每月|月結|月費|每月任務|逐月|依投放量|依量/.test(note||"");
+const isInvest=(note,amt)=>/投資/.test(note||"")||amt===0;
 
-fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
-  document.getElementById('sub').textContent=`來源：Notion · 更新 ${N.updated} · 本月＝${mn[curM]}`;
+const RANK={'應收':3,'預計':2,'已收':1};
+const LIFE={'已收':3,'應收':2,'預計':1};   // 生命週期：已收為最終狀態
+let JBILL=[];
+// 依「對帳關鍵字」從日記帳算出各月入帳與實際收款狀態（全自動、不手填）
+function journalEvents(jkey){
+  if(!jkey)return[];
+  // 同一筆款(描述+金額)的認列與收款會重複出現 → 去重，取最終狀態與最後月份
+  const items={};
+  JBILL.forEach(b=>{ if(!b.desc||b.desc.indexOf(jkey)<0)return;
+    const k=b.desc+'|'+b.amt, cur=items[k];
+    if(!cur || LIFE[b.status]>LIFE[cur.status] || (LIFE[b.status]===LIFE[cur.status] && b.m-1>cur.m))
+      items[k]={amt:b.amt,status:b.status,m:b.m-1};
+  });
+  const bym={};
+  Object.keys(items).forEach(k=>{ const it=items[k];
+    if(!bym[it.m])bym[it.m]={amt:0,status:it.status};
+    bym[it.m].amt+=it.amt; if(RANK[it.status]>RANK[bym[it.m].status])bym[it.m].status=it.status; });
+  return Object.keys(bym).map(m=>({m:+m,amt:bym[m].amt,status:bym[m].status})).sort((a,b)=>a.m-b.m);
+}
+Promise.all([
+  fetch('data/notion_projects.json').then(r=>r.json()),
+  fetch('data/projects_monthly.json').then(r=>r.json()).catch(()=>({billing:[]}))
+]).then(([N,P])=>{
+  JBILL=P.billing||[];
+  document.getElementById('sub').textContent=`來源：Notion＋日記帳自動對帳 · 更新 ${N.updated} · 本月＝${mn[curM]}`;
   let rows=N.cards.filter(c=>scls[c.status]&&c.start&&c.due)
     .map(c=>({...c,s:mi(c.start),e:mi(c.due),cust:c.customer||"其他"}))
     .filter(c=>c.s!==null&&c.e!==null&&c.e>=c.s);
-  // 客戶 → 顏色（依全年金額/出現順序）
-  const order=[...new Set(rows.sort((a,b)=>(a.cust<b.cust?-1:1)).map(r=>r.cust))];
+  const order=[...new Set(rows.slice().sort((a,b)=>(a.cust<b.cust?-1:1)).map(r=>r.cust))];
   const color={}; order.forEach((c,i)=>color[c]=PAL[i%PAL.length]);
   rows.sort((a,b)=>(a.cust<b.cust?-1:a.cust>b.cust?1:0)||a.s-b.s);
 
-  let h='<div class="hrow"><div class="hname">專案（依客戶分組）</div><div class="hmon">'
-       +mn.map((m,i)=>`<div class="mc ${i===curM?'cur':''}">${m}</div>`).join('')+'</div></div>';
+  let recvTot=0, foreTot=0, svcTot=0;   // 應收 / 預計 / 應付成本
+  const monthSum=new Array(12).fill(0);             // 每月入帳(毛)
+  const costMonth=new Array(12).fill(0);            // 每月可扣成本
+
+  // 請款排程語法： 月:金額:標籤;月:金額:標籤  （例 6:409500:頭款;8:175500:尾款）
+  const parseBill=s=>!s?[]:s.split(';').map(p=>{const x=p.split(':');return{m:(+x[0])-1,amt:+x[1]||0,label:(x[2]||'').trim()};}).filter(x=>x.m>=0&&x.m<12);
+  // 一個專案的入帳事件：有排程用排程；每月案每月一筆；其餘整筆掛在起始月
+  function billEvents(r){
+    if(isInvest(r.note,r.amount))return[];
+    if(r.jkey){const je=journalEvents(r.jkey); if(je.length)return je;}   // 有對帳關鍵字 → 直接用日記帳
+    const sc=parseBill(r.bill); if(sc.length)return sc;
+    if(isMonthly(r.note)){const a=[];for(let i=r.s;i<=r.e;i++)a.push({m:i,amt:r.amount||0});return a;}
+    return[{m:r.s,amt:r.amount||0}];
+  }
+  // 預先彙總：每月入帳(毛)、可扣成本、應收/預計、應付
+  rows.forEach(r=>{
+    const evs=billEvents(r), totalInc=evs.reduce((a,e)=>a+e.amt,0);
+    evs.forEach(ev=>{ monthSum[ev.m]+=ev.amt;
+      if(ev.status){ if(ev.status==='應收')recvTot+=ev.amt; else if(ev.status==='預計')foreTot+=ev.amt; }  // 依日記帳實際狀態
+      else if(ev.m===curM) recvTot+=ev.amt; else if(ev.m>curM) foreTot+=ev.amt; });
+    if(!isInvest(r.note,r.amount)){
+      const hasSched=r.jkey||parseBill(r.bill).length>0;
+      if(isMonthly(r.note)&&!hasSched){ for(let i=r.s;i<=r.e;i++) costMonth[i]+=(r.svc||0); }   // 純每月案：svc 為每月、逐月扣
+      else { evs.forEach(ev=>{ if(totalInc>0) costMonth[ev.m]+=(r.svc||0)*(ev.amt/totalInc); }); } // 有排程/期間：svc 為總額、依入帳占比分攤
+    }
+  });
+  const outMonth=costMonth.map(c=>c+OVERHEAD);                    // 每月出：專案應付＋固定薪資
+  const netMonth=monthSum.map((v,i)=>v-outMonth[i]);             // 每月淨現金流
+  const grand=monthSum.reduce((a,b)=>a+b,0);
+  const grandOut=outMonth.reduce((a,b)=>a+b,0), grandNet=grand-grandOut;
+  const futOH=(12-curM)*OVERHEAD;   // 本月起到年底的薪資
+  svcTot=costMonth.slice(curM).reduce((a,b)=>a+b,0);   // 本月起到年底的應付成本（與每月一致）
+
+  let h='<div class="hrow"><div class="hname">專案（依客戶分組）'
+       +`<span class="grand">入 $${fmt(grand)}</span><span class="grandout">出 -$${fmt(grandOut)}</span><span class="grandnet ${grandNet<0?'neg':''}">淨 $${fmt(grandNet)}</span></div><div class="hmon">`
+       +mn.map((m,i)=>`<div class="mc ${i===curM?'cur':''}">${m}<span class="msum">$${abbr(monthSum[i])}</span><span class="mout">-$${abbr(outMonth[i])}</span><span class="mnet ${netMonth[i]<0?'neg':''}">淨$${abbr(netMonth[i])}</span></div>`).join('')+'</div></div>';
   let lastCust=null;
   rows.forEach(r=>{
     const col=color[r.cust];
@@ -81,20 +259,132 @@ fetch('data/notion_projects.json').then(r=>r.json()).then(N=>{
       h+=`<div class="grp"><span class="gd" style="background:${col}"></span>${r.cust}<span class="gt">${cnt} 個專案</span></div>`;
       lastCust=r.cust;
     }
-    const left=r.s/12*100, width=(r.e-r.s+1)/12*100;
+    const bg=`linear-gradient(135deg,${col},${col}cc)`;
+    const em=emo(r.amount);
+    const invest=isInvest(r.note,r.amount);
+    const monthly=isMonthly(r.note);
+    const jev=r.jkey?journalEvents(r.jkey):[];
+    const sched=jev.length?jev.map(e=>({m:e.m,amt:e.amt,label:e.status})):parseBill(r.bill);
     const cols=mn.map((m,i)=>`<div class="mcol ${i===curM?'cur':''}" style="left:${i/12*100}%;width:${100/12}%"></div>`).join('');
-    const dim=dimStatus.has(r.status)?'dim':'';
-    const amt=r.amount?'$'+abbr(r.amount):'';
-    // 短條（<=1.5月）金額放外面，避免擠
-    const inside=width>14;
-    const lbl= amt ? (inside?amt:`<span class="lbl-out">${amt}</span>`) : '';
-    h+=`<div class="row"><div class="rname"><span class="rdot" style="background:${col}"></span>${strip(r.name)}</div>
-      <div class="track">${cols}
-        <div class="bar ${dim}" style="left:${left}%;width:${width}%;background:${dim?col:'linear-gradient(90deg,'+col+','+col+'cc)'}" title="${r.name}｜${r.start}~${r.due}${r.amount?'｜$'+r.amount.toLocaleString():''}">${inside?amt:''}${!inside?`<span class="lbl-out">${amt}</span>`:''}</div>
-      </div></div>`;
+    let bars='';
+    if(sched.length&&!invest){
+      // 請款排程：執行期底襯 + 每個請款月一個方塊
+      const eL=r.s/12*100, eW=(r.e-r.s+1)/12*100;
+      bars+=`<div class="execbar" style="left:calc(${eL}% + 2px);width:calc(${eW}% - 4px)" title="執行期 ${r.start.slice(5)}~${r.due.slice(5)}"></div>`;
+      const bym={};
+      sched.forEach(ev=>{ if(!bym[ev.m])bym[ev.m]={amt:0,ls:[]}; bym[ev.m].amt+=ev.amt; if(ev.label)bym[ev.m].ls.push(ev.label); });
+      Object.keys(bym).map(Number).sort((a,b)=>a-b).forEach(m=>{
+        const v=bym[m].amt, lab=bym[m].ls.join('＋'), L=m/12*100, W=100/12;
+        // 優先看排程標籤的實際收款狀態，沒標才用月份判斷
+        let cls;
+        if(/已收|預收/.test(lab)) cls='past';
+        else if(/未收|應收/.test(lab)) cls='recv';
+        else if(/預計/.test(lab)) cls='fore';
+        else cls = m<curM?'past':m===curM?'recv':'fore';
+        const tag = /預收/.test(lab)?'預收' : cls==='recv'?'應收' : cls==='fore'?'預計':'已收';
+        bars+=`<div class="bar mblk ${cls}" style="left:calc(${L}% + 3px);width:calc(${W}% - 6px);background:${bg}"
+          title="${r.name}｜${mn[m]}請款｜$${fmt(v)}｜${lab||tag}">
+          <div class="e">${emo(v)||'💵'}</div><div class="a">${abbr(v)}</div><div class="t">${tag}</div></div>`;
+      });
+    } else if(monthly){
+      // 一個月一個方塊；依時間分類
+      for(let i=r.s;i<=r.e;i++){
+        const L=i/12*100, W=100/12;
+        const cls = i<curM ? 'past' : i===curM ? 'recv' : 'fore';
+        const tag = invest?'投資' : cls==='recv'?'應收' : cls==='fore'?'預計' : '已收';
+        const style = invest
+          ? 'background:rgba(255,255,255,.05);color:#9aa3b2;box-shadow:none;border:1px dashed #272c3a'
+          : `background:${bg}`;
+        const amtTxt = r.amount!=null ? abbr(r.amount) : '待定';
+        let inner;
+        if(invest) inner='<div class="t">投資</div>';
+        else if(cls==='past') inner=`<div class="pastn">${r.amount!=null?abbr(r.amount):'·'}</div>`;
+        else inner=`<div class="e">${em||'💵'}</div><div class="a">${amtTxt}</div><div class="t">${tag}</div>`;
+        bars+=`<div class="bar mblk ${invest?'':cls}" style="left:calc(${L}% + 3px);width:calc(${W}% - 6px);${style}"
+          title="${r.name}｜${mn[i]}｜${invest?'投資案（無收入）':'$'+fmt(r.amount||0)+'｜'+tag}｜${cleanNote(r.note)}">${inner}</div>`;
+      }
+    } else {
+      // 一次性 / 期間：依結束月分類
+      const L=r.s/12*100, W=(r.e-r.s+1)/12*100;
+      const note=cleanNote(r.note);
+      const devMap={"開發中-洽談中":"洽談中","開發中-初步接觸":"開發中","暫停":"暫停","待認領":"待認領"};
+      let cls,tag;
+      if(invest){ cls='inv'; tag='投資案'; }
+      else if(devMap[r.status]){ cls='dev'; tag=devMap[r.status]; }   // 未啟動/洽談中：淡化，不算確定收入
+      else if(r.e<curM){ cls='recv'; tag='應收帳款'; }
+      else { cls='fore'; tag='預計收入'; }
+      const amt=invest?'':(r.amount||r.amount===0)?`${em} $${fmt(r.amount)}`:em;
+      const barbg = cls==='fore' ? `style="left:${L}%;width:${W}%;background:${bg}"` : `style="left:${L}%;width:${W}%"`;
+      bars=`<div class="bar ${cls==='fore'?'':cls}" ${barbg} title="${r.name}｜${r.start}~${r.due}｜${tag}">
+        <div class="b-tag">${tag}</div>
+        ${amt?`<div class="b-amt">${amt}</div>`:''}
+        ${note?`<div class="b-note">${note}</div>`:''}
+        <div class="b-date">${r.start.slice(5)}~${r.due.slice(5)}</div></div>`;
+    }
+    const tg=tagOf(r.name);
+    let disp=strip(r.name);
+    if(r.cust&&r.cust!=="其他"){const p=disp.replace(new RegExp('^'+r.cust.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'[\\-_、：:　 ]+'),'');if(p)disp=p;}
+    const per=monthly?"/月":"";
+    let payHtml='';
+    if(!invest&&r.svc){
+      payHtml=`<div class="pay"><span class="psvc" title="可扣成本：外包服務費／內含廣告成本，會從收入扣除">💸成本 -${abbr(r.svc)}${per}</span></div>`;
+    }
+    h+=`<div class="row"><div class="rname"><span class="rdot" style="background:${col}"></span>`
+      +`<div class="nmline">${tg?`<span class="tag">${tg}</span>`:''}<span class="nm">${disp}</span></div>${payHtml}</div>`
+      +`<div class="track">${cols}${bars}</div></div>`;
   });
+
+  document.getElementById('sumrow').innerHTML=
+    `<div class="scard recv"><div class="lab">📩 應收帳款</div><div class="val">$${fmt(recvTot)}</div><div class="hint">本月正在做、即將請款</div></div>`+
+    `<div class="scard fore"><div class="lab">💰 預計收入</div><div class="val">$${fmt(foreTot)}</div><div class="hint">本月之後已排程、未執行</div></div>`+
+    `<div class="scard pay"><div class="lab">💸 應付帳款（本月~年底）</div><div class="val">-$${fmt(svcTot)}</div><div class="hint">外包＋內含廣告成本</div></div>`+
+    `<div class="scard sal"><div class="lab">🧑‍💼 固定成本(薪資)</div><div class="val">-$${fmt(futOH)}</div><div class="hint">${HEADCOUNT}人×$${fmt(SALARY_EACH)}=$${fmt(OVERHEAD)}/月 ×${12-curM}個月</div></div>`+
+    `<div class="scard net"><div class="lab">🟰 淨收入（本月~年底）</div><div class="val">$${fmt(recvTot+foreTot-svcTot-futOH)}</div><div class="hint">應收＋預計 −成本 −薪資（累計到年底）</div></div>`;
   document.getElementById('grid').innerHTML=h;
+
+  // 接下來總結：本月～年底還可收多少、淨多少、幾個案子在跑
+  const ahead=a=>a.slice(curM).reduce((x,y)=>x+y,0);
+  const collectAhead=ahead(monthSum), netAhead=ahead(netMonth);
+  const cases=rows.filter(r=>!isInvest(r.note,r.amount)).length;
+  const invests=rows.filter(r=>isInvest(r.note,r.amount)).length;
+  const custs=new Set(rows.filter(r=>!isInvest(r.note,r.amount)).map(r=>r.cust)).size;
+  window.__headBase=`💡 <b>${mn[curM]}～12月還可收 <span class="hi">$${fmt(collectAhead)}</span></b>`
+    +`，扣成本與薪資後淨現金流 <span class="hn">$${fmt(netAhead)}</span>。`
+    +`目前 <b>${cases}</b> 個接案在跑（${custs} 個客戶）、<b>${invests}</b> 個投資案。`;
+  window.__dash=Object.assign(window.__dash||{},{collectAhead,netAhead,cases,invests,custs,curMonth:mn[curM]});
+  document.getElementById('headline').innerHTML=window.__headBase;
+
+  // 尚未排期：作用中但缺開始/截止日 → 不會出現在甘特圖
+  const noDate=N.cards.filter(c=>scls[c.status]&&(!c.start||!c.due));
+  const nb=document.getElementById('nodateBox');
+  if(nb&&noDate.length){
+    nb.innerHTML=`<summary>📋 尚未排期 <span class="c">${noDate.length}</span> 個專案（點開）</summary>`
+      +`<div class="ndsub">這些卡片是<b>作用中</b>但<b>沒填「開始日期」或「截止日期」</b>，所以無法畫在時間軸上。到 Notion 補上兩個日期，隔天同步後就會出現在上面的甘特圖。</div>`
+      +`<div class="ndlist">`+noDate.sort((a,b)=>(a.cust<b.cust?-1:1)).map(c=>{
+        const miss=!c.start&&!c.due?'缺開始+截止':!c.start?'缺開始日':'缺截止日';
+        return `<span class="chip" title="狀態：${c.status}｜${miss}">${strip(c.name)} <b>· ${miss}</b></span>`;
+      }).join('')+`</div>`;
+  }
 }).catch(e=>{document.getElementById('sub').textContent='載入失敗：'+e;});
+
+// 應收未收（待收款）— 來源：日記帳 應收帳款科目
+fetch('data/projects_monthly.json').then(r=>r.json()).then(P=>{
+  const today=new Date(), td=today.toISOString().slice(0,10);
+  const days=s=>Math.floor((today-new Date(s))/86400000);
+  const items=(P.receivables_open||[]).filter(x=>x.date<=td).sort((a,b)=>a.date<b.date?-1:1);
+  const tot=items.reduce((a,x)=>a+x.amt,0);
+  window.__dash=Object.assign(window.__dash||{},{arCount:items.length,arTot:tot});
+  document.getElementById('artot').textContent=' $'+fmt(tot)+'（'+items.length+'筆待收）';
+  const hb=document.getElementById('headline');
+  if(hb&&window.__headBase) hb.innerHTML=window.__headBase+` 其中<b>已認列、還沒收到</b>的款 <span class="hr">$${fmt(tot)}</span> 要追（見下表）。`;
+  const agec=d=>d>60?'age-old':d>30?'age-mid':'';
+  document.getElementById('arTable').innerHTML = items.length?
+    '<thead><tr><th>認列日</th><th class="r">帳齡</th><th>客戶／專案</th><th>項目</th><th class="r">金額</th></tr></thead><tbody>'+
+    items.map(x=>{const a=days(x.date);return `<tr><td>${x.date}</td><td class="r ${agec(a)}">${a} 天</td><td><b>${x.name}</b></td><td>${x.desc||'—'}</td><td class="r">$${fmt(x.amt)}</td></tr>`;}).join('')+
+    `<tr><td colspan="4" style="font-weight:800;background:var(--panel2)">合計</td><td class="r" style="font-weight:800;color:var(--amber);background:var(--panel2)">$${fmt(tot)}</td></tr></tbody>`
+    : '<tbody><tr><td style="padding:14px;color:var(--mut)">目前沒有未收的款 🎉</td></tr></tbody>';
+}).catch(e=>{document.getElementById('arTable').innerHTML='<tbody><tr><td style="padding:14px;color:var(--mut)">應收未收資料載入失敗</td></tr></tbody>';});
 </script>
+<script src="club.js" defer></script>
 </body>
 </html>

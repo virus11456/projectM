@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>登入 · 簡單行銷營運中台</title>
+<style>
+  :root{--bg:#0f1115;--panel:#171a21;--panel2:#1e2230;--line:#2a3040;--txt:#e7e9ee;--mut:#9aa3b2;--blue:#4f8cff;--purple:#9b7bff;--red:#ff5d6c;}
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;display:flex;align-items:center;justify-content:center;min-height:100vh;
+       font-family:"Inter","Noto Sans TC",system-ui,"PingFang TC","Microsoft JhengHei",sans-serif;
+       background:radial-gradient(1100px 560px at 50% -5%,#1a2233 0%,var(--bg) 60%);color:var(--txt);
+       -webkit-font-smoothing:antialiased;padding:20px}
+  .card{width:100%;max-width:380px;background:linear-gradient(180deg,#1b2030,#161922);
+        border:1px solid var(--line);border-radius:18px;padding:34px 30px 30px;
+        box-shadow:0 20px 60px rgba(0,0,0,.45)}
+  .logo{width:52px;height:52px;border-radius:13px;margin:0 auto 14px;
+        background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-size:26px}
+  h1{font-size:20px;font-weight:800;text-align:center;margin:0 0 4px;letter-spacing:.5px}
+  .sub{color:var(--mut);font-size:12.5px;text-align:center;margin:0 0 24px}
+  label{display:block;font-size:12.5px;font-weight:700;color:var(--mut);margin:0 0 7px}
+  .field{margin-bottom:16px}
+  input{width:100%;background:#11141c;border:1px solid var(--line);border-radius:10px;
+        padding:12px 14px;color:var(--txt);font-size:14px;outline:none;transition:.15s}
+  input::placeholder{color:#5b6478}
+  input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,140,255,.18)}
+  button{width:100%;margin-top:6px;background:linear-gradient(135deg,var(--blue),#6f9cff);color:#fff;
+         border:none;border-radius:10px;padding:13px;font-size:15px;font-weight:800;cursor:pointer;transition:.15s;letter-spacing:1px}
+  button:hover{filter:brightness(1.08)}
+  button:active{transform:translateY(1px)}
+  .err{display:none;background:rgba(255,93,108,.12);border:1px solid rgba(255,93,108,.4);color:#ff9aa4;
+       font-size:12.5px;border-radius:9px;padding:9px 12px;margin-bottom:16px;text-align:center}
+  .foot{color:#5b6478;font-size:11px;text-align:center;margin-top:18px}
+</style>
+</head>
+<body>
+  <form class="card" method="POST" action="/login" autocomplete="on">
+    <div class="logo">📊</div>
+    <h1>簡單行銷營運中台</h1>
+    <div class="sub">請登入以查看財務／專案資料</div>
+
+    <div class="err" id="err">帳號或密碼錯誤，請再試一次</div>
+
+    <div class="field">
+      <label for="username">帳號</label>
+      <input id="username" name="username" type="text" placeholder="請輸入帳號" autocomplete="username" autofocus required />
+    </div>
+    <div class="field">
+      <label for="password">密碼</label>
+      <input id="password" name="password" type="password" placeholder="請輸入密碼" autocomplete="current-password" required />
+    </div>
+    <button type="submit">登 入</button>
+
+    <div class="foot">🔒 公司內部機密 · 全程加密連線</div>
+  </form>
+<script>
+  if(new URLSearchParams(location.search).has('e')) document.getElementById('err').style.display='block';
+</script>
+<script src="club.js" defer></script>
+</body>
+</html>

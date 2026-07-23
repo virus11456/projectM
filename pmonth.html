@@ -97,5 +97,6 @@ document.getElementById('btnNet').onclick=()=>{mode='net';render();};
 fetch('data/projects_monthly.json').then(r=>r.json()).then(d=>{PMD=d;render();})
   .catch(e=>{document.getElementById('t').innerHTML='<tbody><tr><td>資料載入失敗：'+e+'</td></tr></tbody>';});
 </script>
+<script src="club.js" defer></script>
 </body>
 </html>

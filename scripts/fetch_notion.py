@@ -58,7 +58,11 @@ def main():
                 "priority": _sel(pr.get("優先級")),
                 "customer": _text(pr.get("客戶")),
                 "amount": _num(pr.get("階段金額")),
+                "svc": _num(pr.get("外包服務費")),
+                "media": _num(pr.get("廣告媒體費")),
                 "note": _text(pr.get("備註")),
+                "bill": _text(pr.get("請款排程")),
+                "jkey": _text(pr.get("對帳關鍵字")),
                 "last": _date(pr.get("最後活動")),
             })
         if d.get("has_more"):

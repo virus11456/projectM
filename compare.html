@@ -184,14 +184,22 @@ const isMonthly=note=>/每月|月結|月費|每月任務|逐月|依投放量|依
 const isInvest=(note,amt)=>/投資/.test(note||"")||amt===0;
 
 const RANK={'應收':3,'預計':2,'已收':1};
+const LIFE={'已收':3,'應收':2,'預計':1};   // 生命週期：已收為最終狀態
 let JBILL=[];
 // 依「對帳關鍵字」從日記帳算出各月入帳與實際收款狀態（全自動、不手填）
 function journalEvents(jkey){
   if(!jkey)return[];
-  const bym={};
+  // 同一筆款(描述+金額)的認列與收款會重複出現 → 去重，取最終狀態與最後月份
+  const items={};
   JBILL.forEach(b=>{ if(!b.desc||b.desc.indexOf(jkey)<0)return;
-    const m=b.m-1; if(!bym[m])bym[m]={amt:0,status:b.status};
-    bym[m].amt+=b.amt; if(RANK[b.status]>RANK[bym[m].status])bym[m].status=b.status; });
+    const k=b.desc+'|'+b.amt, cur=items[k];
+    if(!cur || LIFE[b.status]>LIFE[cur.status] || (LIFE[b.status]===LIFE[cur.status] && b.m-1>cur.m))
+      items[k]={amt:b.amt,status:b.status,m:b.m-1};
+  });
+  const bym={};
+  Object.keys(items).forEach(k=>{ const it=items[k];
+    if(!bym[it.m])bym[it.m]={amt:0,status:it.status};
+    bym[it.m].amt+=it.amt; if(RANK[it.status]>RANK[bym[it.m].status])bym[it.m].status=it.status; });
   return Object.keys(bym).map(m=>({m:+m,amt:bym[m].amt,status:bym[m].status})).sort((a,b)=>a.m-b.m);
 }
 Promise.all([

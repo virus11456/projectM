@@ -59,8 +59,8 @@ def main():
         amt = float(amt) if amt not in (None, "") else 0.0
         big = cat2big.get(str(cat).strip(), "") if cat else ""
         pname = str(proj).strip() if proj else "（未標專案）"
-        # 收款分錄：把應收帳款/預計收入 轉入 真實帳戶（銀行）＝該筆已收現
-        if outacc in ("應收帳款", "預計收入") and inacc and inacc not in ("應收帳款", "預計收入"):
+        # 收款/沖銷分錄：任何「轉出＝應收帳款或預計收入」都代表該筆在實現(收現/轉列)
+        if outacc in ("應收帳款", "預計收入"):
             collected_descs.append(str(desc or "").strip())
         # 收入收款明細（含未分類但轉入應收/預收的認列）：供時間軸自動對帳
         if amt > 0 and (big == "收入" or inacc in ("應收帳款", "預計收入")):

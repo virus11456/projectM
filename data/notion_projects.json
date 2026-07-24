@@ -5,7 +5,7 @@
 "cards": [
 {
 "name": "[網站]凌科生活科技-網站製作",
-"status": "開發中-初步接觸",
+"status": "開發中-洽談中",
 "start": null,
 "due": null,
 "priority": null,
@@ -13,7 +13,7 @@
 "amount": null,
 "svc": null,
 "media": null,
-"note": "李啟彰介紹｜網站製作需求。公司：凌科生活科技有限公司。聯絡：李玟燕小姐 04-22134111 / service@lingke.com.tw。",
+"note": "李啟彰介紹｜網站製作需求。公司：凌科生活科技有限公司。聯絡：李玟燕小姐 04-22134111 / service@lingke.com.tw。進度：已聯繫，等老闆確認回覆。",
 "bill": "",
 "jkey": "",
 "last": null
@@ -3587,6 +3587,21 @@
 "bill": "",
 "jkey": "",
 "last": "2026-02-11"
+},
+{
+"name": "[網站]日祥生機園地-網站製作",
+"status": "開發中-洽談中",
+"start": null,
+"due": null,
+"priority": null,
+"customer": "日祥生機園地",
+"amount": null,
+"svc": null,
+"media": null,
+"note": "李啟彰介紹｜網站製作需求。公司：日祥生機園地有限公司（生機餐廳）。聯絡：店長何宗銘先生 04-23583118 / ryhsiang@yahoo.com.tw。進度：已聯繫，等報價。",
+"bill": "",
+"jkey": "",
+"last": null
 }
 ]
 }

@@ -1,4 +1,4 @@
-/* Club — 簡單行銷中台 8-bit 小助手（全站共用）
+/* Club — 營運管理中台 8-bit 小助手（全站共用）
    會 bob/眨眼/點擊跳躍噴金幣，並輪播即時提示。自己注入樣式、自己抓資料。 */
 (function(){
   if(window.__clubLoaded) return; window.__clubLoaded=true;

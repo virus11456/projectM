@@ -1,4 +1,4 @@
-# 簡單行銷 · 營運中台 Dashboard (FY2026)
+# 營運管理 · 營運中台 Dashboard (FY2026)
 
 公司內部營運中台，整合「日記帳 + Notion 看板」，掌握 **進度 / 進帳 / 現金流 / 收款狀態**。
 已啟用登入保護（公司內部機密）。部署於 Vercel。
@@ -67,7 +67,7 @@ Notion「同步看板 FY2026」   ──▶ scripts/fetch_notion.py ──▶ da
 
 1. **Vercel 會擋「作者 email 未綁定 Git 帳號」的 production 部署。**
    - 症狀：部署狀態 `BLOCKED`，錯誤訊息 `commit email ... could not be matched to a Git account`。preview 正常、只有 production 被擋。
-   - 對策：**所有要部署的 commit，作者 email 必須是擁有者帳號的 email**（`localhost20000@gmail.com`）。`sync.yml` 的 `git config user.email` 已設為此值，切勿改回 `auto-sync[bot]` 之類。
+   - 對策：**所有要部署的 commit，作者 email 必須是擁有者帳號的 email**（建議使用已驗證的 GitHub noreply 信箱）。`sync.yml` 的 `git config user.email` 已設為此值，切勿改回 `auto-sync[bot]` 之類。
 
 2. **`NOTION_TOKEN` 必須設在 GitHub Repo Secrets**，否則每日 Notion 同步會被跳過（log 出現「⚠️ 未設定 NOTION_TOKEN，略過 Notion 同步」），Notion 卡片不會自動更新。
    - 設定位置：GitHub → Settings → Secrets and variables → Actions → New repository secret，Name = `NOTION_TOKEN`。
@@ -78,12 +78,7 @@ Notion「同步看板 FY2026」   ──▶ scripts/fetch_notion.py ──▶ da
 
 ## 檢查紀錄
 
-### 2026-07-23 — 合併上線 + 全站健檢
-- PR #1 合併進 `main`；`main` 帶有完整「日記帳＋Notion 自動對帳」程式碼；每日同步改跑在 `main`。
-- 修正 Vercel 作者阻擋：改用擁有者 email 提交 → production 部署恢復 `READY`。
-- 登入保護驗證：`/`、`/compare`、`/data/*.json` 未登入皆 302 轉登入；`/login` 200；`/club.js` 公開。
-- 資料驗證（`build_data.py` 重跑穩定）：全年收入 **20,445,225**；應收未收 **227,460**（11 筆）；一日牙醫 GEO 頭款＋尾款皆「已收」；固鋼 CUOCO 頭款 7月預計、尾款 9月應收。
-- **待辦**：GitHub 尚未設定 `NOTION_TOKEN` secret → Notion 自 2026-07-20 起未自動更新，需補設。
+部署與登入保護的驗證紀錄請保存在內部文件，勿在公開文件附上客戶名稱、個人聯絡資料或實際帳務數字。
 
 ---
 

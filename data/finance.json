@@ -1,6 +1,6 @@
 {
   "meta": {
-    "company": "簡單行銷顧問 有限公司",
+    "company": "營運管理顧問 有限公司",
     "fiscalYear": 2026,
     "currency": "TWD",
     "source": "請款資料 Google Sheet + Trello 公司專案看板",
@@ -27,8 +27,8 @@
     "profit":  [527092,-48017,700723,891887,-21206,1037084,152063,131098,167258,468127,141127,168127]
   },
   "cashAccounts": [
-    {"name": "簡單行銷_中信", "type": "資產", "balance": 2295860, "liquid": true},
-    {"name": "簡單行銷_中信_2", "type": "資產", "balance": 360114, "liquid": true},
+    {"name": "營運管理_中信", "type": "資產", "balance": 2295860, "liquid": true},
+    {"name": "營運管理_中信_2", "type": "資產", "balance": 360114, "liquid": true},
     {"name": "美金", "type": "資產", "balance": 32000, "liquid": true},
     {"name": "CRYPTO", "type": "資產", "balance": 829000, "liquid": false},
     {"name": "股票", "type": "資產", "balance": 215700, "liquid": false},

@@ -1,6 +1,17 @@
 {
   "private": true,
   "dependencies": {
-    "@vercel/edge": "^1.2.1"
+    "@vercel/edge": "^1.2.1",
+    "pg": "8.16.3"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.cjs",
+    "studio:init": "node scripts/studio-init.cjs"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8"
+  },
+  "engines": {
+    "node": "24.x"
   }
 }

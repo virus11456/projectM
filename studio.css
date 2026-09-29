@@ -1,0 +1,242 @@
+:root {
+  color-scheme: dark;
+  --bg: #10141c;
+  --panel: #191f2b;
+  --line: #303b4e;
+  --text: #edf2fb;
+  --muted: #a5b3c7;
+  --accent: #b7edcd;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font:
+    15px/1.65 system-ui,
+    -apple-system,
+    "Noto Sans TC",
+    sans-serif;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 5vw;
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+}
+a {
+  color: var(--accent);
+}
+header span,
+.eyebrow {
+  letter-spacing: 0.15em;
+  color: var(--muted);
+}
+main {
+  max-width: 1250px;
+  margin: auto;
+  padding: 40px 24px 80px;
+}
+h1 {
+  font-size: clamp(28px, 4vw, 46px);
+  margin: 8px 0;
+}
+h2 {
+  font-size: 19px;
+  margin: 0 0 14px;
+}
+.intro > p:last-child {
+  color: var(--muted);
+}
+#service {
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 13px;
+}
+.layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 30px;
+  margin-top: 30px;
+}
+aside {
+  min-width: 0;
+}
+aside h2 {
+  margin: 22px 0 12px;
+}
+nav button {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 8px;
+  background: transparent;
+  color: var(--text);
+  border-color: var(--line);
+}
+nav button[aria-pressed="true"] {
+  background: var(--accent);
+  color: #152a20;
+}
+form,
+#editor {
+  background: var(--panel);
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+label {
+  display: block;
+  font-size: 14px;
+  margin: 18px 0 8px;
+}
+input,
+textarea,
+button {
+  font: inherit;
+}
+input:not([type="checkbox"]),
+textarea {
+  display: block;
+  width: 100%;
+  padding: 11px;
+  border: 1px solid #52627a;
+  border-radius: 7px;
+  background: #101722;
+  color: var(--text);
+  margin-top: 7px;
+}
+textarea {
+  resize: vertical;
+  line-height: 1.7;
+}
+button {
+  border: 1px solid transparent;
+  border-radius: 7px;
+  padding: 10px 16px;
+  background: var(--accent);
+  color: #11261b;
+  font-weight: 600;
+  cursor: pointer;
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.secondary {
+  background: transparent;
+  border-color: #61738f;
+  color: var(--text);
+}
+button:focus-visible,
+a:focus-visible,
+summary:focus-visible {
+  outline: 3px solid #9bc8ff;
+  outline-offset: 3px;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+}
+.muted,
+#kind-help,
+.file {
+  color: var(--muted);
+  font-size: 13px;
+}
+details {
+  padding: 15px 0;
+  border-bottom: 1px solid var(--line);
+}
+summary {
+  cursor: pointer;
+}
+#history button {
+  display: block;
+  max-width: 100%;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  color: var(--text);
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+#message {
+  white-space: pre-wrap;
+  padding: 8px;
+  color: var(--accent);
+}
+#message.error {
+  color: #ffb8ae;
+}
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+}
+.task {
+  padding: 16px;
+  margin: 16px 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.confirmation {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+#notion-link {
+  display: block;
+  margin: 16px 0;
+}
+[hidden] {
+  display: none !important;
+}
+#print-output {
+  display: none;
+}
+#task-status {
+  white-space: pre-wrap;
+  margin: 16px 0;
+}
+@media (max-width: 750px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  #history {
+    max-height: 200px;
+    overflow: auto;
+  }
+  form,
+  #editor {
+    padding: 18px;
+  }
+  header span {
+    display: none;
+  }
+}
+@media print {
+  body > * {
+    display: none !important;
+  }
+  #print-output {
+    display: block !important;
+    color: #000;
+    background: #fff;
+    white-space: pre-wrap;
+    font: 12pt/1.6 sans-serif;
+    padding: 20px;
+  }
+}

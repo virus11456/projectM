@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>AI 工作室 · 專案營運中台</title>
+    <link rel="stylesheet" href="/studio.css" />
+    <script src="/studio.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <a href="/">← 營運中台</a><span>PROJECT M / AI STUDIO</span
+      ><a href="/logout">登出</a>
+    </header>
+    <main>
+      <div class="intro">
+        <p class="eyebrow">從會議到交付</p>
+        <h1>把討論，變成下一步。</h1>
+        <p>匯入真實資料，產出可編輯的文件與任務包。任務仍在 Notion 編輯。</p>
+      </div>
+      <p id="service" role="status">正在確認服務設定…</p>
+      <div class="layout">
+        <aside>
+          <h2>工作流程</h2>
+          <nav id="kinds" aria-label="文件類型">
+            <button data-kind="report" aria-pressed="true">
+              01　月報／週報</button
+            ><button data-kind="quotation" aria-pressed="false">
+              02　報價單</button
+            ><button data-kind="plan" aria-pressed="false">03　行銷企劃</button
+            ><button data-kind="tasks" aria-pressed="false">04　任務包</button>
+          </nav>
+          <h2>文件紀錄</h2>
+          <button id="refresh" class="secondary">重新載入</button>
+          <div id="history">尚未載入</div>
+        </aside>
+        <section>
+          <form id="generate">
+            <h2 id="kind-title">月報／週報</h2>
+            <p id="kind-help">
+              匯入成效數據與執行紀錄，整理本期成果及下期建議。
+            </p>
+            <label
+              >專案名稱<input
+                id="project"
+                maxlength="150"
+                required
+                autocomplete="off" /></label
+            ><label id="period-label"
+              >報告期間與類型<input
+                id="period" required
+                maxlength="100"
+                placeholder="填寫週報或月報及起訖日期"
+            /></label>
+            <details>
+              <summary>從 Notion 匯入會議記錄</summary>
+              <label
+                >會議頁面連結<input
+                  id="meeting-url"
+                  type="url"
+                  placeholder="貼上已授權的 Notion 頁面連結" /></label
+              ><button type="button" id="import-notion" class="secondary">
+                讀取會議內容
+              </button>
+            </details>
+            <label
+              >來源內容<textarea
+                id="source"
+                rows="9"
+                maxlength="60000"
+                required
+                placeholder="貼上會議記錄、執行紀錄或成效數據"
+              ></textarea></label
+            ><label class="file"
+              >或匯入文字／CSV 檔案（UTF-8，最多 200 KB）<input
+                id="source-file"
+                type="file"
+                accept=".txt,.md,.csv,.tsv"
+            /></label>
+            <div id="quote-fields" hidden>
+              <label
+                >公司報價範本<textarea
+                  id="template"
+                  rows="5"
+                  maxlength="16000"
+                  placeholder="貼上範本欄位、順序、固定條款與格式要求"
+                ></textarea></label
+              ><label
+                >價目與計價依據<textarea
+                  id="pricing"
+                  rows="5"
+                  maxlength="16000"
+                  placeholder="貼上已確認的單價、數量、稅率與付款條件；未知項目填待確認"
+                ></textarea>
+              </label>
+              <p>報價保持草稿狀態，不會自動計入營收。</p>
+            </div>
+            <button type="submit" id="generate-button">產生並保存草稿 →</button>
+            <p class="muted">
+              資料會送至公司設定的 AI 服務。產出後請核對來源、數字與承諾事項。
+            </p>
+          </form>
+          <p id="message" role="status" aria-live="polite"></p>
+          <section id="editor" hidden>
+            <div class="section-heading">
+              <h2>文件草稿</h2>
+              <span id="version"></span>
+            </div>
+            <label>標題<input id="doc-title" maxlength="180" /></label
+            ><label
+              >內容（Markdown）<textarea
+                id="doc-body"
+                rows="18"
+                maxlength="60000"
+              ></textarea>
+            </label>
+            <div id="task-editor"></div>
+            <div class="actions">
+              <button id="save">保存修改</button
+              ><button id="download" class="secondary">下載 Markdown</button
+              ><button id="print" class="secondary">列印／另存 PDF</button
+              ><button id="to-tasks" class="secondary">以此文件拆解任務</button>
+            </div>
+            <div id="publish-area" hidden>
+              <label class="confirmation"
+                ><input
+                  id="confirmed"
+                  type="checkbox"
+                />我已核對任務內容、負責人與期限，確認寫入 Notion。</label
+              ><button id="publish">寫入 Notion 任務包</button
+              ><button id="task-refresh" class="secondary">
+                讀取 Notion 最新進度</button
+              ><a id="notion-link" target="_blank" rel="noopener" hidden
+                >在 Notion 編輯 ↗</a
+              >
+              <div id="task-status"></div>
+            </div>
+          </section>
+        </section>
+      </div>
+    </main>
+    <section id="print-output"></section>
+  </body>
+</html>

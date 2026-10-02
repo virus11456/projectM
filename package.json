@@ -6,7 +6,8 @@
   },
   "scripts": {
     "test": "node --test tests/*.test.cjs",
-    "studio:init": "node scripts/studio-init.cjs"
+    "studio:init": "node scripts/studio-init.cjs",
+    "studio:preflight": "node scripts/studio-preflight.cjs"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.8"
